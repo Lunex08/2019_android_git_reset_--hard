@@ -23,6 +23,5 @@
         app:menu="@menu/bottom_nav_menu"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        app:itemBackground="@android:color/blue"
         />
 </RelativeLayout>
