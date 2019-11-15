@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
 
-public class MainScreenFragment extends Fragment {
+public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static MainScreenFragment getInstance() {
         return new MainScreenFragment();
     }
@@ -26,14 +26,13 @@ public class MainScreenFragment extends Fragment {
         View v = inflater.inflate(R.layout.main_screen_fragment, container, false);
 
         final CardView cardView = v.findViewById(R.id.card_view);
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // View your tariff fragment
-            }
-        });
+        cardView.setOnClickListener(this);
 
         return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        // View your tariff fragment
     }
 }
