@@ -45,7 +45,7 @@
                     android:id="@+id/tariff_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Тариф" />
+                    android:text="@string/title_tariff_label" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_below="@+id/number"
-            tools:text="Баланс"/>
+            android:text="@string/title_balance_label"/>
         <TextView
             android:id="@+id/balance"
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/balance"
             android:layout_alignParentEnd="true"
-            tools:text="Остаток трафика"/>
+            android:text="@string/title_traffic_label"/>
         <TextView
             android:id="@+id/traffic"
             android:layout_width="wrap_content"
