@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,20 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         final CardView cardView = v.findViewById(R.id.card_view);
         cardView.setOnClickListener(this);
+
+        final Button tariffsButton = (Button) v.findViewById(R.id.title_tariffs_button);
+        tariffsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // handler for tariffs button
+            }
+        });
+
+        final Button eventsButton = (Button) v.findViewById(R.id.title_events_button);
+        eventsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // handler for events button
+            }
+        });
 
         return v;
     }
