@@ -30,19 +30,10 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         cardView.setOnClickListener(this);
 
         final Button tariffsButton = (Button) v.findViewById(R.id.title_tariffs_button);
-        tariffsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // handler for tariffs button
-            }
-        });
+        tariffsButton.setOnClickListener(this);
 
         final Button eventsButton = (Button) v.findViewById(R.id.title_events_button);
-        eventsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // handler for events button
-            }
-        });
-
+        eventsButton.setOnClickListener(this);
         return v;
     }
 
