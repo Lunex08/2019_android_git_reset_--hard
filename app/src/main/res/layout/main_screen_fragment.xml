@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/upper_layout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:paddingTop="10dp"
@@ -87,6 +88,16 @@
             android:textSize="30sp"
             android:textColor="@android:color/black"
             tools:text="7.75 Гб"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/graph_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/main_graph"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
     </RelativeLayout>
 
 </LinearLayout>
