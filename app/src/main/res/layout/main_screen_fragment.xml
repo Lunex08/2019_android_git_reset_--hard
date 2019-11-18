@@ -100,4 +100,41 @@
             android:layout_height="300dp"/>
     </RelativeLayout>
 
+
+    <!-- Botton buttons -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <LinearLayout
+            android:id="@+id/tariffs_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/title_tariffs_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_sim_card_black_24dp"
+                android:text="@string/title_tariffs"
+                android:textAlignment="viewStart" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/title_events_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_event_black_24dp"
+                android:text="@string/title_events"
+                android:textAlignment="viewStart" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
