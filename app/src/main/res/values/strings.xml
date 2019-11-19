@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Analyzer</string>
     <string name="settings_menu_title">Settings</string>
+    <string name="title_balance_label">Баланс</string>
+    <string name="title_tariff_label">Тариф</string>
+    <string name="title_traffic_label">Остаток трафика</string>
 </resources>

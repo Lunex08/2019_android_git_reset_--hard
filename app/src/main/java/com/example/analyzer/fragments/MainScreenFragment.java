@@ -6,16 +6,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
 
-public class MainScreenFragment extends Fragment {
+public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static MainScreenFragment getInstance() {
         return new MainScreenFragment();
     }
@@ -33,13 +35,13 @@ public class MainScreenFragment extends Fragment {
         toolbar.inflateMenu(R.menu.settings_menu);
 //        toolbar.setOnMenuItemClickListener(a->{ return true;});
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        final CardView cardView = v.findViewById(R.id.card_view);
+        cardView.setOnClickListener(this);
 
         return v;
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        ((AppCompatActivity) getActivity()).getMenuInflater().inflate(R.menu.settings_menu, menu);
+  
+    public void onClick(View v) {
+        // View your tariff fragment
     }
 }
