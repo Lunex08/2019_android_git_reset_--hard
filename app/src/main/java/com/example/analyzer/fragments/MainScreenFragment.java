@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.analyzer.R;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
-    final static public String TAG = "MainScreenFragmentTag";
+    public static final String TAG = "MainScreenFragmentTag";
 
     public static MainScreenFragment getInstance() {
         return new MainScreenFragment();
