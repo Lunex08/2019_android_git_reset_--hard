@@ -1,5 +1,6 @@
 package com.example.analyzer.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -33,7 +34,25 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     final public static String TAG = "MainScreenFragmentTag";
     final private static String CALLS_MAP_KEY = "calls_number";
+    final public static String TO_DETAL = "TO_DETAL";
     private List<Integer> callsNumber;
+    private EventListener eventListener;
+
+    public interface EventListener {
+        void onItemClick(String dest);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        eventListener = (EventListener)context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        eventListener = null;
+    }
 
     public static MainScreenFragment getInstance() {
         return new MainScreenFragment();
@@ -95,7 +114,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         // Add "case" for each clickable element
         switch (v.getId()) {
             case R.id.main_graph:
-                Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
+                eventListener.onItemClick(TO_DETAL);
                 break;
         }
 
