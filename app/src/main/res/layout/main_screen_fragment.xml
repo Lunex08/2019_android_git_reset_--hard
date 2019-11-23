@@ -9,14 +9,15 @@
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:id="@+id/upper_layout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/upper_layout_left"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_below="@+id/toolbar"
         android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp">
+        android:paddingTop="15dp"
+        android:paddingEnd="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/operator"
@@ -28,26 +29,51 @@
             android:id="@+id/number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/operator"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             tools:text="+7-914-888-83-13" />
+
+        <TextView
+            android:id="@+id/balance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/title_balance_label" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            tools:text="888.88 ₽" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/upper_layout_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/number"
-            android:layout_alignParentEnd="true"
             card_view:cardBackgroundColor="@color/colorCardView"
             card_view:cardCornerRadius="3dp"
             card_view:cardElevation="3dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="5dp"
-                android:paddingVertical="5dp">
+                android:paddingVertical="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tariff_label"
@@ -58,88 +84,66 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tariff_label"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     tools:text="Безлимитный" />
-            </RelativeLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/balance_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/number"
-            android:layout_marginTop="25dp"
-            android:text="@string/title_balance_label" />
-
-        <TextView
-            android:id="@+id/balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/balance_label"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
-            tools:text="888.88 ₽" />
 
         <TextView
             android:id="@+id/traffic_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/balance"
-            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:text="@string/title_traffic_label" />
 
         <TextView
             android:id="@+id/traffic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/traffic_label"
-            android:layout_alignParentEnd="true"
             android:textColor="@android:color/black"
             android:textSize="30sp"
             tools:text="7.75 Гб" />
-    </RelativeLayout>
-  
-    <RelativeLayout
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/graph_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upper_layout">
+        android:layout_below="@+id/upper_layout_left">
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/main_graph"
             android:layout_width="match_parent"
             android:layout_height="350dp"/>
-    </RelativeLayout>
-
+    </LinearLayout>
 
     <!-- Botton buttons -->
-    <RelativeLayout
-        android:id="@+id/lower_layout"
+    <FrameLayout
+        android:id="@+id/tariffs_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:paddingBottom="10dp">
-        <Button
-            android:id="@+id/title_tariffs_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/ic_sim_card_black_24dp"
-            android:text="@string/title_tariffs"
-            android:textAlignment="viewStart" />
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/title_events_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignEnd="@+id/title_tariffs_button"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/ic_event_black_24dp"
-            android:text="@string/title_events"
-            android:textAlignment="viewStart" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/title_tariffs_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_sim_card_black_24dp"
+                android:text="@string/title_tariffs" />
+
+            <Button
+                android:id="@+id/title_events_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_event_black_24dp"
+                android:text="@string/title_events" />
+    </FrameLayout>
+
 </RelativeLayout>
