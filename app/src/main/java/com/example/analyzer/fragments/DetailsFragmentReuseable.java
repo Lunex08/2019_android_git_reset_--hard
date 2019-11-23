@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +22,44 @@ import java.util.List;
 
 public class DetailsFragmentReuseable extends Fragment {
     private List<Integer> numbers;
+    public static String TYPE_OF_FRAGMENT = "TYPE";
+
+    public static DetailsFragmentReuseable newInstance(String type) {
+        Bundle args = new Bundle();
+        args.putString(TYPE_OF_FRAGMENT, type);
+        
+        DetailsFragmentReuseable fragment = new DetailsFragmentReuseable();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details_fragment_reuseable, container, false);
+
+        numbers = new ArrayList<>();
+
+        final Bundle args = getArguments();
+
+        if (args != null) {
+            final String type = args.getString(TYPE_OF_FRAGMENT);
+            if (type != null) {
+                if (type.equals(DetailsFragment.TO_CALLS) || type.equals(MainScreenFragment.TO_DETAL)) {
+                    for (int i = 0; i < 10; ++i) {
+                        numbers.add(i + 1);
+                    }
+                } else if (type.equals(DetailsFragment.TO_SMS)) {
+                    for (int i = 10; i > 0; --i) {
+                        numbers.add(i);
+                    }
+                }
+            }
+        }
 
         RecyclerView recyclerView = view.findViewById(R.id.content_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(numbers);
         recyclerView.setAdapter(recyclerAdapter);
