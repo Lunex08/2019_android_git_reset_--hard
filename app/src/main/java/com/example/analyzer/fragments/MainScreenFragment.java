@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -85,12 +86,19 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         BarChart barChart = v.findViewById(R.id.main_graph);
         buildBarChart(barChart);
+        barChart.setOnClickListener(this);
 
         return v;
     }
 
     public void onClick(View v) {
-        Log.d(TAG, "Tarif cardView clicked");
+        // Add "case" for each clickable element
+        switch (v.getId()) {
+            case R.id.main_graph:
+                Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
+                break;
+        }
+
     }
 
     private void buildBarChart(BarChart barChart) {
@@ -109,6 +117,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         barDataSet.setDrawValues(false);
 
         BarData barData = new BarData(barDataSet);
+        barData.setHighlightEnabled(false);
         barData.setBarWidth(0.5f);
         barChart.setData(barData);
 
