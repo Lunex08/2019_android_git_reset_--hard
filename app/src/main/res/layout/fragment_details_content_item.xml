@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginHorizontal="25dp">
+
+    <ImageView
+        android:id="@+id/operator_icon"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_marginVertical="30dp"
+        tools:background="@color/colorPrimary"
+        android:contentDescription="@string/app_name"/>
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/operator_icon"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/content_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            tools:text="Василий"/>
+
+        <TextView
+            android:id="@+id/content_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="+7-334-214-42-12"/>
+
+        <TextView
+            android:id="@+id/content_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="5.10.2019, вт, 09:43 (43:32)"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@id/content_layout"
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        tools:text="-3.00 ₽"/>
+</RelativeLayout>
