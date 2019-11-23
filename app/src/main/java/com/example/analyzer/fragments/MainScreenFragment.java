@@ -1,6 +1,5 @@
 package com.example.analyzer.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
@@ -84,8 +84,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         final Button eventsButton = v.findViewById(R.id.title_events_button);
         eventsButton.setOnClickListener(this);
 
-        BarChart barChart = v.findViewById(R.id.main_graph);
-        buildBarChart(barChart);
+        final BarChart barChart = v.findViewById(R.id.main_graph);
+        buildBarChart(barChart, v);
         barChart.setOnClickListener(this);
 
         return v;
@@ -101,7 +101,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
     }
 
-    private void buildBarChart(BarChart barChart) {
+    private void buildBarChart(BarChart barChart, View v) {
         barChart.getLegend().setEnabled(false);
         barChart.getDescription().setEnabled(false);
         barChart.getXAxis().setDrawGridLines(false);
@@ -110,41 +110,44 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         barChart.getAxisLeft().setDrawAxisLine(false);
         barChart.getAxisRight().setEnabled(false);
 
-        ArrayList<BarEntry> data = getData();
+        final List<BarEntry> data = getData();
 
-        BarDataSet barDataSet = new BarDataSet(data, "");
-        barDataSet.setColors(Color.RED);
+        final BarDataSet barDataSet = new BarDataSet(data, "");
+        barDataSet.setColors(ContextCompat.getColor(v.getContext(), R.color.colorBars));
         barDataSet.setDrawValues(false);
 
-        BarData barData = new BarData(barDataSet);
+        final BarData barData = new BarData(barDataSet);
         barData.setHighlightEnabled(false);
         barData.setBarWidth(0.5f);
         barChart.setData(barData);
 
-        XAxis xAxis = barChart.getXAxis();
+        final XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        Date c = Calendar.getInstance().getTime();
-        String day = (String) DateFormat.format("dd",   c);
-        String month = (String) DateFormat.format("MM", c);
+        final Date c = Calendar.getInstance().getTime();
+        final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
 
-        ArrayList<String> datesList = new ArrayList<>();
+        final List<String> datesList = new ArrayList<>();
 
-        for (int i = 6; i >= 0; --i) {
-            String newDay = (Integer.parseInt(day) - i) + "." + month;
+        final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
+        final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
+
+        for (int i = lastWeekDay; i >= firstWeekDay; --i) {
+            final String newDay = (Integer.parseInt(day) - i) + "." + month;
             datesList.add(newDay);
         }
 
-        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
+        final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
         xAxis.setValueFormatter(formatter);
     }
 
-    private ArrayList<BarEntry> getData(){
+    private List<BarEntry> getData(){
         // Fill graphData here (7 days = 7 times add) using callsNumber, e.g:
         // graphData.add(new BarEntry(0f, 15f));
 
         // For test
-        ArrayList<BarEntry> graphData = new ArrayList<>();
+        final List<BarEntry> graphData = new ArrayList<>();
 
         graphData.add(new BarEntry(0f, 4f));
         graphData.add(new BarEntry(1f, 11f));
