@@ -7,33 +7,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/toolbar" />
+
     <RelativeLayout
         android:id="@+id/upper_layout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:paddingTop="10dp"
         android:paddingStart="10dp"
+        android:paddingTop="10dp"
         android:paddingEnd="10dp">
+
         <TextView
             android:id="@+id/operator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="МТС"/>
+            tools:text="МТС" />
+
         <TextView
             android:id="@+id/number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/operator"
-            android:textSize="20sp"
             android:textColor="@android:color/black"
-            tools:text="+7-914-888-83-13"/>
+            android:textSize="20sp"
+            tools:text="+7-914-888-83-13" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignEnd="@+id/number"
+            android:layout_alignParentEnd="true"
             card_view:cardBackgroundColor="@color/colorCardView"
             card_view:cardCornerRadius="3dp"
             card_view:cardElevation="3dp">
@@ -41,20 +45,22 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="5dp">
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="5dp">
+
                 <TextView
                     android:id="@+id/tariff_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_tariff_label" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tariff_label"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    tools:text="Безлимитный"/>
+                    tools:text="Безлимитный" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -62,35 +68,38 @@
             android:id="@+id/balance_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:layout_below="@+id/number"
-            android:text="@string/title_balance_label"/>
+            android:layout_marginTop="25dp"
+            android:text="@string/title_balance_label" />
+
         <TextView
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/balance_label"
-            android:textSize="30sp"
             android:textColor="@android:color/black"
-            tools:text="888.88 ₽"/>
+            android:textSize="30sp"
+            tools:text="888.88 ₽" />
+
         <TextView
             android:id="@+id/traffic_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/balance"
             android:layout_alignParentEnd="true"
-            android:text="@string/title_traffic_label"/>
+            android:text="@string/title_traffic_label" />
+
         <TextView
             android:id="@+id/traffic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/traffic_label"
             android:layout_alignParentEnd="true"
-            android:textSize="30sp"
             android:textColor="@android:color/black"
-            tools:text="7.75 Гб"/>
+            android:textSize="30sp"
+            tools:text="7.75 Гб" />
     </RelativeLayout>
-
+  
     <RelativeLayout
         android:id="@+id/graph_layout"
         android:layout_width="match_parent"
@@ -133,3 +142,4 @@
             android:textAlignment="viewStart" />
     </RelativeLayout>
 </RelativeLayout>
+</LinearLayout>

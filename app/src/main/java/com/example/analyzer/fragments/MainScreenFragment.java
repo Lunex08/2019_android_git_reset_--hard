@@ -3,13 +3,16 @@ package com.example.analyzer.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -27,7 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
-    private static String CALLS_MAP_KEY = "calls_number";
+    final public static String TAG = "MainScreenFragmentTag";
+    final private static String CALLS_MAP_KEY = "calls_number";
     private List<Integer> callsNumber;
 
     public static MainScreenFragment getInstance() {
@@ -58,6 +62,18 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.main_screen_fragment, container, false);
 
+        final Toolbar toolbar = v.findViewById(R.id.toolbar);
+        toolbar.setTitle("Analyzer");
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.settings_menu);
+
+        final Menu menu = toolbar.getMenu();
+        menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
+            Log.d(TAG, "Toolbar menu clicked");
+            return true;
+        });
+
+
         final CardView cardView = v.findViewById(R.id.card_view);
         cardView.setOnClickListener(this);
 
@@ -73,9 +89,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         return v;
     }
 
-    @Override
     public void onClick(View v) {
-        // View your tariff fragment
+        Log.d(TAG, "Tarif cardView clicked");
     }
 
     private void buildBarChart(BarChart barChart) {
