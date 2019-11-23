@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -93,7 +94,8 @@
     <RelativeLayout
         android:id="@+id/graph_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upper_layout">
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/main_graph"
             android:layout_width="match_parent"
@@ -102,39 +104,32 @@
 
 
     <!-- Botton buttons -->
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/lower_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <LinearLayout
-            android:id="@+id/tariffs_layout"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp">
+        <Button
+            android:id="@+id/title_tariffs_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_sim_card_black_24dp"
+            android:text="@string/title_tariffs"
+            android:textAlignment="viewStart" />
 
-            <Button
-                android:id="@+id/title_tariffs_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/ic_sim_card_black_24dp"
-                android:text="@string/title_tariffs"
-                android:textAlignment="viewStart" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/title_events_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/ic_event_black_24dp"
-                android:text="@string/title_events"
-                android:textAlignment="viewStart" />
-        </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
+        <Button
+            android:id="@+id/title_events_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@+id/title_tariffs_button"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_event_black_24dp"
+            android:text="@string/title_events"
+            android:textAlignment="viewStart" />
+    </RelativeLayout>
+</RelativeLayout>
