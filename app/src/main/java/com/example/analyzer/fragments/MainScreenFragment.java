@@ -2,19 +2,27 @@ package com.example.analyzer.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.net.TrafficStats;
 import android.os.Bundle;
+import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -30,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
@@ -97,6 +107,78 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         final CardView cardView = v.findViewById(R.id.card_view);
         cardView.setOnClickListener(this);
 
+        TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
+        long usage = 0L;
+        float gigs = 0.0f;
+        usage = TrafficStats.getMobileRxBytes();
+        gigs = usage / (1024f*1024f*1024f);
+        Log.d("GIGS", String.valueOf(usage));
+        traffic.setText(String.format("%.2f Гб", gigs));
+
+
+        // Узнаем номер мобилки (!не всегда работает!)
+        TextView number = (TextView) v.findViewById(R.id.number);
+
+        TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
+
+        TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
+            @Override
+            public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                super.onReceiveUssdResponse(telephonyManager, request, response);
+                final Pattern numberPattern = Pattern.compile("\\+\\d{11}?");
+                Log.d("USSD resp ok: ", request + response.toString());
+                Matcher matcher = numberPattern.matcher(response.toString());
+                if (matcher.find()) {
+                    String res = matcher.group(0);
+                    number.setText(res);
+                }
+            }
+
+            @Override
+            public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+                Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
+                Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        telephonyManager.sendUssdRequest("*103#", numberCallback,  new Handler()); // HARDCODE переменная для получения номера
+
+        TextView balance = (TextView) v.findViewById(R.id.balance);
+        balance.setText("0.00 руб");
+        balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TelephonyManager.UssdResponseCallback balanceCallback = new TelephonyManager.UssdResponseCallback() {
+                    @Override
+                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                        super.onReceiveUssdResponse(telephonyManager, request, response);
+                        final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
+                        Log.d("USSD resp ok: ", request + response.toString());
+                        Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                        Matcher matcher = balancePattern.matcher(response.toString());
+                        if (matcher.find()) {
+                            Float f = Float.parseFloat(matcher.group(0));
+                            balance.setText(String.format("%.2f₽", f));
+                        }
+                    }
+
+                    @Override
+                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                        super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+                        Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
+                        Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE}, 13);
+                }
+                telephonyManager.sendUssdRequest("*100#", balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
+            }
+        });
+
         final Button tariffsButton = v.findViewById(R.id.title_tariffs_button);
         tariffsButton.setOnClickListener(this);
 
@@ -107,9 +189,11 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         buildBarChart(barChart, v);
         barChart.setOnClickListener(this);
 
+
         return v;
     }
 
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_graph:
