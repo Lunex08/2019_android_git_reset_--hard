@@ -32,8 +32,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
-    final public static String TAG = "MainScreenFragmentTag";
-    final private static String CALLS_MAP_KEY = "calls_number";
+    public static final String TAG = "MainScreenFragmentTag";
+    private static final String CALLS_MAP_KEY = "calls_number";
 
     private List<Integer> callsNumber;
     private EventListener eventListener;
@@ -112,7 +112,6 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     }
 
     public void onClick(View v) {
-        // Add "case" for each clickable element
         switch (v.getId()) {
             case R.id.main_graph:
                 eventListener.onItemClick(R.string.to_detail);
