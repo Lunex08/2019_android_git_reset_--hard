@@ -2,6 +2,7 @@ package com.example.analyzer.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -30,10 +32,14 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
@@ -84,33 +90,65 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         final CardView cardView = v.findViewById(R.id.card_view);
         cardView.setOnClickListener(this);
 
+        TextView number = (TextView) v.findViewById(R.id.number);
+
+        TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
+
+        TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
+            @Override
+            public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                super.onReceiveUssdResponse(telephonyManager, request, response);
+                final Pattern numberPattern = Pattern.compile("\\+\\d{11}?");
+                Log.d("USSD resp ok: ", request + response.toString());
+                Matcher matcher = numberPattern.matcher(response.toString());
+                if (matcher.find()) {
+                    String res = matcher.group(0);
+                    number.setText(res);
+                }
+            }
+
+            @Override
+            public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+                Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
+                Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        telephonyManager.sendUssdRequest("*103#", numberCallback,  new Handler()); // HARDCODE переменная для получения номера
+
         TextView balance = (TextView) v.findViewById(R.id.balance);
+        balance.setText("0.00 руб");
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 0);
+                TelephonyManager.UssdResponseCallback balanceCallback = new TelephonyManager.UssdResponseCallback() {
+                    @Override
+                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                        super.onReceiveUssdResponse(telephonyManager, request, response);
+                        final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
+                        Log.d("USSD resp ok: ", request + response.toString());
+                        Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                        Matcher matcher = balancePattern.matcher(response.toString());
+                        if (matcher.find()) {
+                            Float f = Float.parseFloat(matcher.group(0));
+                            balance.setText(String.format("%.2f₽", f));
+                        }
+                    }
 
-            TelephonyManager.UssdResponseCallback responseCallback = new TelephonyManager.UssdResponseCallback() {
-                @Override
-                public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
-                    super.onReceiveUssdResponse(telephonyManager, request, response);
-                    Log.d("USSD resp ok: ", response.toString());
-                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-                    // Пропарсить response
-                    // Получить численное значение баланса и вывести
-//                    balance.setText(String.format("%.2f rub", balance.get())); не робит. создать переменную класса для хранения
+                    @Override
+                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                        super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+                        Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
+                        Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
-
-                @Override
-                public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-                    super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
-                    Log.d("USSD resp fail: ", String.valueOf(failureCode));
-                    Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
-                }
-            };
-
-            TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
-            telephonyManager.sendUssdRequest("*102#", responseCallback, new Handler());
+                telephonyManager.sendUssdRequest("*100#", balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
             }
         });
 
