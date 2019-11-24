@@ -8,4 +8,8 @@
     <string name="title_events">События</string>
     <string name="details_calls_label">ЗВОНКИ</string>
     <string name="details_sms_label">СМС</string>
+    <string name="to_detail">TO_DETAL</string>
+    <string name="to_calls">TO_CALLS</string>
+    <string name="to_sms">TO_SMS</string>
+    <string name="details">Детализация</string>
 </resources>
