@@ -31,8 +31,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
-    final public static String TAG = "MainScreenFragmentTag";
-    final private static String CALLS_MAP_KEY = "calls_number";
+    public static final String TAG = "MainScreenFragmentTag";
+    private static final String CALLS_MAP_KEY = "calls_number";
 
     private List<Integer> callsNumber;
 
