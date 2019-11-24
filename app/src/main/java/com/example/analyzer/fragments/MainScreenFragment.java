@@ -3,6 +3,7 @@ package com.example.analyzer.fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
@@ -31,8 +32,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,6 +89,16 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         final CardView cardView = v.findViewById(R.id.card_view);
         cardView.setOnClickListener(this);
 
+        TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
+        long usage = 0L;
+        float gigs = 0.0f;
+        usage = TrafficStats.getMobileRxBytes();
+        gigs = usage / (1024f*1024f*1024f);
+        Log.d("GIGS", String.valueOf(usage));
+        traffic.setText(String.format("%.2f Гб", gigs));
+
+
+        // Узнаем номер мобилки (!не всегда работает!)
         TextView number = (TextView) v.findViewById(R.id.number);
 
         TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
