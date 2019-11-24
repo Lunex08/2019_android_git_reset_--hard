@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.analyzer.R;
 
-import java.util.EventListener;
-
 public class DetailsFragment extends Fragment implements View.OnClickListener {
     private MainScreenFragment.EventListener eventListener;
-    final public static String TO_CALLS = "TO_CALLS";
-    final public static String TO_SMS = "TO_SMS";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,7 +36,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_details, container, false);
 
         final Toolbar toolbar = v.findViewById(R.id.toolbar);
-        toolbar.setTitle("Детализация");
+        toolbar.setTitle(R.string.details);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
@@ -59,10 +54,10 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.calls_id:
-                eventListener.onItemClick(TO_CALLS);
+                eventListener.onItemClick(R.string.to_calls);
                 break;
             case R.id.sms_id:
-                eventListener.onItemClick(TO_SMS);
+                eventListener.onItemClick(R.string.to_sms);
                 break;
         }
     }
