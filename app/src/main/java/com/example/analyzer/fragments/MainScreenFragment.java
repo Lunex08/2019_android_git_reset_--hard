@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,12 +34,12 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     final public static String TAG = "MainScreenFragmentTag";
     final private static String CALLS_MAP_KEY = "calls_number";
-    final public static String TO_DETAL = "TO_DETAL";
+
     private List<Integer> callsNumber;
     private EventListener eventListener;
 
     public interface EventListener {
-        void onItemClick(String dest);
+        void onItemClick(int dest);
     }
 
     @Override
@@ -84,7 +83,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         View v = inflater.inflate(R.layout.main_screen_fragment, container, false);
 
         final Toolbar toolbar = v.findViewById(R.id.toolbar);
-        toolbar.setTitle("Analyzer");
+        toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
@@ -116,7 +115,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         // Add "case" for each clickable element
         switch (v.getId()) {
             case R.id.main_graph:
-                eventListener.onItemClick(TO_DETAL);
+                eventListener.onItemClick(R.string.to_detail);
                 break;
         }
 
