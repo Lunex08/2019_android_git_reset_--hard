@@ -77,8 +77,8 @@
             android:layout_below="@+id/balance_label"
             android:textColor="@android:color/black"
             android:textSize="30sp"
-            tools:text="888.88 ₽" />
-
+            android:text="88.88р"/>
+<!--            tools:text="888.88 ₽"/>-->
         <TextView
             android:id="@+id/traffic_label"
             android:layout_width="wrap_content"
