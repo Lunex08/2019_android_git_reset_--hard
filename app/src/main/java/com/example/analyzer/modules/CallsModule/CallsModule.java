@@ -1,4 +1,4 @@
-package com.example.analyzer.modules;
+package com.example.analyzer.modules.CallsModule;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CallsModule {
+public final class CallsModule {
     public static final String TAG = "CallsModuleTag";
     private static final String CALL_TYPE_OUTGOING = "OUTGOING";
     private static final String CALL_TYPE_INCOMING = "INCOMING";
@@ -34,9 +34,9 @@ public class CallsModule {
     }
 
     public List<CallHistoryRecord> getCalls() {
-        final String[] mProjection = {CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.DURATION,
+        final String[] Projection = {CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.DURATION,
                 CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE};
-        final String mOrder = CallLog.Calls.DATE + " DESC ";
+        final String Order = CallLog.Calls.DATE + " DESC ";
         List<CallHistoryRecord> callHistory = new ArrayList<>();
 
         int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
@@ -46,27 +46,27 @@ public class CallsModule {
             return null;
         }
 
-        Cursor mCursor = this.activity.getContentResolver().query(CallLog.Calls.CONTENT_URI, mProjection, null, null,
-                mOrder);
-        if (null == mCursor) {
+        Cursor Cursor = this.activity.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
+                Order);
+        if (null == Cursor) {
             android.util.Log.e(TAG, RECEIVE_ERROR_MESSAGE + CallLog.Calls.CONTENT_URI);
             return null;
-        } else if (mCursor.getCount() < 1) {
+        } else if (Cursor.getCount() < 1) {
             Toast.makeText(this.activity, EMPTY_HISTORY_MESSAGE, Toast.LENGTH_SHORT).show();
         } else {
-            final int numberIndex = mCursor.getColumnIndex(CallLog.Calls.NUMBER);
-            final int dateIndex = mCursor.getColumnIndex(CallLog.Calls.DATE);
-            final int durationIndex = mCursor.getColumnIndex(CallLog.Calls.DURATION);
-            final int callNameIndex = mCursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
-            final int typeIndex = mCursor.getColumnIndex(CallLog.Calls.TYPE);
+            final int numberIndex = Cursor.getColumnIndex(CallLog.Calls.NUMBER);
+            final int dateIndex = Cursor.getColumnIndex(CallLog.Calls.DATE);
+            final int durationIndex = Cursor.getColumnIndex(CallLog.Calls.DURATION);
+            final int callNameIndex = Cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+            final int typeIndex = Cursor.getColumnIndex(CallLog.Calls.TYPE);
 
-            while (mCursor.moveToNext()) {
-                final String phNumber = mCursor.getString(numberIndex);
-                final String callDuration = mCursor.getString(durationIndex);
-                final String callName = mCursor.getString(callNameIndex);
-                final Date callDate = new Date(mCursor.getLong(dateIndex));
+            while (Cursor.moveToNext()) {
+                final String phNumber = Cursor.getString(numberIndex);
+                final String callDuration = Cursor.getString(durationIndex);
+                final String callName = Cursor.getString(callNameIndex);
+                final Date callDate = new Date(Cursor.getLong(dateIndex));
 
-                String callType = mCursor.getString(typeIndex);
+                String callType = Cursor.getString(typeIndex);
 
                 switch (Integer.parseInt(callType)) {
                     case CallLog.Calls.OUTGOING_TYPE:
@@ -88,49 +88,7 @@ public class CallsModule {
                 callHistory.add(new CallHistoryRecord(phNumber, callType, callDuration, callName, callDate));
             }
         }
-        mCursor.close();
+        Cursor.close();
         return callHistory;
-    }
-
-    public class CallHistoryRecord {
-        private final String mPhNumber;
-        private final String mType;
-        private final String mDuration;
-        private final String mName;
-        private final Date mDate;
-
-        CallHistoryRecord(@NonNull String phNumber, @NonNull String type, @NonNull String duration,
-                          @NonNull String name, @NonNull Date date) {
-            this.mPhNumber = phNumber;
-            this.mType = type;
-            this.mDuration = duration;
-            this.mName = name;
-            this.mDate = date;
-        }
-
-        @NonNull
-        public String getPhNumber() {
-            return mPhNumber;
-        }
-
-        @NonNull
-        public String getType() {
-            return mType;
-        }
-
-        @NonNull
-        public String getDuration() {
-            return mDuration;
-        }
-
-        @NonNull
-        public String getName() {
-            return mName;
-        }
-
-        @NonNull
-        public Date getDate() {
-            return mDate;
-        }
     }
 }

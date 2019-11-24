@@ -20,10 +20,8 @@ public class PermissionsUtils {
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CALL_LOG)) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CALL_LOG)) {
-                    Toast.makeText(activity, REQUIRED_PERMISSION_MESSAGE + Manifest.permission.READ_CALL_LOG,
-                            Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(activity, REQUIRED_PERMISSION_MESSAGE + Manifest.permission.READ_CALL_LOG,
+                        Toast.LENGTH_SHORT).show();
             }
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CALL_LOG},
                     REQUEST_PERMISSION_READ_CALL_LOG);
