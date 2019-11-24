@@ -34,7 +34,6 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
-
     private List<Integer> callsNumber;
     private EventListener eventListener;
 
@@ -61,7 +60,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putIntegerArrayList(CALLS_MAP_KEY, (ArrayList<Integer>)callsNumber);
+        outState.putIntegerArrayList(CALLS_MAP_KEY, (ArrayList<Integer>) callsNumber);
     }
 
     @Override
@@ -161,7 +160,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         xAxis.setValueFormatter(formatter);
     }
 
-    private List<BarEntry> getData(){
+    private List<BarEntry> getData() {
         // Fill graphData here (7 days = 7 times add) using callsNumber, e.g:
         // graphData.add(new BarEntry(0f, 15f));
 
