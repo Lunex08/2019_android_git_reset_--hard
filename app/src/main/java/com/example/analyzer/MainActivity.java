@@ -3,13 +3,12 @@ package com.example.analyzer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.analyzer.fragments.DetailsFragment;
 import com.example.analyzer.fragments.DetailsFragmentReuseable;
 import com.example.analyzer.fragments.MainScreenFragment;
 
-public class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener{
+public class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,23 +16,23 @@ public class MainActivity extends AppCompatActivity implements MainScreenFragmen
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
+            final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
 
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.main_activity_container, mainScreenFragment);
-            ft.commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_activity_container, mainScreenFragment)
+                    .commit();
         }
     }
 
     @Override
-    public void onItemClick(String dest) {
+    public void onItemClick(int dest) {
         final DetailsFragment detailsFragment;
         final DetailsFragmentReuseable detailsFragmentReuseable;
 
         switch (dest) {
-            case MainScreenFragment.TO_DETAL:
+            case R.string.to_detail:
                 detailsFragment = new DetailsFragment();
-                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(dest);
+                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(getString(dest));
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_activity_container, detailsFragment)
@@ -41,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements MainScreenFragmen
                         .addToBackStack(null)
                         .commit();
                 break;
-            case DetailsFragment.TO_CALLS:
-            case DetailsFragment.TO_SMS:
-                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(dest);
+            case R.string.to_calls:
+            case R.string.to_sms:
+                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(getString(dest));
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_details_content, detailsFragmentReuseable)
