@@ -22,13 +22,13 @@ import java.util.List;
 
 public class DetailsFragmentReuseable extends Fragment {
     private List<Integer> numbers;
-    public static String TYPE_OF_FRAGMENT = "TYPE";
+    final private static String TYPE_OF_FRAGMENT = "TYPE";
 
     public static DetailsFragmentReuseable newInstance(String type) {
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putString(TYPE_OF_FRAGMENT, type);
         
-        DetailsFragmentReuseable fragment = new DetailsFragmentReuseable();
+        final DetailsFragmentReuseable fragment = new DetailsFragmentReuseable();
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,11 +46,11 @@ public class DetailsFragmentReuseable extends Fragment {
         if (args != null) {
             final String type = args.getString(TYPE_OF_FRAGMENT);
             if (type != null) {
-                if (type.equals(DetailsFragment.TO_CALLS) || type.equals(MainScreenFragment.TO_DETAL)) {
+                if (type.equals(getString(R.string.to_calls)) || type.equals(getString(R.string.to_detail))) {
                     for (int i = 0; i < 10; ++i) {
                         numbers.add(i + 1);
                     }
-                } else if (type.equals(DetailsFragment.TO_SMS)) {
+                } else if (type.equals(getString(R.string.to_sms))) {
                     for (int i = 10; i > 0; --i) {
                         numbers.add(i);
                     }
@@ -58,7 +58,7 @@ public class DetailsFragmentReuseable extends Fragment {
             }
         }
 
-        RecyclerView recyclerView = view.findViewById(R.id.content_list);
+        final RecyclerView recyclerView = view.findViewById(R.id.content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(numbers);
@@ -69,8 +69,7 @@ public class DetailsFragmentReuseable extends Fragment {
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView singleValue;
+        final private TextView singleValue;
 
         private RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,7 +78,7 @@ public class DetailsFragmentReuseable extends Fragment {
     }
 
     class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-        private final List<Integer> values;
+        final private List<Integer> values;
 
         private RecyclerAdapter(@NonNull List<Integer> values) {
             this.values = values;
