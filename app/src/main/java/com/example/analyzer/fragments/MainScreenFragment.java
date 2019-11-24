@@ -33,6 +33,7 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     final public static String TAG = "MainScreenFragmentTag";
     final private static String CALLS_MAP_KEY = "calls_number";
+
     private List<Integer> callsNumber;
 
     public static MainScreenFragment getInstance() {
@@ -92,7 +93,6 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     }
 
     public void onClick(View v) {
-        // Add "case" for each clickable element
         switch (v.getId()) {
             case R.id.main_graph:
                 Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
