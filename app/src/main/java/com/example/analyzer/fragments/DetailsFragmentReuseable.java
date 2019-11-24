@@ -21,8 +21,9 @@ import java.util.List;
 
 
 public class DetailsFragmentReuseable extends Fragment {
+    private static final String TYPE_OF_FRAGMENT = "TYPE";
+
     private List<Integer> numbers;
-    final private static String TYPE_OF_FRAGMENT = "TYPE";
 
     public static DetailsFragmentReuseable newInstance(String type) {
         final Bundle args = new Bundle();
@@ -69,7 +70,7 @@ public class DetailsFragmentReuseable extends Fragment {
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        final private TextView singleValue;
+        private final TextView singleValue;
 
         private RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,7 +79,7 @@ public class DetailsFragmentReuseable extends Fragment {
     }
 
     class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-        final private List<Integer> values;
+        private final List<Integer> values;
 
         private RecyclerAdapter(@NonNull List<Integer> values) {
             this.values = values;
