@@ -4,4 +4,6 @@
     <string name="title_balance_label">Баланс</string>
     <string name="title_tariff_label">Тариф</string>
     <string name="title_traffic_label">Остаток трафика</string>
+    <string name="title_tariffs">Тарифы</string>
+    <string name="title_events">События</string>
 </resources>
