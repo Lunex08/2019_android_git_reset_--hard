@@ -1,5 +1,7 @@
 package com.example.analyzer.fragments;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -8,7 +10,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,23 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
     private List<Integer> callsNumber;
+    private EventListener eventListener;
+
+    public interface EventListener {
+        void onItemClick(int dest);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        eventListener = (EventListener)context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        eventListener = null;
+    }
 
     public static MainScreenFragment getInstance() {
         return new MainScreenFragment();
@@ -64,7 +82,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         View v = inflater.inflate(R.layout.main_screen_fragment, container, false);
 
         final Toolbar toolbar = v.findViewById(R.id.toolbar);
-        toolbar.setTitle("Analyzer");
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
 
@@ -94,7 +113,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_graph:
-                Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
+                eventListener.onItemClick(R.string.to_detail);
                 break;
         }
 
