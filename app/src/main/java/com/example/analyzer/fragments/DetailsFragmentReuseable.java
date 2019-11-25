@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.analyzer.R;
@@ -96,6 +97,7 @@ public class DetailsFragmentReuseable extends Fragment {
         private final TextView name;
         private final TextView phone;
         private final TextView date;
+        private final ImageView icon;
 
         private RecyclerViewHolderReuse(@NonNull View itemView) {
             super(itemView);
@@ -103,6 +105,7 @@ public class DetailsFragmentReuseable extends Fragment {
             name = itemView.findViewById(R.id.content_name);
             phone = itemView.findViewById(R.id.content_phone);
             date = itemView.findViewById(R.id.content_date);
+            icon = itemView.findViewById(R.id.operator_icon);
         }
     }
 
@@ -134,6 +137,7 @@ public class DetailsFragmentReuseable extends Fragment {
 
             holder.phone.setText(String.valueOf(phones.get(position)));
             holder.date.setText(String.valueOf(dates.get(position)));
+            holder.icon.setBackground(getResources().getDrawable(R.drawable.person, null));
         }
 
         @Override
