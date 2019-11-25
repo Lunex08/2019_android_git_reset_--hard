@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.analyzer.R;
+import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
+import com.example.analyzer.modules.CallsModule.CallsModule;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +26,14 @@ import java.util.List;
 public class DetailsFragmentReuseable extends Fragment {
     private static final String TYPE_OF_FRAGMENT = "TYPE";
 
-    private List<Integer> numbers;
+//    private List<String> reusableNames;
+//    private List<String> reusablePhones;
+//    private List<String> reusableDates;
 
     public static DetailsFragmentReuseable newInstance(String type) {
         final Bundle args = new Bundle();
         args.putString(TYPE_OF_FRAGMENT, type);
-        
+
         final DetailsFragmentReuseable fragment = new DetailsFragmentReuseable();
         fragment.setArguments(args);
         return fragment;
@@ -40,20 +45,30 @@ public class DetailsFragmentReuseable extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details_fragment_reuseable, container, false);
 
-        numbers = new ArrayList<>();
+        List<String> reusableNames = new ArrayList<>();
+        List<String> reusablePhones = new ArrayList<>();
+        List<String> reusableDates = new ArrayList<>();
 
         final Bundle args = getArguments();
 
         if (args != null) {
             final String type = args.getString(TYPE_OF_FRAGMENT);
-            if (type != null) {
+            if (type != null && getActivity() != null) {
                 if (type.equals(getString(R.string.to_calls)) || type.equals(getString(R.string.to_detail))) {
-                    for (int i = 0; i < 10; ++i) {
-                        numbers.add(i + 1);
+
+                    SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+                    CallsModule callsModule = new CallsModule(getActivity());
+                    List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
+                    if(callHistoryRecords != null) {
+                        for (CallHistoryRecord record : callHistoryRecords) {
+                            reusableNames.add(record.getName());
+                            reusablePhones.add(record.getPhNumber());
+                            reusableDates.add(simpleDate.format(record.getDate()));
+                        }
                     }
                 } else if (type.equals(getString(R.string.to_sms))) {
                     for (int i = 10; i > 0; --i) {
-                        numbers.add(i);
+                        reusableNames.add(String.valueOf(i));
                     }
                 }
             }
@@ -62,7 +77,7 @@ public class DetailsFragmentReuseable extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(numbers);
+        final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(reusableNames, reusablePhones, reusableDates);
         recyclerView.setAdapter(recyclerAdapter);
 
 
@@ -70,19 +85,28 @@ public class DetailsFragmentReuseable extends Fragment {
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        private final TextView singleValue;
+        private final TextView name;
+        private final TextView phone;
+        private final TextView date;
 
         private RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            singleValue = itemView.findViewById(R.id.content_name);
+
+            name = itemView.findViewById(R.id.content_name);
+            phone = itemView.findViewById(R.id.content_phone);
+            date = itemView.findViewById(R.id.content_date);
         }
     }
 
     class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-        private final List<Integer> values;
+        private final List<String> names;
+        private final List<String> phones;
+        private final List<String> dates;
 
-        private RecyclerAdapter(@NonNull List<Integer> values) {
-            this.values = values;
+        private RecyclerAdapter(@NonNull List<String> names, @NonNull List<String> phones, @NonNull List<String> dates) {
+            this.names = names;
+            this.phones = phones;
+            this.dates = dates;
         }
 
         @NonNull
@@ -94,12 +118,14 @@ public class DetailsFragmentReuseable extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-            holder.singleValue.setText(String.valueOf(values.get(position)));
+            holder.name.setText(String.valueOf(names.get(position)));
+            holder.phone.setText(String.valueOf(phones.get(position)));
+            holder.date.setText(String.valueOf(dates.get(position)));
         }
 
         @Override
         public int getItemCount() {
-            return values.size();
+            return names.size();
         }
     }
 }
