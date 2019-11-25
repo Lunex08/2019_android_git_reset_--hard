@@ -67,8 +67,15 @@ public class DetailsFragmentReuseable extends Fragment {
                         }
                     }
                 } else if (type.equals(getString(R.string.to_sms))) {
-                    for (int i = 10; i > 0; --i) {
-                        reusableNames.add(String.valueOf(i));
+                    SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+                    CallsModule callsModule = new CallsModule(getActivity());
+                    List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
+                    if(callHistoryRecords != null) {
+                        for (CallHistoryRecord record : callHistoryRecords) {
+                            reusableNames.add(record.getName());
+                            reusablePhones.add(record.getPhNumber());
+                            reusableDates.add(simpleDate.format(record.getDate()));
+                        }
                     }
                 }
             }
