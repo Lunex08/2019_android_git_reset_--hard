@@ -115,6 +115,9 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             case R.id.main_graph:
                 eventListener.onItemClick(R.string.to_detail);
                 break;
+            case R.id.title_tariffs_button:
+                eventListener.onItemClick(R.string.to_tariffs);
+                break;
         }
 
     }
