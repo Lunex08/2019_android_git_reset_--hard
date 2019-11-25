@@ -18,4 +18,9 @@
     <string name="tariffs">Тарифы</string>
     <string name="telephone_number">Номер телефона</string>
     <string name="unknown_number">Неизвестный</string>
+    <string name="CheckNumberYota">*103#</string>
+    <string name="CheckBalanceYota">*100#</string>
+    <string name="trafficFormat">%.2f Гб</string>
+    <string name="balanceFormat">%.2f₽</string>
+    <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
 </resources>

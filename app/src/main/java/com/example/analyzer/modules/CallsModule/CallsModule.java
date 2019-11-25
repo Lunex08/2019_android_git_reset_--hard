@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 public final class CallsModule {
-    public static final String TAG = "CallsModuleTag";
+    private static final String TAG = "CallsModuleTag";
     private static final String CALL_TYPE_OUTGOING = "OUTGOING";
     private static final String CALL_TYPE_INCOMING = "INCOMING";
     private static final String CALL_TYPE_MISSED = "MISSED";
