@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/2019_android_git_reset_--hard-Analyzer.iml" filepath="$PROJECT_DIR$/2019_android_git_reset_--hard-Analyzer.iml" group="Analyzer" />
+      <module fileurl="file://$PROJECT_DIR$/app/2019_android_git_reset_--hard-app.iml" filepath="$PROJECT_DIR$/app/2019_android_git_reset_--hard-app.iml" group="Analyzer/app" />
       <module fileurl="file://$PROJECT_DIR$/Analyzer.iml" filepath="$PROJECT_DIR$/Analyzer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
