@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,7 +122,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         TextView number = (TextView) v.findViewById(R.id.number);
         TextView label = v.findViewById(R.id.operator);
 
-        TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
             @Override
@@ -145,7 +146,12 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             }
         };
 
-        telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckNumberYota), numberCallback,  new Handler());
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
+                    new String[]{Manifest.permission.CALL_PHONE}, 11);
+        }
+        assert telephonyManager != null;
+        telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckNumberYota), numberCallback, new Handler());
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
         balance.setText(String.format(getResources().getString(R.string.balanceFormat), 0.0f));
@@ -161,7 +167,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                         Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
-                            Float f = Float.parseFloat(matcher.group(0));
+                            Float f = Float.parseFloat(Objects.requireNonNull(matcher.group(0)));
                             balance.setText(String.format(getResources().getString(R.string.balanceFormat), f));
                         }
                     }
@@ -174,8 +180,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                     }
                 };
 
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(),
+                if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
                             new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
                 telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckBalanceYota), balanceCallback,  new Handler());
