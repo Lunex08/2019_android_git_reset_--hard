@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.analyzer.R;
 import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
 import com.example.analyzer.modules.CallsModule.CallsModule;
+import com.example.analyzer.modules.CallsModule.SmsHistoryRecord;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,10 +70,10 @@ public class DetailsFragmentReuseable extends Fragment {
                 } else if (type.equals(getString(R.string.to_sms))) {
                     SimpleDateFormat simpleDate = new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
                     CallsModule callsModule = new CallsModule(getActivity());
-                    List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
-                    if(callHistoryRecords != null) {
-                        for (CallHistoryRecord record : callHistoryRecords) {
-                            reusableNames.add(record.getName());
+                    List<SmsHistoryRecord> smsHistoryRecords = callsModule.getSMS();
+                    if(smsHistoryRecords != null) {
+                        for (SmsHistoryRecord record : smsHistoryRecords) {
+                            reusableNames.add(getResources().getString(R.string.unknown_number));
                             reusablePhones.add(record.getPhNumber());
                             reusableDates.add(simpleDate.format(record.getDate()));
                         }
