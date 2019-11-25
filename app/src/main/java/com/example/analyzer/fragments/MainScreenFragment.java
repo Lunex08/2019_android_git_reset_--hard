@@ -147,7 +147,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             }
         };
 
-        telephonyManager.sendUssdRequest("*103#", numberCallback,  new Handler()); // HARDCODE переменная для получения номера
+        telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckNumberYota), numberCallback,  new Handler()); // HARDCODE переменная для получения номера
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
         balance.setText("0.00 руб");
@@ -180,7 +180,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
-                telephonyManager.sendUssdRequest("*100#", balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
+                telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckBalanceYota), balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
             }
         });
 
