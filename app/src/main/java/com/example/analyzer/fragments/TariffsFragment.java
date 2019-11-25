@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,7 +195,7 @@ public class TariffsFragment extends Fragment {
                 } catch (MalformedURLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    return null;
                 } finally {
                     if (con != null) {
                         try {
