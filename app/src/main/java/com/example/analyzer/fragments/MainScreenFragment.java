@@ -121,6 +121,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         // Узнаем номер мобилки (!не всегда работает!)
         TextView number = (TextView) v.findViewById(R.id.number);
+        TextView label = v.findViewById(R.id.operator);
 
         TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -134,6 +135,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                 if (matcher.find()) {
                     String res = matcher.group(0);
                     number.setText(res);
+                    label.setText(getResources().getString(R.string.telephone_number));
                 }
             }
 
@@ -255,6 +257,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         final Date c = Calendar.getInstance().getTime();
         final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
+        final String year = (String) DateFormat.format("yyyy", c);
 
         final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
         final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
@@ -271,8 +275,10 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
                     for (CallHistoryRecord record : callHistoryRecords) {
                         final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+                        final String monthRecord = (String) DateFormat.format("MM", record.getDate());
+                        final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
 
-                        if (newDay.equals(dayRecord)) {
+                        if (newDay.equals(dayRecord) && month.equals(monthRecord) && year.equals(yearRecord)) {
                             countOfCalls++;
                         }
                     }
