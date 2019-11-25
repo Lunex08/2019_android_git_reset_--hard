@@ -84,19 +84,19 @@ public class DetailsFragmentReuseable extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(reusableNames, reusablePhones, reusableDates);
+        final RecyclerAdapterReuse recyclerAdapter = new RecyclerAdapterReuse(reusableNames, reusablePhones, reusableDates);
         recyclerView.setAdapter(recyclerAdapter);
 
 
         return view;
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    class RecyclerViewHolderReuse extends RecyclerView.ViewHolder {
         private final TextView name;
         private final TextView phone;
         private final TextView date;
 
-        private RecyclerViewHolder(@NonNull View itemView) {
+        private RecyclerViewHolderReuse(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.content_name);
@@ -105,12 +105,12 @@ public class DetailsFragmentReuseable extends Fragment {
         }
     }
 
-    class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+    class RecyclerAdapterReuse extends RecyclerView.Adapter<RecyclerViewHolderReuse> {
         private final List<String> names;
         private final List<String> phones;
         private final List<String> dates;
 
-        private RecyclerAdapter(@NonNull List<String> names, @NonNull List<String> phones, @NonNull List<String> dates) {
+        private RecyclerAdapterReuse(@NonNull List<String> names, @NonNull List<String> phones, @NonNull List<String> dates) {
             this.names = names;
             this.phones = phones;
             this.dates = dates;
@@ -118,13 +118,13 @@ public class DetailsFragmentReuseable extends Fragment {
 
         @NonNull
         @Override
-        public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public RecyclerViewHolderReuse onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_details_content_item, parent, false);
-            return new RecyclerViewHolder(v);
+            return new RecyclerViewHolderReuse(v);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerViewHolderReuse holder, int position) {
             if (names.get(position) == null) {
                 holder.name.setText(getResources().getString(R.string.unknown_number));
             } else {
