@@ -18,4 +18,5 @@
     <string name="tariffs">Тарифы</string>
     <string name="telephone_number">Номер телефона</string>
     <string name="unknown_number">Неизвестный</string>
+    <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
 </resources>

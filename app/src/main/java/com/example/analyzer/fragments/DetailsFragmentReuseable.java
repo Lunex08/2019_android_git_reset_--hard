@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.example.analyzer.modules.CallsModule.CallsModule;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DetailsFragmentReuseable extends Fragment {
@@ -56,7 +56,7 @@ public class DetailsFragmentReuseable extends Fragment {
             if (type != null && getActivity() != null) {
                 if (type.equals(getString(R.string.to_calls)) || type.equals(getString(R.string.to_detail))) {
 
-                    SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+                    SimpleDateFormat simpleDate = new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
                     CallsModule callsModule = new CallsModule(getActivity());
                     List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
                     if(callHistoryRecords != null) {
@@ -67,7 +67,7 @@ public class DetailsFragmentReuseable extends Fragment {
                         }
                     }
                 } else if (type.equals(getString(R.string.to_sms))) {
-                    SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+                    SimpleDateFormat simpleDate = new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
                     CallsModule callsModule = new CallsModule(getActivity());
                     List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
                     if(callHistoryRecords != null) {
