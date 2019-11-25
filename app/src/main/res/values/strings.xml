@@ -22,4 +22,5 @@
     <string name="CheckBalanceYota">*100#</string>
     <string name="trafficFormat">%.2f Гб</string>
     <string name="balanceFormat">%.2f₽</string>
+    <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
 </resources>
