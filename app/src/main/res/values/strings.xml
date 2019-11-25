@@ -12,4 +12,8 @@
     <string name="to_calls">TO_CALLS</string>
     <string name="to_sms">TO_SMS</string>
     <string name="details">Детализация</string>
+    <string name="tariffs_fragment_label">Наиболее выгодные тарифы</string>
+    <string name="to_tariffs">TO_TARIFFS</string>
+    <string name="api_url">https://static.brbrroman.ru/tariffs/example.json</string>
+    <string name="tariffs">Тарифы</string>
 </resources>

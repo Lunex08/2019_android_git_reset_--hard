@@ -27,6 +27,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
+import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
+import com.example.analyzer.modules.CallsModule.CallsModule;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -34,6 +36,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,8 +107,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         });
 
 
-        final CardView cardView = v.findViewById(R.id.card_view);
-        cardView.setOnClickListener(this);
+        //final CardView cardView = v.findViewById(R.id.card_view);
+        //cardView.setOnClickListener(this);
 
         TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
         long usage = 0L;
@@ -199,6 +202,9 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             case R.id.main_graph:
                 eventListener.onItemClick(R.string.to_detail);
                 break;
+            case R.id.title_tariffs_button:
+                eventListener.onItemClick(R.string.to_tariffs);
+                break;
         }
 
     }
@@ -245,19 +251,37 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     }
 
     private List<BarEntry> getData() {
-        // Fill graphData here (7 days = 7 times add) using callsNumber, e.g:
-        // graphData.add(new BarEntry(0f, 15f));
-
-        // For test
         final List<BarEntry> graphData = new ArrayList<>();
 
-        graphData.add(new BarEntry(0f, 4f));
-        graphData.add(new BarEntry(1f, 11f));
-        graphData.add(new BarEntry(2f, 0f));
-        graphData.add(new BarEntry(3f, 3f));
-        graphData.add(new BarEntry(4f, 7f));
-        graphData.add(new BarEntry(5f, 4f));
-        graphData.add(new BarEntry(6f, 9f));
+        final Date c = Calendar.getInstance().getTime();
+        final String day = (String) DateFormat.format("dd", c);
+
+        final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
+        final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
+
+        if (getActivity() != null) {
+            CallsModule callsModule = new CallsModule(getActivity());
+            List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
+            if (callHistoryRecords != null) {
+                int position = 0;
+
+                for (int i = lastWeekDay; i >= firstWeekDay; --i) {
+                    final String newDay = String.valueOf(Integer.parseInt(day) - i);
+                    int countOfCalls = 0;
+
+                    for (CallHistoryRecord record : callHistoryRecords) {
+                        final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+
+                        if (newDay.equals(dayRecord)) {
+                            countOfCalls++;
+                        }
+                    }
+
+                    graphData.add(new BarEntry(position, countOfCalls));
+                    position++;
+                }
+            }
+        }
 
         return graphData;
     }

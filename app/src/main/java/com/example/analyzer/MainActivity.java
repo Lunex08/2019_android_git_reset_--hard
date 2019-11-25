@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.analyzer.fragments.DetailsFragment;
 import com.example.analyzer.fragments.DetailsFragmentReuseable;
 import com.example.analyzer.fragments.MainScreenFragment;
+import com.example.analyzer.fragments.TariffsFragment;
 import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
 import com.example.analyzer.modules.CallsModule.CallsModule;
 import com.example.analyzer.utils.PermissionsUtils;
@@ -63,12 +64,22 @@ public class MainActivity extends AppCompatActivity implements MainScreenFragmen
                         .addToBackStack(null)
                         .commit();
                 break;
+
             case R.string.to_calls:
             case R.string.to_sms:
                 detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(getString(dest));
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_details_content, detailsFragmentReuseable)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+            case R.string.to_tariffs:
+                final TariffsFragment tariffsFragment = new TariffsFragment();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_activity_container, tariffsFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
