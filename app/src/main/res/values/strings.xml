@@ -20,4 +20,6 @@
     <string name="unknown_number">Неизвестный</string>
     <string name="CheckNumberYota">*103#</string>
     <string name="CheckBalanceYota">*100#</string>
+    <string name="trafficFormat">%.2f Гб</string>
+    <string name="balanceFormat">%.2f₽</string>
 </resources>

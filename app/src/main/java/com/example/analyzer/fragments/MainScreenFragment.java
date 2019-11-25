@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,7 +35,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,7 +43,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
-    public static final String TAG = "MainScreenFragmentTag";
+    private static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
     private List<Integer> callsNumber;
     private EventListener eventListener;
@@ -116,7 +114,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         usage = TrafficStats.getMobileRxBytes();
         gigs = usage / (1024f*1024f*1024f);
         Log.d("GIGS", String.valueOf(usage));
-        traffic.setText(String.format("%.2f Гб", gigs));
+        traffic.setText(String.format(getResources().getString(R.string.trafficFormat), gigs));
 
 
         // Узнаем номер мобилки (!не всегда работает!)
@@ -147,10 +145,10 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             }
         };
 
-        telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckNumberYota), numberCallback,  new Handler()); // HARDCODE переменная для получения номера
+        telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckNumberYota), numberCallback,  new Handler());
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
-        balance.setText("0.00 руб");
+        balance.setText(String.format(getResources().getString(R.string.balanceFormat), 0.0f));
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +162,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
                             Float f = Float.parseFloat(matcher.group(0));
-                            balance.setText(String.format("%.2f₽", f));
+                            balance.setText(String.format(getResources().getString(R.string.balanceFormat), f));
                         }
                     }
 
@@ -180,7 +178,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
-                telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckBalanceYota), balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
+                telephonyManager.sendUssdRequest(getResources().getString(R.string.CheckBalanceYota), balanceCallback,  new Handler());
             }
         });
 
