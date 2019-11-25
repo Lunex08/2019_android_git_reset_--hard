@@ -125,7 +125,12 @@ public class DetailsFragmentReuseable extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-            holder.name.setText(String.valueOf(names.get(position)));
+            if (names.get(position) == null) {
+                holder.name.setText(getResources().getString(R.string.unknown_number));
+            } else {
+                holder.name.setText(String.valueOf(names.get(position)));
+            }
+
             holder.phone.setText(String.valueOf(phones.get(position)));
             holder.date.setText(String.valueOf(dates.get(position)));
         }
