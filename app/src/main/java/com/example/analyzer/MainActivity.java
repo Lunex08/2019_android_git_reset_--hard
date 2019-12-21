@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
         if(callHistoryRecords != null) {
             for (CallHistoryRecord record : callHistoryRecords) {
-                Log.d(TAG, "\nPhone Number:--- " + record.getPhNumber() + " \nCall Type:--- " + record.getType() +
+                Log.d(TAG, "\nPhone Number:--- " + record.getAddress() + " \nCall Type:--- " + record.getStatus() +
                         "\nCall duration in sec:--- " + record.getDuration() + "\nCall name:--- " + record.getName() +
                         "\nCall date:--- " + simpleDate.format(record.getDate()) + "\n----------------------------------");
             }

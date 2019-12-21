@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.example.analyzer.R;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +33,6 @@ public class SmsModule {
     private static final int SMS_STATUS_COMPLETE_CODE = 0;
     private static final int SMS_STATUS_PENDING_CODE = 32;
     private static final int SMS_STATUS_FAILED_CODE = 64;
-
-    private static final String NO_PERMISSION_GRANTED_MESSAGE = "No permission granted on ";
-    private static final String RECEIVE_ERROR_MESSAGE = "Can't receive data from content provider with URI ";
-    private static final String EMPTY_SMS_HISTORY_MESSAGE = "No sms in history";
 
     private final Activity activity;
 
@@ -55,17 +53,20 @@ public class SmsModule {
         int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
                 Manifest.permission.READ_SMS);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            Log.e(TAG, NO_PERMISSION_GRANTED_MESSAGE + Manifest.permission.READ_SMS);
+            Log.e(TAG,
+                    activity.getResources().getString(R.string.no_permission_granted_message) + Manifest.permission.READ_SMS);
             return null;
         }
 
         Cursor cursor = this.activity.getContentResolver().query(Uri.parse(SMS_PROVIDER_URI), Projection, null, null,
                 Order);
         if (null == cursor) {
-            android.util.Log.e(TAG, RECEIVE_ERROR_MESSAGE + CallLog.Calls.CONTENT_URI);
+            android.util.Log.e(TAG,
+                    activity.getResources().getString(R.string.receive_error_message) + CallLog.Calls.CONTENT_URI);
             return null;
         } else if (cursor.getCount() < 1) {
-            Toast.makeText(this.activity, EMPTY_SMS_HISTORY_MESSAGE, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.activity, activity.getResources().getString(R.string.empty_sms_history_message),
+                    Toast.LENGTH_SHORT).show();
         } else {
             final int addressIndex = cursor.getColumnIndexOrThrow(Telephony.Sms.ADDRESS);
             final int personIndex = cursor.getColumnIndexOrThrow(Telephony.Sms.PERSON);

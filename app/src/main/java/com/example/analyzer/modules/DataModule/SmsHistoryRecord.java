@@ -11,19 +11,19 @@ public class SmsHistoryRecord {
     private final Date mDate;
 
     SmsHistoryRecord(@NonNull String address, @NonNull String person, @NonNull Date date, @NonNull String status) {
-        this.mAddress = address;
-        this.mPerson = person;
-        this.mDate = date;
-        this.mStatus = status;
+        mAddress = address;
+        mPerson = person;
+        mDate = date;
+        mStatus = status;
     }
 
     @NonNull
-    public String getPhNumber() {
+    public String getAddress() {
         return mAddress;
     }
 
     @NonNull
-    public String getType() {
+    public String getStatus() {
         return mStatus;
     }
 
