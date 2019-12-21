@@ -33,7 +33,6 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
-
     private List<Integer> callsNumber;
 
     public static MainScreenFragment getInstance() {

@@ -1,18 +1,40 @@
 package com.example.analyzer;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.analyzer.fragments.MainScreenFragment;
+import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
+import com.example.analyzer.modules.CallsModule.CallsModule;
+import com.example.analyzer.utils.PermissionsUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String TAG = "MainActivityTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PermissionsUtils.checkAndRequestPermissions(this);
+
+        // example how to get calls history
+        SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+        CallsModule callsModule = new CallsModule(this);
+        List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
+        if(callHistoryRecords != null) {
+            for (CallHistoryRecord record : callHistoryRecords) {
+                Log.d(TAG, "\nPhone Number:--- " + record.getPhNumber() + " \nCall Type:--- " + record.getType() +
+                        "\nCall duration in sec:--- " + record.getDuration() + "\nCall name:--- " + record.getName() +
+                        "\nCall date:--- " + simpleDate.format(record.getDate()) + "\n----------------------------------");
+            }
+        }
 
         if (savedInstanceState == null) {
             MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
