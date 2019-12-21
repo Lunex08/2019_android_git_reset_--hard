@@ -46,27 +46,27 @@ public final class CallsModule {
             return null;
         }
 
-        Cursor Cursor = this.activity.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
+        Cursor cursor = this.activity.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
                 Order);
-        if (null == Cursor) {
+        if (cursor == null) {
             android.util.Log.e(TAG, RECEIVE_ERROR_MESSAGE + CallLog.Calls.CONTENT_URI);
             return null;
-        } else if (Cursor.getCount() < 1) {
+        } else if (cursor.getCount() < 1) {
             Toast.makeText(this.activity, EMPTY_HISTORY_MESSAGE, Toast.LENGTH_SHORT).show();
         } else {
-            final int numberIndex = Cursor.getColumnIndex(CallLog.Calls.NUMBER);
-            final int dateIndex = Cursor.getColumnIndex(CallLog.Calls.DATE);
-            final int durationIndex = Cursor.getColumnIndex(CallLog.Calls.DURATION);
-            final int callNameIndex = Cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
-            final int typeIndex = Cursor.getColumnIndex(CallLog.Calls.TYPE);
+            final int numberIndex = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+            final int dateIndex = cursor.getColumnIndex(CallLog.Calls.DATE);
+            final int durationIndex = cursor.getColumnIndex(CallLog.Calls.DURATION);
+            final int callNameIndex = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+            final int typeIndex = cursor.getColumnIndex(CallLog.Calls.TYPE);
 
-            while (Cursor.moveToNext()) {
-                final String phNumber = Cursor.getString(numberIndex);
-                final String callDuration = Cursor.getString(durationIndex);
-                final String callName = Cursor.getString(callNameIndex);
-                final Date callDate = new Date(Cursor.getLong(dateIndex));
+            while (cursor.moveToNext()) {
+                final String phNumber = cursor.getString(numberIndex);
+                final String callDuration = cursor.getString(durationIndex);
+                final String callName = cursor.getString(callNameIndex);
+                final Date callDate = new Date(cursor.getLong(dateIndex));
 
-                String callType = Cursor.getString(typeIndex);
+                String callType = cursor.getString(typeIndex);
 
                 switch (Integer.parseInt(callType)) {
                     case CallLog.Calls.OUTGOING_TYPE:
@@ -88,7 +88,7 @@ public final class CallsModule {
                 callHistory.add(new CallHistoryRecord(phNumber, callType, callDuration, callName, callDate));
             }
         }
-        Cursor.close();
+        cursor.close();
         return callHistory;
     }
 }
