@@ -6,11 +6,10 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.analyzer.fragments.DetailsFragment;
-import com.example.analyzer.fragments.DetailsFragmentReuseable;
 import com.example.analyzer.fragments.MainScreenFragment;
 import com.example.analyzer.fragments.TariffsFragment;
-import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
-import com.example.analyzer.modules.CallsModule.CallsModule;
+import com.example.analyzer.modules.DataModule.CallHistoryRecord;
+import com.example.analyzer.modules.DataModule.CallsModule;
 import com.example.analyzer.utils.PermissionsUtils;
 
 import java.text.SimpleDateFormat;
@@ -28,12 +27,12 @@ public class MainActivity extends AppCompatActivity implements MainScreenFragmen
         PermissionsUtils.checkAndRequestPermissions(this);
 
         // example how to get calls history
-        SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
-        CallsModule callsModule = new CallsModule(this);
-        List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
+        final SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
+        final CallsModule callsModule = new CallsModule(this);
+        final List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
         if(callHistoryRecords != null) {
             for (CallHistoryRecord record : callHistoryRecords) {
-                Log.d(TAG, "\nPhone Number:--- " + record.getPhNumber() + " \nCall Type:--- " + record.getType() +
+                Log.d(TAG, "\nPhone Number:--- " + record.getAddress() + " \nCall Type:--- " + record.getStatus() +
                         "\nCall duration in sec:--- " + record.getDuration() + "\nCall name:--- " + record.getName() +
                         "\nCall date:--- " + simpleDate.format(record.getDate()) + "\n----------------------------------");
             }
@@ -51,26 +50,13 @@ public class MainActivity extends AppCompatActivity implements MainScreenFragmen
     @Override
     public void onItemClick(int dest) {
         final DetailsFragment detailsFragment;
-        final DetailsFragmentReuseable detailsFragmentReuseable;
 
         switch (dest) {
             case R.string.to_detail:
                 detailsFragment = new DetailsFragment();
-                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(getString(dest));
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_activity_container, detailsFragment)
-                        .replace(R.id.fragment_details_content, detailsFragmentReuseable)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-
-            case R.string.to_calls:
-            case R.string.to_sms:
-                detailsFragmentReuseable = DetailsFragmentReuseable.newInstance(getString(dest));
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_details_content, detailsFragmentReuseable)
                         .addToBackStack(null)
                         .commit();
                 break;

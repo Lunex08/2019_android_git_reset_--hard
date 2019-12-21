@@ -27,8 +27,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
-import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
-import com.example.analyzer.modules.CallsModule.CallsModule;
+import com.example.analyzer.modules.DataModule.CallHistoryRecord;
+import com.example.analyzer.modules.DataModule.CallsModule;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -147,7 +147,9 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         telephonyManager.sendUssdRequest("*103#", numberCallback,  new Handler()); // HARDCODE переменная для получения номера
 
+
         TextView balance = (TextView) v.findViewById(R.id.balance);
+
         balance.setText("0.00 руб");
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,6 +257,8 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
         final Date c = Calendar.getInstance().getTime();
         final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
+        final String year = (String) DateFormat.format("yyyy", c);
 
         final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
         final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
@@ -271,8 +275,10 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
 
                     for (CallHistoryRecord record : callHistoryRecords) {
                         final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+                        final String monthRecord = (String) DateFormat.format("MM", record.getDate());
+                        final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
 
-                        if (newDay.equals(dayRecord)) {
+                        if (newDay.equals(dayRecord) && month.equals(monthRecord) && year.equals(yearRecord)) {
                             countOfCalls++;
                         }
                     }
