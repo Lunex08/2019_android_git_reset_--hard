@@ -26,7 +26,6 @@ public final class CallsModule {
     private static final String RECEIVE_ERROR_MESSAGE = "Can't receive data from content provider with URI ";
     private static final String EMPTY_HISTORY_MESSAGE = "No calls in history";
 
-
     private final Activity activity;
 
     public CallsModule(@NonNull Activity activity) {
@@ -65,7 +64,6 @@ public final class CallsModule {
                 final String callDuration = cursor.getString(durationIndex);
                 final String callName = cursor.getString(callNameIndex);
                 final Date callDate = new Date(cursor.getLong(dateIndex));
-
                 String callType = cursor.getString(typeIndex);
 
                 switch (Integer.parseInt(callType)) {
@@ -89,6 +87,7 @@ public final class CallsModule {
             }
         }
         cursor.close();
+
         return callHistory;
     }
 }
