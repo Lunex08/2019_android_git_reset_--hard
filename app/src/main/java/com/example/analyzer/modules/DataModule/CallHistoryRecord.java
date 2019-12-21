@@ -1,4 +1,4 @@
-package com.example.analyzer.modules.CallsModule;
+package com.example.analyzer.modules.DataModule;
 
 import androidx.annotation.NonNull;
 

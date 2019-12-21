@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.analyzer.fragments.MainScreenFragment;
-import com.example.analyzer.modules.CallsModule.CallHistoryRecord;
-import com.example.analyzer.modules.CallsModule.CallsModule;
+import com.example.analyzer.modules.DataModule.CallHistoryRecord;
+import com.example.analyzer.modules.DataModule.CallsModule;
 import com.example.analyzer.utils.PermissionsUtils;
 
 import java.text.SimpleDateFormat;
