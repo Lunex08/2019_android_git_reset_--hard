@@ -9,10 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.analyzer.R;
 
 class RecyclerViewHolderReusable extends RecyclerView.ViewHolder {
-    final TextView singleValue;
+    final TextView name;
+    final TextView phone;
+    final TextView date;
+
 
     RecyclerViewHolderReusable(@NonNull View itemView) {
         super(itemView);
-        singleValue = itemView.findViewById(R.id.content_name);
+
+        name = itemView.findViewById(R.id.content_name);
+        phone = itemView.findViewById(R.id.content_phone);
+        date = itemView.findViewById(R.id.content_date);
     }
 }
