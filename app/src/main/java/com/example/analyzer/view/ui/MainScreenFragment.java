@@ -110,11 +110,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         // Узнаем номер мобилки (!не всегда работает!)
         TextView number = (TextView) v.findViewById(R.id.number);
 
-        TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager =
+                (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
             @Override
-            public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+            public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request,
+                                              CharSequence response) {
                 super.onReceiveUssdResponse(telephonyManager, request, response);
                 final Pattern numberPattern = Pattern.compile("\\+\\d{11}?");
                 Matcher matcher = numberPattern.matcher(response.toString());
@@ -125,7 +127,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
             }
 
             @Override
-            public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+            public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request,
+                                                    int failureCode) {
                 super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
                 Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
             }
@@ -145,7 +148,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
             public void onClick(View v) {
                 TelephonyManager.UssdResponseCallback balanceCallback = new TelephonyManager.UssdResponseCallback() {
                     @Override
-                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request,
+                                                      CharSequence response) {
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
                         Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
@@ -153,12 +157,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                         if (matcher.find()) {
                             String rawnumber = matcher.group(0);
                             Float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
-                            balance.setText(String.format(BALANCE_FORMAT, f ));
+                            balance.setText(String.format(BALANCE_FORMAT, f));
                         }
                     }
 
                     @Override
-                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request,
+                                                            int failureCode) {
                         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
                         Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
                         Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
@@ -166,10 +171,9 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                 };
 
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.CALL_PHONE}, 13);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
-                telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
+                telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback, new Handler());
             }
         });
 

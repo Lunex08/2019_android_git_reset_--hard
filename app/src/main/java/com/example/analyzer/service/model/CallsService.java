@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.provider.CallLog;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -19,13 +20,13 @@ public final class CallsService {
     private static final String CALL_TYPE_MISSED = "MISSED";
     private static final String CALL_TYPE_REJECTED = "REJECTED";
 
-    public static List<CallHistoryRecord> getCalls(Context cxt) {
+    public static List<CallHistoryRecord> getCalls(@NonNull Context context) {
         final String[] Projection = {CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.DURATION,
                 CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE};
         final String Order = CallLog.Calls.DATE + " DESC ";
         List<CallHistoryRecord> callHistory = new ArrayList<>();
 
-        int permissionCheck = ContextCompat.checkSelfPermission(cxt,
+        int permissionCheck = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_CALL_LOG);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 //            Log.e(TAG,
@@ -33,7 +34,7 @@ public final class CallsService {
             return null;
         }
 
-        Cursor cursor = cxt.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
+        Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
                 Order);
         if (cursor == null) {
 //            Log.e(TAG,

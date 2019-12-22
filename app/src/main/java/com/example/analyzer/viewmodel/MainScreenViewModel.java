@@ -27,17 +27,22 @@ import java.util.Date;
 import java.util.List;
 
 public class MainScreenViewModel extends AndroidViewModel {
-    private final CallsRepository callsRepository = new CallsRepository(getApplication().getApplicationContext());
+    private final CallsRepository callsRepository = new CallsRepository();
     private final LiveData<List<CallHistoryRecord>> mCallsListObservable;
 
     public MainScreenViewModel(@NonNull Application application) {
         super(application);
         mCallsListObservable = callsRepository.getCalls();
+        refresh();
     }
 
     public LiveData<List<BarEntry>> getCalls() {
         Log.d("ViewModel", String.valueOf(mCallsListObservable.getValue().size()));
         return Transformations.map(mCallsListObservable, this::transformData);
+    }
+
+    public void refresh() {
+        callsRepository.getInstance().loadCalls(getApplication().getApplicationContext());
     }
 
     private List<BarEntry> transformData(List<CallHistoryRecord> callHistoryRecords) {

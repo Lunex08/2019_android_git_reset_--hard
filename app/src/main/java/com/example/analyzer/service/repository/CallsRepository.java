@@ -11,18 +11,23 @@ import com.example.analyzer.service.model.CallsService;
 
 import java.util.List;
 
-public final class CallsRepository {
-    private final Context cxt;
-    private MutableLiveData<List<CallHistoryRecord>> data;
+public class CallsRepository {
+    private static final CallsRepository mInstance = new CallsRepository();
+    private static MutableLiveData<List<CallHistoryRecord>> data;
 
-    public CallsRepository(@NonNull Context cxt) {
-        this.cxt = cxt;
+    public static CallsRepository getInstance() {
+        return mInstance;
+    }
+
+    public CallsRepository() {
         data = new MutableLiveData<>();
     }
 
-    public LiveData<List<CallHistoryRecord>> getCalls() {
-        data.setValue(CallsService.getCalls(cxt));
+    public static LiveData<List<CallHistoryRecord>> getCalls() {
         return data;
     }
 
+    public static void loadCalls(@NonNull Context context) {
+        data.setValue(CallsService.getCalls(context));
+    }
 }
