@@ -11,11 +11,11 @@ import com.example.analyzer.R;
 
 import java.util.List;
 
-public class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
-    private final List<TariffDataset> data;
+public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
+    private final List<TariffDataset> items;
 
     public TariffAdapter(@NonNull List<TariffDataset> data) {
-        this.data = data;
+        this.items = data;
     }
 
     @NonNull
@@ -27,12 +27,12 @@ public class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull TariffViewholder holder, int position) {
-        holder.name.setText(String.valueOf(data.get(position).getName()));
-        holder.gigabyte.setText(String.valueOf(data.get(position).getGigabytes()));
-        holder.sms.setText(String.valueOf(data.get(position).getSms()));
-        holder.price.setText(String.valueOf(data.get(position).getPrice()));
+        holder.name.setText(items.get(position).getName());
+        holder.gigabyte.setText(items.get(position).getGigabytes());
+        holder.sms.setText(items.get(position).getSms());
+        holder.price.setText(items.get(position).getPrice());
 
-        switch (data.get(position).getIcon()) {
+        switch (items.get(position).getIcon()) {
             case 1:
                 holder.icon.setImageResource(R.drawable.yota);
                 break;
@@ -47,6 +47,6 @@ public class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return items.size();
     }
 }

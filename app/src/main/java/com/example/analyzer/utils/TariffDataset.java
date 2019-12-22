@@ -1,5 +1,7 @@
 package com.example.analyzer.utils;
 
+import androidx.annotation.NonNull;
+
 public class TariffDataset {
     private final String name;
     private final String gigabytes;
@@ -7,7 +9,7 @@ public class TariffDataset {
     private final String price;
     private final Integer icon;
 
-    public TariffDataset(String name, String gigabytes, String sms, String price, Integer icon) {
+    public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price, @NonNull Integer icon) {
         this.name = name;
         this.gigabytes = gigabytes;
         this.sms = sms;
@@ -15,19 +17,19 @@ public class TariffDataset {
         this.icon = icon;
     }
 
-    String getName() {
+    @NonNull String getName() {
         return this.name;
     }
 
-    String getGigabytes() {
+    @NonNull String getGigabytes() {
         return this.gigabytes;
     }
 
-    String getSms() {
+    @NonNull String getSms() {
         return this.sms;
     }
 
-    String getPrice() { return this.price; }
+    @NonNull String getPrice() { return this.price; }
 
-    Integer getIcon() { return this.icon; }
+    @NonNull Integer getIcon() { return this.icon; }
 }
