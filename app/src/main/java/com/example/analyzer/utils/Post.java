@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 public class Post {
-    @SerializedName("tariff_name")
+    @SerializedName("tariff")
     private String name;
     @SerializedName("traffic")
     private String traffic;
@@ -15,6 +15,8 @@ public class Post {
     private Double price;
     @SerializedName("operator_id")
     private Integer id;
+    @SerializedName("operator")
+    private String operator;
 
     @NonNull public String getName() {
         return name;
@@ -42,6 +44,10 @@ public class Post {
 
     @NonNull public Double getPrice() {
         return price;
+    }
+
+    @NonNull public String getOperator() {
+        return operator;
     }
 
     public void setPrice(Double price) {
