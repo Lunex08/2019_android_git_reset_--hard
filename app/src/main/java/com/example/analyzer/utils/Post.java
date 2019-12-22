@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 public class Post {
-    @SerializedName("tariff_name")
+    @SerializedName("tariff")
     private String name;
     @SerializedName("traffic")
     private String traffic;

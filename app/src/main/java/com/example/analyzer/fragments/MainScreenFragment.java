@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +62,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
     public interface EventListener {
         void onItemClick(int dest);
+        void onTariffClick(String name, String gigabyte, String sms, String price, String icon);
     }
 
     @Override

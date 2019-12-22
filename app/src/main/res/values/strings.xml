@@ -21,6 +21,14 @@
     <string name="empty_sms_history_message">No sms in history</string>
     <string name="empty_calls_history_message">No calls in history</string>
     <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
+    <string name="tariff_profit">Итоговая выгода от смены тарифа:</string>
+    <string name="tariff_new">Новый</string>
+    <string name="tariff_current">Текущий</string>
+    <string name="MTC">МТС</string>
+    <string name="Yota">Yota</string>
+    <string name="Beeline">Билайн</string>
+    <string name="no_profit">Нет выгоды!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="phone">Номер телефона</string>
     <string name="save">Сохранить</string>
     <string name="number_not_rec">"Номер не указан"</string>
