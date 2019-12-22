@@ -19,6 +19,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.analyzer.R;
 import com.example.analyzer.utils.NetworkService;
@@ -79,6 +80,10 @@ public class InfoFragment extends Fragment {
                 e.putString("operatorName", operatorName);
                 e.putBoolean("firstLogin", false);
                 e.commit(); // не забудьте подтвердить изменения
+                final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_activity_container, mainScreenFragment)
+                        .commit();
             }
         });
 
