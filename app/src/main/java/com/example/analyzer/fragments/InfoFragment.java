@@ -76,7 +76,7 @@ public class InfoFragment extends Fragment {
                 SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sp.edit();
                 e.putString("phoneNumber", phoneNumber);
-                if ("".equals(operatorName)) e.putString("operatorName", operatorName);
+                e.putString("operatorName", operatorName);
                 e.putBoolean("firstLogin", false);
                 e.commit(); // не забудьте подтвердить изменения
             }

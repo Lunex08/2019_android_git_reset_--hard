@@ -133,6 +133,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         }
         number.setText(phoneNumberStr);
 
+        String operatorName = sp.getString("operatorName", getResources().getString(R.string.operator_not_rec));
+        if ("".equals(operatorName)) {
+            operatorName = getResources().getString(R.string.operator_not_rec);
+        }
+        TextView operatorTV = (TextView) v.findViewById(R.id.operator);
+        operatorTV.setText(operatorName);
+
         TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
