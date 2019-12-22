@@ -1,5 +1,6 @@
 package com.example.analyzer.fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -51,6 +55,19 @@ import retrofit2.http.Path;
 
 
 public final class TariffsFragment extends Fragment {
+    private MainScreenFragment.EventListener eventListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        eventListener = (MainScreenFragment.EventListener)context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        eventListener = null;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -73,7 +90,7 @@ public final class TariffsFragment extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final TariffAdapter recyclerAdapter = new TariffAdapter(data);
+        final TariffAdapter recyclerAdapter = new TariffAdapter(data, eventListener);
         recyclerView.setAdapter(recyclerAdapter);
 
         NetworkService.getInstance()
@@ -88,12 +105,21 @@ public final class TariffsFragment extends Fragment {
                             for (Post post : posts) {
                                 bar.setVisibility(View.INVISIBLE);
                                 Double price = BigDecimal.valueOf(post.getPrice())
-                                        .setScale(2, RoundingMode.HALF_UP)
+                                        .setScale(0, RoundingMode.HALF_UP)
                                         .doubleValue();
 
                                 data.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(), String.valueOf(price), post.getId()));
-                                recyclerAdapter.notifyDataSetChanged();
                             }
+
+                            Collections.sort(data, (o1, o2) -> {
+                                double first = Double.valueOf(o1.getPrice());
+                                double second = Double.valueOf(o2.getPrice());
+                                if (first > second) return 1;
+                                if (first < second) return -1;
+                                return 0;
+                            });
+
+                            recyclerAdapter.notifyDataSetChanged();
                         }
                     }
 

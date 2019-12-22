@@ -29,7 +29,8 @@ public class TariffDataset {
         return this.sms;
     }
 
-    @NonNull String getPrice() { return this.price; }
+    @NonNull
+    public String getPrice() { return this.price; }
 
     @NonNull Integer getIcon() { return this.icon; }
 }

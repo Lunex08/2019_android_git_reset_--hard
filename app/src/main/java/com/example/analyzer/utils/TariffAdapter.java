@@ -8,21 +8,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;
+import com.example.analyzer.fragments.MainScreenFragment;
 
 import java.util.List;
 
 public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
+    public static final String YOTA = "yota";
+    public static final String MTC = "mtc";
+    public static final String BEELINE = "beeline";
     private final List<TariffDataset> items;
+    private final MainScreenFragment.EventListener eventListener;
 
-    public TariffAdapter(@NonNull List<TariffDataset> data) {
+    public TariffAdapter(@NonNull List<TariffDataset> data, @NonNull MainScreenFragment.EventListener eventListener) {
         this.items = data;
+        this.eventListener = eventListener;
     }
 
     @NonNull
     @Override
     public TariffViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_tariffs_item, parent, false);
-        return new TariffViewholder(v);
+        return new TariffViewholder(v, eventListener);
     }
 
     @Override
@@ -35,12 +41,15 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> 
         switch (items.get(position).getIcon()) {
             case 1:
                 holder.icon.setImageResource(R.drawable.yota);
+                holder.icon.setContentDescription(YOTA);
                 break;
             case 2:
                 holder.icon.setImageResource(R.drawable.mtc);
+                holder.icon.setContentDescription(MTC);
                 break;
             case 3:
                 holder.icon.setImageResource(R.drawable.beeline);
+                holder.icon.setContentDescription(BEELINE);
                 break;
         }
     }
