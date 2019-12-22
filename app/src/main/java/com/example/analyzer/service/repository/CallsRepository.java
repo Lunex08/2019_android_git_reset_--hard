@@ -23,11 +23,11 @@ public class CallsRepository {
         data = new MutableLiveData<>();
     }
 
-    public static LiveData<List<CallHistoryRecord>> getCalls() {
+    public LiveData<List<CallHistoryRecord>> getCalls() {
         return data;
     }
 
-    public static void loadCalls(@NonNull Context context) {
+    public void loadCalls(@NonNull Context context) {
         data.setValue(CallsService.getCalls(context));
     }
 }

@@ -1,7 +1,9 @@
 package com.example.analyzer.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.net.TrafficStats;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -13,6 +15,7 @@ import androidx.lifecycle.Transformations;
 
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
+import com.example.analyzer.service.repository.BalanceRepository;
 import com.example.analyzer.service.repository.CallsRepository;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,13 +30,18 @@ import java.util.Date;
 import java.util.List;
 
 public class MainScreenViewModel extends AndroidViewModel {
-    private final CallsRepository callsRepository = new CallsRepository();
     private final LiveData<List<CallHistoryRecord>> mCallsListObservable;
+    private final LiveData<String> mBalance;
+
+    private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
+    private static final String GIGS_FORMAT = "%.2f Гб";
 
     public MainScreenViewModel(@NonNull Application application) {
         super(application);
-        mCallsListObservable = callsRepository.getCalls();
-        refresh();
+        mCallsListObservable = CallsRepository.getInstance().getCalls();
+        loadCalls();
+
+        mBalance = BalanceRepository.getInstance().getBalance();
     }
 
     public LiveData<List<BarEntry>> getCalls() {
@@ -41,8 +49,16 @@ public class MainScreenViewModel extends AndroidViewModel {
         return Transformations.map(mCallsListObservable, this::transformData);
     }
 
-    public void refresh() {
-        callsRepository.getInstance().loadCalls(getApplication().getApplicationContext());
+    public LiveData<String> getBalance() {
+        return mBalance;
+    }
+
+    public void refreshBalance() {
+        BalanceRepository.getInstance().refreshBalance(getApplication().getApplicationContext());
+    }
+
+    public void loadCalls() {
+        CallsRepository.getInstance().loadCalls(getApplication().getApplicationContext());
     }
 
     private List<BarEntry> transformData(List<CallHistoryRecord> callHistoryRecords) {
@@ -118,5 +134,29 @@ public class MainScreenViewModel extends AndroidViewModel {
 
         final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
         xAxis.setValueFormatter(formatter);
+    }
+
+    @SuppressLint("DefaultLocale")
+    public String getRemainTraffic() {
+        return String.format(GIGS_FORMAT, TrafficStats.getMobileRxBytes() / BYTES_TO_GIGS);
+    }
+
+    public String getPhoneAddress() {
+        //        SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        //        String phoneNumberStr = sp.getString("phoneNumber", getResources().getString(R.string
+        //        .number_not_rec));
+        //        if ("".equals(phoneNumberStr)) {
+        //            phoneNumberStr = getResources().getString(R.string.number_not_rec);
+        //        }
+        return "";
+    }
+
+    public String getOperatorName() {
+        //        String operatorName = sp.getString("operatorName", getResources().getString(R.string
+        //        .operator_not_rec));
+        //        if ("".equals(operatorName)) {
+        //            operatorName = getResources().getString(R.string.operator_not_rec);
+        //        }
+        return "";
     }
 }

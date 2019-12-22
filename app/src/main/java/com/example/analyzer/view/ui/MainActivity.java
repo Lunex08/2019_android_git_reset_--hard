@@ -11,20 +11,19 @@ import com.example.analyzer.service.utils.PermissionsUtils;
 
 public final class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
     public final static String TAG = "MainActivityTag";
+    PermissionsUtils permissionsUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PermissionsUtils.checkAndRequestPermissions(this, Manifest.permission.READ_CALL_LOG);
+        PermissionsUtils.getInstance().setActivity(this);
+        PermissionsUtils.getInstance().checkAndRequestPermissions(Manifest.permission.READ_CALL_LOG);
 
         if (savedInstanceState == null) {
-            final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_activity_container, mainScreenFragment)
-                    .commit();
+            final MainScreenFragment mainScreenFragment = new MainScreenFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, mainScreenFragment).commit();
         }
     }
 
@@ -36,19 +35,13 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
             case R.string.to_detail:
                 detailsFragment = new DetailsFragment();
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_activity_container, detailsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
                 break;
 
             case R.string.to_tariffs:
                 final TariffsFragment tariffsFragment = new TariffsFragment();
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_activity_container, tariffsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, tariffsFragment).addToBackStack(null).commit();
                 break;
         }
     }
