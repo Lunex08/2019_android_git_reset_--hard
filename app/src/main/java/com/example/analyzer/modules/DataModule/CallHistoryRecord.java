@@ -1,4 +1,4 @@
-package com.example.analyzer.modules.CallsModule;
+package com.example.analyzer.modules.DataModule;
 
 import androidx.annotation.NonNull;
 
@@ -13,20 +13,20 @@ public final class CallHistoryRecord {
 
     CallHistoryRecord(@NonNull String phNumber, @NonNull String type, @NonNull String duration, @NonNull String name,
                       @NonNull Date date) {
-        this.mPhNumber = phNumber;
-        this.mType = type;
-        this.mDuration = duration;
-        this.mName = name;
-        this.mDate = date;
+        mPhNumber = phNumber;
+        mType = type;
+        mDuration = duration;
+        mName = name;
+        mDate = date;
     }
 
     @NonNull
-    public String getPhNumber() {
+    public String getAddress() {
         return mPhNumber;
     }
 
     @NonNull
-    public String getType() {
+    public String getStatus() {
         return mType;
     }
 

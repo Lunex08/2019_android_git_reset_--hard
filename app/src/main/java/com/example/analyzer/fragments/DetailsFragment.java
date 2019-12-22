@@ -47,18 +47,33 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         final Button smsBtn = v.findViewById(R.id.sms_id);
         smsBtn.setOnClickListener(this);
 
+        final DetailsFragmentReusable detailsFragmentReusable = DetailsFragmentReusable.newInstance(getString(R.string.to_calls));
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_details_content, detailsFragmentReusable)
+                .addToBackStack(null)
+                .commit();
+
         return v;
     }
 
     @Override
     public void onClick(View v) {
+        final DetailsFragmentReusable detailsFragmentReusable;
+
         switch (v.getId()) {
+            default:
             case R.id.calls_id:
-                eventListener.onItemClick(R.string.to_calls);
+                detailsFragmentReusable = DetailsFragmentReusable.newInstance(getString(R.string.to_calls));
                 break;
             case R.id.sms_id:
-                eventListener.onItemClick(R.string.to_sms);
+                detailsFragmentReusable = DetailsFragmentReusable.newInstance(getString(R.string.to_sms));
                 break;
         }
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_details_content, detailsFragmentReusable)
+                .addToBackStack(null)
+                .commit();
     }
 }
