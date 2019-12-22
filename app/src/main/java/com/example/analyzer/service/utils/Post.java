@@ -1,4 +1,4 @@
-package com.example.analyzer.utils;
+package com.example.analyzer.service.utils;
 
 import androidx.annotation.NonNull;
 

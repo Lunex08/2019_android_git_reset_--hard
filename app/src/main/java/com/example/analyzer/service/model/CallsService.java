@@ -1,58 +1,47 @@
-package com.example.analyzer.modules.DataModule;
+package com.example.analyzer.service.model;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.provider.CallLog;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-
-import com.example.analyzer.R;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public final class CallsModule {
+public final class CallsService {
     public static final String TAG = "CallsModuleTag";
     private static final String CALL_TYPE_OUTGOING = "OUTGOING";
     private static final String CALL_TYPE_INCOMING = "INCOMING";
     private static final String CALL_TYPE_MISSED = "MISSED";
     private static final String CALL_TYPE_REJECTED = "REJECTED";
 
-    private final Activity activity;
-
-    public CallsModule(@NonNull Activity activity) {
-        this.activity = activity;
-    }
-
-    public List<CallHistoryRecord> getCalls() {
+    public static List<CallHistoryRecord> getCalls(Context cxt) {
         final String[] Projection = {CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.DURATION,
                 CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE};
         final String Order = CallLog.Calls.DATE + " DESC ";
         List<CallHistoryRecord> callHistory = new ArrayList<>();
 
-        int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
+        int permissionCheck = ContextCompat.checkSelfPermission(cxt,
                 Manifest.permission.READ_CALL_LOG);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            Log.e(TAG,
-                    activity.getResources().getString(R.string.no_permission_granted_message) + Manifest.permission.READ_CALL_LOG);
+//            Log.e(TAG,
+//                    activity.getResources().getString(R.string.no_permission_granted_message) + Manifest.permission.READ_CALL_LOG);
             return null;
         }
 
-        Cursor cursor = this.activity.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
+        Cursor cursor = cxt.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
                 Order);
         if (cursor == null) {
-            android.util.Log.e(TAG,
-                    activity.getResources().getString(R.string.receive_error_message) + CallLog.Calls.CONTENT_URI);
+//            Log.e(TAG,
+//                    activity.getResources().getString(R.string.receive_error_message) + CallLog.Calls.CONTENT_URI);
             return null;
         } else if (cursor.getCount() < 1) {
-            Toast.makeText(this.activity, activity.getResources().getString(R.string.empty_calls_history_message),
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity, activity.getResources().getString(R.string.empty_calls_history_message),
+//                    Toast.LENGTH_SHORT).show();
         } else {
             final int numberIndex = cursor.getColumnIndex(CallLog.Calls.NUMBER);
             final int dateIndex = cursor.getColumnIndex(CallLog.Calls.DATE);

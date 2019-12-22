@@ -1,12 +1,9 @@
-package com.example.analyzer.fragments;
+package com.example.analyzer.view.ui;
 
 import android.os.Bundle;
-
-import com.example.analyzer.modules.DataModule.CallHistoryRecord;
-import com.example.analyzer.modules.DataModule.CallsModule;
-import com.example.analyzer.modules.DataModule.SmsHistoryRecord;
-import com.example.analyzer.modules.DataModule.SmsModule;
-import com.example.analyzer.utils.RecyclerAdapterReusable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.analyzer.R;
-import com.example.analyzer.utils.RecyclerDatasetReusable;
+import com.example.analyzer.service.model.SmsHistoryRecord;
+import com.example.analyzer.service.model.SmsModule;
+import com.example.analyzer.service.repository.CallsRepository;
+import com.example.analyzer.service.utils.RecyclerAdapterReusable;
+import com.example.analyzer.service.utils.RecyclerDatasetReusable;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,13 +52,13 @@ public final class DetailsFragmentReusable extends Fragment {
                 if (type.equals(getString(R.string.to_calls)) || type.equals(getString(R.string.to_detail))) {
 
                     final SimpleDateFormat simpleDate = new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
-                    final CallsModule callsModule = new CallsModule(getActivity());
-                    final List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
-                    if(callHistoryRecords != null) {
-                        for (CallHistoryRecord record : callHistoryRecords) {
-                            reusableData.add(new RecyclerDatasetReusable(record.getName(), record.getAddress(), simpleDate.format(record.getDate())));
-                        }
-                    }
+                    final CallsRepository callsRepository = new CallsRepository(getActivity());
+//                    final List<CallHistoryRecord> callHistoryRecords = callsRepository.getCalls();
+//                    if(callHistoryRecords != null) {
+//                        for (CallHistoryRecord record : callHistoryRecords) {
+//                            reusableData.add(new RecyclerDatasetReusable(record.getName(), record.getAddress(), simpleDate.format(record.getDate())));
+//                        }
+//                    }
                 } else if (type.equals(getString(R.string.to_sms))) {
                     final SimpleDateFormat simpleDate = new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
                     final SmsModule smsModule = new SmsModule(getActivity());

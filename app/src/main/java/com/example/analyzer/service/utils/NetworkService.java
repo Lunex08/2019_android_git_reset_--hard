@@ -1,4 +1,4 @@
-package com.example.analyzer.utils;
+package com.example.analyzer.service.utils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

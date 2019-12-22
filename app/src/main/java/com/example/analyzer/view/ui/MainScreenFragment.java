@@ -1,10 +1,10 @@
-package com.example.analyzer.fragments;
+package com.example.analyzer.view.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,21 +15,20 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.analyzer.R;
-import com.example.analyzer.modules.DataModule.CallHistoryRecord;
-import com.example.analyzer.modules.DataModule.CallsModule;
+import com.example.analyzer.viewmodel.MainScreenViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -37,7 +36,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -195,10 +193,14 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         eventsButton.setOnClickListener(this);
 
         final BarChart barChart = v.findViewById(R.id.main_graph);
-        buildBarChart(barChart, v);
         barChart.setOnClickListener(this);
 
-
+        final MainScreenViewModel viewModel = new ViewModelProvider(getActivity()).get(MainScreenViewModel.class);
+        viewModel.getCalls().observe(getViewLifecycleOwner(), calls -> {
+            if (calls != null) {
+                displayChart(barChart, v, calls);
+            }
+        });
         return v;
     }
 
@@ -215,7 +217,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
     }
 
-    private void buildBarChart(BarChart barChart, View v) {
+    private void displayChart(BarChart barChart, View v, final List<BarEntry> data) {
         barChart.getLegend().setEnabled(false);
         barChart.getDescription().setEnabled(false);
         barChart.getXAxis().setDrawGridLines(false);
@@ -223,8 +225,6 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         barChart.getAxisLeft().setDrawAxisLine(false);
         barChart.getAxisRight().setEnabled(false);
-
-        final List<BarEntry> data = getData();
 
         final BarDataSet barDataSet = new BarDataSet(data, "");
         barDataSet.setColors(ContextCompat.getColor(v.getContext(), R.color.colorBars));
@@ -256,43 +256,5 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         xAxis.setValueFormatter(formatter);
     }
 
-    private List<BarEntry> getData() {
-        final List<BarEntry> graphData = new ArrayList<>();
 
-        final Date c = Calendar.getInstance().getTime();
-        final String day = (String) DateFormat.format("dd", c);
-        final String month = (String) DateFormat.format("MM", c);
-        final String year = (String) DateFormat.format("yyyy", c);
-
-        final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
-        final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
-
-        if (getActivity() != null) {
-            CallsModule callsModule = new CallsModule(getActivity());
-            List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
-            if (callHistoryRecords != null) {
-                int position = 0;
-
-                for (int i = lastWeekDay; i >= firstWeekDay; --i) {
-                    final String newDay = String.valueOf(Integer.parseInt(day) - i);
-                    int countOfCalls = 0;
-
-                    for (CallHistoryRecord record : callHistoryRecords) {
-                        final String dayRecord = (String) DateFormat.format("dd", record.getDate());
-                        final String monthRecord = (String) DateFormat.format("MM", record.getDate());
-                        final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
-
-                        if (newDay.equals(dayRecord) && month.equals(monthRecord) && year.equals(yearRecord)) {
-                            countOfCalls++;
-                        }
-                    }
-
-                    graphData.add(new BarEntry(position, countOfCalls));
-                    position++;
-                }
-            }
-        }
-
-        return graphData;
-    }
 }

@@ -1,11 +1,10 @@
-package com.example.analyzer.utils;
+package com.example.analyzer.service.utils;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.solver.widgets.Analyzer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;

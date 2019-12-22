@@ -1,4 +1,4 @@
-package com.example.analyzer.fragments;
+package com.example.analyzer.view.ui;
 
 import android.content.Context;
 import android.graphics.Color;

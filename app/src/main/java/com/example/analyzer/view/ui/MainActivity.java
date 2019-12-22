@@ -1,20 +1,12 @@
-package com.example.analyzer;
+package com.example.analyzer.view.ui;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.analyzer.fragments.DetailsFragment;
-import com.example.analyzer.fragments.MainScreenFragment;
-import com.example.analyzer.fragments.TariffsFragment;
-import com.example.analyzer.modules.DataModule.CallHistoryRecord;
-import com.example.analyzer.modules.DataModule.CallsModule;
-import com.example.analyzer.utils.PermissionsUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
+import com.example.analyzer.R;
+import com.example.analyzer.service.utils.PermissionsUtils;
 
 
 public final class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
@@ -26,18 +18,6 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
         setContentView(R.layout.activity_main);
 
         PermissionsUtils.checkAndRequestPermissions(this, Manifest.permission.READ_CALL_LOG);
-
-        // example how to get calls history
-        final SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
-        final CallsModule callsModule = new CallsModule(this);
-        final List<CallHistoryRecord> callHistoryRecords = callsModule.getCalls();
-        if(callHistoryRecords != null) {
-            for (CallHistoryRecord record : callHistoryRecords) {
-                Log.d(TAG, "\nPhone Number:--- " + record.getAddress() + " \nCall Type:--- " + record.getStatus() +
-                        "\nCall duration in sec:--- " + record.getDuration() + "\nCall name:--- " + record.getName() +
-                        "\nCall date:--- " + simpleDate.format(record.getDate()) + "\n----------------------------------");
-            }
-        }
 
         if (savedInstanceState == null) {
             final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();

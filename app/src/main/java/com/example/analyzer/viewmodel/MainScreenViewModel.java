@@ -1,0 +1,71 @@
+package com.example.analyzer.viewmodel;
+
+import android.app.Application;
+import android.text.format.DateFormat;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
+
+import com.example.analyzer.R;
+import com.example.analyzer.service.model.CallHistoryRecord;
+import com.example.analyzer.service.repository.CallsRepository;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+public class MainScreenViewModel extends AndroidViewModel {
+    private final CallsRepository callsRepository = new CallsRepository(getApplication().getApplicationContext());
+    private final LiveData<List<CallHistoryRecord>> mCallsListObservable;
+
+    public MainScreenViewModel(@NonNull Application application) {
+        super(application);
+        mCallsListObservable = callsRepository.getCalls();
+    }
+
+    public LiveData<List<BarEntry>> getCalls() {
+        Log.d("ViewModel", String.valueOf(mCallsListObservable.getValue().size()));
+        return Transformations.map(mCallsListObservable, this::transformData);
+    }
+
+    private List<BarEntry> transformData(List<CallHistoryRecord> callHistoryRecords) {
+        final List<BarEntry> graphData = new ArrayList<>();
+
+        final Date c = Calendar.getInstance().getTime();
+        final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
+        final String year = (String) DateFormat.format("yyyy", c);
+
+        final int lastWeekDay = getApplication().getResources().getInteger(R.integer.LAST_WEEK_DAY);
+        final int firstWeekDay = getApplication().getResources().getInteger(R.integer.FIRST_WEEK_DAY);
+
+        if (callHistoryRecords != null) {
+            int position = 0;
+
+            for (int i = lastWeekDay; i >= firstWeekDay; --i) {
+                final String newDay = String.valueOf(Integer.parseInt(day) - i);
+                int countOfCalls = 0;
+
+                for (CallHistoryRecord record : callHistoryRecords) {
+                    final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+                    final String monthRecord = (String) DateFormat.format("MM", record.getDate());
+                    final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
+
+                    if (newDay.equals(dayRecord) && month.equals(monthRecord) && year.equals(yearRecord)) {
+                        countOfCalls++;
+                    }
+                }
+
+                graphData.add(new BarEntry(position, countOfCalls));
+                position++;
+            }
+        }
+
+        return graphData;
+    }
+}
