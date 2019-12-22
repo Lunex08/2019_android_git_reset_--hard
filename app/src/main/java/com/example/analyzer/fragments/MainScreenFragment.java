@@ -2,6 +2,7 @@ package com.example.analyzer.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -53,6 +54,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
     private static final String BALANCE_FORMAT = "%.2f₽";
     private static final String USER_SPECIFIC_USSD_GET_BALANCE = "*100#";
     private static final String USER_SPECIFIC_USSD_GET_NUMBER = "*103#";
+    private static final String MY_SETTINGS = "my_settings";
     private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
     private List<Integer> callsNumber;
     private EventListener eventListener;
@@ -124,34 +126,14 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         // Узнаем номер мобилки (!не всегда работает!)
         TextView number = (TextView) v.findViewById(R.id.number);
+        SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        String phoneNumberStr = sp.getString("phoneNumber", getResources().getString(R.string.number_not_rec));
+        if ("".equals(phoneNumberStr)) {
+            phoneNumberStr = getResources().getString(R.string.number_not_rec);
+        }
+        number.setText(phoneNumberStr);
 
         TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
-
-        TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
-            @Override
-            public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
-                super.onReceiveUssdResponse(telephonyManager, request, response);
-                final Pattern numberPattern = Pattern.compile("\\+\\d{11}?");
-                Matcher matcher = numberPattern.matcher(response.toString());
-                if (matcher.find()) {
-                    String res = matcher.group(0);
-                    number.setText(res);
-                }
-            }
-
-            @Override
-            public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-                super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
-                Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
-                    new String[]{Manifest.permission.CALL_PHONE}, 14);
-        }
-        assert telephonyManager != null;
-        telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_NUMBER, numberCallback, new Handler());
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
         balance.setText(String.format(BALANCE_FORMAT, 0.0f));
