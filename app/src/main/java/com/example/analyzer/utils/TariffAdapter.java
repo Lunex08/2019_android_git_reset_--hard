@@ -12,6 +12,9 @@ import com.example.analyzer.R;
 import java.util.List;
 
 public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
+    public static final String yota = "yota";
+    public static final String mtc = "mtc";
+    public static final String beeline = "beeline";
     private final List<TariffDataset> items;
 
     public TariffAdapter(@NonNull List<TariffDataset> data) {
@@ -35,12 +38,15 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> 
         switch (items.get(position).getIcon()) {
             case 1:
                 holder.icon.setImageResource(R.drawable.yota);
+                holder.icon.setContentDescription(yota);
                 break;
             case 2:
                 holder.icon.setImageResource(R.drawable.mtc);
+                holder.icon.setContentDescription(mtc);
                 break;
             case 3:
                 holder.icon.setImageResource(R.drawable.beeline);
+                holder.icon.setContentDescription(beeline);
                 break;
         }
     }
