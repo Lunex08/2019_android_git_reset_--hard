@@ -9,7 +9,6 @@ import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,22 +22,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.analyzer.R;
 import com.example.analyzer.viewmodel.MainScreenViewModel;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -112,10 +103,6 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
             return true;
         });
 
-
-        //final CardView cardView = v.findViewById(R.id.card_view);
-        //cardView.setOnClickListener(this);
-
         TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
         float gigs = TrafficStats.getMobileRxBytes() / BYTES_TO_GIGS;
         traffic.setText(String.format(GIGS_FORMAT, gigs));
@@ -151,7 +138,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         assert telephonyManager != null;
         telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_NUMBER, numberCallback, new Handler());
 
-        TextView balance = (TextView) v.findViewById(R.id.balance);
+        TextView balance = v.findViewById(R.id.balance);
         balance.setText(String.format(BALANCE_FORMAT, 0.0f));
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +185,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         final MainScreenViewModel viewModel = new ViewModelProvider(getActivity()).get(MainScreenViewModel.class);
         viewModel.getCalls().observe(getViewLifecycleOwner(), calls -> {
             if (calls != null) {
-                displayChart(barChart, v, calls);
+                viewModel.displayChart(barChart, getContext(), calls);
             }
         });
         return v;
@@ -216,45 +203,4 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         }
 
     }
-
-    private void displayChart(BarChart barChart, View v, final List<BarEntry> data) {
-        barChart.getLegend().setEnabled(false);
-        barChart.getDescription().setEnabled(false);
-        barChart.getXAxis().setDrawGridLines(false);
-        barChart.getAxisLeft().setAxisMinimum(0f);
-
-        barChart.getAxisLeft().setDrawAxisLine(false);
-        barChart.getAxisRight().setEnabled(false);
-
-        final BarDataSet barDataSet = new BarDataSet(data, "");
-        barDataSet.setColors(ContextCompat.getColor(v.getContext(), R.color.colorBars));
-        barDataSet.setDrawValues(false);
-
-        final BarData barData = new BarData(barDataSet);
-        barData.setHighlightEnabled(false);
-        barData.setBarWidth(0.5f);
-        barChart.setData(barData);
-
-        final XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        final Date c = Calendar.getInstance().getTime();
-        final String day = (String) DateFormat.format("dd", c);
-        final String month = (String) DateFormat.format("MM", c);
-
-        final List<String> datesList = new ArrayList<>();
-
-        final int lastWeekDay = getResources().getInteger(R.integer.LAST_WEEK_DAY);
-        final int firstWeekDay = getResources().getInteger(R.integer.FIRST_WEEK_DAY);
-
-        for (int i = lastWeekDay; i >= firstWeekDay; --i) {
-            final String newDay = (Integer.parseInt(day) - i) + "." + month;
-            datesList.add(newDay);
-        }
-
-        final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
-        xAxis.setValueFormatter(formatter);
-    }
-
-
 }

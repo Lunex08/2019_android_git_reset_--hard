@@ -1,10 +1,12 @@
 package com.example.analyzer.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.format.DateFormat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -12,7 +14,12 @@ import androidx.lifecycle.Transformations;
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.repository.CallsRepository;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,5 +74,44 @@ public class MainScreenViewModel extends AndroidViewModel {
         }
 
         return graphData;
+    }
+
+    public void displayChart(BarChart barChart, Context ctx, List<BarEntry> data) {
+        barChart.getLegend().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getAxisLeft().setAxisMinimum(0f);
+
+        barChart.getAxisLeft().setDrawAxisLine(false);
+        barChart.getAxisRight().setEnabled(false);
+
+        final BarDataSet barDataSet = new BarDataSet(data, "");
+        barDataSet.setColors(ContextCompat.getColor(ctx, R.color.colorBars));
+        barDataSet.setDrawValues(false);
+
+        final BarData barData = new BarData(barDataSet);
+        barData.setHighlightEnabled(false);
+        barData.setBarWidth(0.5f);
+        barChart.setData(barData);
+
+        final XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        final Date c = Calendar.getInstance().getTime();
+        final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
+
+        final List<String> datesList = new ArrayList<>();
+
+        final int lastWeekDay = ctx.getResources().getInteger(R.integer.LAST_WEEK_DAY);
+        final int firstWeekDay = ctx.getResources().getInteger(R.integer.FIRST_WEEK_DAY);
+
+        for (int i = lastWeekDay; i >= firstWeekDay; --i) {
+            final String newDay = (Integer.parseInt(day) - i) + "." + month;
+            datesList.add(newDay);
+        }
+
+        final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
+        xAxis.setValueFormatter(formatter);
     }
 }
