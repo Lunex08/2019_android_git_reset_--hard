@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.analyzer.R;
+import com.example.analyzer.utils.JSONPlaceHolderApi;
 import com.example.analyzer.utils.NetworkService;
 import com.example.analyzer.utils.Post;
 import com.example.analyzer.utils.TariffAdapter;
@@ -50,12 +51,6 @@ import retrofit2.http.Path;
 
 
 public final class TariffsFragment extends Fragment {
-    public final static String URI = "/tariffs/example.json";
-
-    public interface JSONPlaceHolderApi {
-        @GET(URI)
-        public Call<List<Post>> getAllPosts();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
