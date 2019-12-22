@@ -1,5 +1,6 @@
 package com.example.analyzer;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -24,7 +25,7 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PermissionsUtils.checkAndRequestPermissions(this);
+        PermissionsUtils.checkAndRequestPermissions(this, Manifest.permission.READ_CALL_LOG);
 
         // example how to get calls history
         final SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
