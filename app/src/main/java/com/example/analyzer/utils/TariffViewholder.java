@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;
+import com.example.analyzer.fragments.MainScreenFragment;
 import com.example.analyzer.fragments.TariffsFragment;
 
 class TariffViewholder extends RecyclerView.ViewHolder {
@@ -17,7 +18,7 @@ class TariffViewholder extends RecyclerView.ViewHolder {
     final TextView price;
     final ImageView icon;
 
-    TariffViewholder(@NonNull View itemView) {
+    TariffViewholder(@NonNull View itemView, @NonNull MainScreenFragment.EventListener eventListener) {
         super(itemView);
 
         name = itemView.findViewById(R.id.tariffs_name);
@@ -39,7 +40,7 @@ class TariffViewholder extends RecyclerView.ViewHolder {
             final String price = price_view.getText().toString();
             final String icon = icon_view.getContentDescription().toString();
 
-            TariffsFragment.eventListener.onTariffClick(name, gigabyte, sms, price, icon);
+            eventListener.onTariffClick(name, gigabyte, sms, price, icon);
         });
     }
 }

@@ -55,7 +55,7 @@ import retrofit2.http.Path;
 
 
 public final class TariffsFragment extends Fragment {
-    public static MainScreenFragment.EventListener eventListener;
+    private MainScreenFragment.EventListener eventListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -90,7 +90,7 @@ public final class TariffsFragment extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final TariffAdapter recyclerAdapter = new TariffAdapter(data);
+        final TariffAdapter recyclerAdapter = new TariffAdapter(data, eventListener);
         recyclerView.setAdapter(recyclerAdapter);
 
         NetworkService.getInstance()

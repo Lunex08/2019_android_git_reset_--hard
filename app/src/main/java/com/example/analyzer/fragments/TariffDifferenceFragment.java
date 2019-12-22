@@ -17,7 +17,7 @@ import com.example.analyzer.R;
 import com.example.analyzer.utils.TariffAdapter;
 
 
-public class TariffDifference extends Fragment {
+public class TariffDifferenceFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,25 +47,25 @@ public class TariffDifference extends Fragment {
         final Bundle bundle = getArguments();
 
         if (bundle != null) {
-            final String name = bundle.getString(MainActivity.name);
-            final String gigabyte = bundle.getString(MainActivity.gigabyte);
-            final String sms = bundle.getString(MainActivity.sms);
-            final String price = bundle.getString(MainActivity.price);
-            final String icon = bundle.getString(MainActivity.icon);
+            final String name = bundle.getString(MainActivity.NAME);
+            final String gigabyte = bundle.getString(MainActivity.GIGABYTE);
+            final String sms = bundle.getString(MainActivity.SMS);
+            final String price = bundle.getString(MainActivity.PRICE);
+            final String icon = bundle.getString(MainActivity.ICON);
 
             final TextView oper_right = view.findViewById(R.id.diff_oper_right);
             final ImageView icon_right = view.findViewById(R.id.diff_oper_icon_right);
 
             switch (icon) {
-                case TariffAdapter.mtc:
+                case TariffAdapter.MTC:
                     icon_right.setImageResource(R.drawable.mtc);
                     oper_right.setText(getResources().getString(R.string.MTC));
                     break;
-                case TariffAdapter.yota:
+                case TariffAdapter.YOTA:
                     icon_right.setImageResource(R.drawable.yota);
                     oper_right.setText(getResources().getString(R.string.Yota));
                     break;
-                case TariffAdapter.beeline:
+                case TariffAdapter.BEELINE:
                     icon_right.setImageResource(R.drawable.beeline);
                     oper_right.setText(getResources().getString(R.string.Beeline));
                     break;
