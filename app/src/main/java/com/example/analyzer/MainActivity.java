@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
+public final class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
     public final static String TAG = "MainActivityTag";
 
     @Override

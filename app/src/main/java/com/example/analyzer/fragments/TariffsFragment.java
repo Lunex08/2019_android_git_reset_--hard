@@ -49,7 +49,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 
-public class TariffsFragment extends Fragment {
+public final class TariffsFragment extends Fragment {
     public final static String URI = "/tariffs/example.json";
 
     public interface JSONPlaceHolderApi {

@@ -46,7 +46,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainScreenFragment extends Fragment implements View.OnClickListener {
+public final class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
     private static final String GIGS_FORMAT = "%.2f Гб";

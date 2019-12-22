@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class DetailsFragmentReusable extends Fragment {
+public final class DetailsFragmentReusable extends Fragment {
     private static final String TYPE_OF_FRAGMENT = "TYPE";
 
     static DetailsFragmentReusable newInstance(String type) {

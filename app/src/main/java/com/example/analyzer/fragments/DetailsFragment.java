@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.analyzer.R;
 
-public class DetailsFragment extends Fragment implements View.OnClickListener {
+public final class DetailsFragment extends Fragment implements View.OnClickListener {
     private MainScreenFragment.EventListener eventListener;
 
     @Override
