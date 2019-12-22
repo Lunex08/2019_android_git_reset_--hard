@@ -35,7 +35,9 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PermissionsUtils.checkAndRequestPermissions(this, Manifest.permission.READ_CALL_LOG);
+        final String[] permissions = new String[]{Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_SMS, Manifest.permission.CALL_PHONE, Manifest.permission.INTERNET};
+
+        PermissionsUtils.checkAndRequestPermissions(this, permissions);
 
         // example how to get calls history
         final SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy ss/mm/hh");
@@ -88,6 +90,15 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_activity_container, tariffsFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+            case R.string.to_settings:
+                final InfoFragment infoFragment = new InfoFragment();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_activity_container, infoFragment)
                         .addToBackStack(null)
                         .commit();
                 break;

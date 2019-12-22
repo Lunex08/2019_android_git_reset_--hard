@@ -115,7 +115,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-            Log.d(TAG, "Toolbar menu clicked");
+            eventListener.onItemClick(R.string.to_settings);
             return true;
         });
 
@@ -142,6 +142,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         }
         TextView operatorTV = (TextView) v.findViewById(R.id.operator);
         operatorTV.setText(operatorName);
+
+        String tariffName = sp.getString("tariffName", getResources().getString(R.string.tariff_not_rec));
+        if ("".equals(tariffName)) {
+            tariffName = getResources().getString(R.string.tariff_not_rec);
+        }
+        TextView tariff = (TextView) v.findViewById(R.id.tariff_value);
+        tariff.setText(tariffName);
 
         TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -173,7 +180,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     }
                 };
 
-                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission.CALL_PHONE);
+//                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission.CALL_PHONE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                     telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
                 }
@@ -183,13 +190,9 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         final Button tariffsButton = v.findViewById(R.id.title_tariffs_button);
         tariffsButton.setOnClickListener(this);
 
-        final Button eventsButton = v.findViewById(R.id.title_events_button);
-        eventsButton.setOnClickListener(this);
-
         final BarChart barChart = v.findViewById(R.id.main_graph);
         buildBarChart(barChart, v);
         barChart.setOnClickListener(this);
-
 
         return v;
     }

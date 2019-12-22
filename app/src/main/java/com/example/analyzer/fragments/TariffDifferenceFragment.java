@@ -1,12 +1,17 @@
 package com.example.analyzer.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,13 +21,40 @@ import com.example.analyzer.MainActivity;
 import com.example.analyzer.R;
 import com.example.analyzer.utils.TariffAdapter;
 
+import static com.example.analyzer.fragments.MainScreenFragment.TAG;
+
 
 public class TariffDifferenceFragment extends Fragment {
+    private MainScreenFragment.EventListener eventListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        eventListener = (MainScreenFragment.EventListener)context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        eventListener = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tariff_difference, container, false);
+
+        final Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.tariffs);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.settings_menu);
+
+        final Menu menu = toolbar.getMenu();
+        menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
+            eventListener.onItemClick(R.string.to_settings);
+            return true;
+        });
 
         //ХАРДКОД ЛЮТЫЙ ДЛЯ ТЕСТОВ
 

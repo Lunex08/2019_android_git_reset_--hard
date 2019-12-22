@@ -7,13 +7,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.analyzer.R;
+
+import static com.example.analyzer.fragments.MainScreenFragment.TAG;
 
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
     private MainScreenFragment.EventListener eventListener;
@@ -40,6 +44,12 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+
+        final Menu menu = toolbar.getMenu();
+        menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
+            eventListener.onItemClick(R.string.to_settings);
+            return true;
+        });
 
         final Button callsBtn = v.findViewById(R.id.calls_id);
         callsBtn.setOnClickListener(this);

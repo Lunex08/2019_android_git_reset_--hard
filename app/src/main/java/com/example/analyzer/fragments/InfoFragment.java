@@ -78,6 +78,7 @@ public class InfoFragment extends Fragment {
                 SharedPreferences.Editor e = sp.edit();
                 e.putString("phoneNumber", phoneNumber);
                 e.putString("operatorName", operatorName);
+                e.putString("tariffName", tariffName);
                 e.putBoolean("firstLogin", false);
                 e.commit(); // не забудьте подтвердить изменения
                 final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
