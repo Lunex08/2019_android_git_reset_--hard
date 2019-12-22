@@ -1,5 +1,6 @@
 package com.example.analyzer.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.Manifest;
@@ -41,12 +42,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
+    private static final String GIGS_FORMAT = "%.2f Гб";
+    private static final String BALANCE_FORMAT = "%.2f₽";
+    private static final String USER_SPECIFIC_USSD_GET_BALANCE = "*100#";
+    private static final String USER_SPECIFIC_USSD_GET_NUMBER = "*103#";
+    private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
     private List<Integer> callsNumber;
     private EventListener eventListener;
 
@@ -57,7 +64,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        eventListener = (EventListener)context;
+        eventListener = (EventListener) context;
     }
 
     @Override
@@ -87,6 +94,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @SuppressLint("DefaultLocale")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -111,25 +119,19 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
         //cardView.setOnClickListener(this);
 
         TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
-        long usage = 0L;
-        float gigs = 0.0f;
-        usage = TrafficStats.getMobileRxBytes();
-        gigs = usage / (1024f*1024f*1024f);
-        Log.d("GIGS", String.valueOf(usage));
-        traffic.setText(String.format("%.2f Гб", gigs));
-
+        float gigs = TrafficStats.getMobileRxBytes() / BYTES_TO_GIGS;
+        traffic.setText(String.format(GIGS_FORMAT, gigs));
 
         // Узнаем номер мобилки (!не всегда работает!)
         TextView number = (TextView) v.findViewById(R.id.number);
 
-        TelephonyManager telephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TelephonyManager.UssdResponseCallback numberCallback = new TelephonyManager.UssdResponseCallback() {
             @Override
             public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
                 super.onReceiveUssdResponse(telephonyManager, request, response);
                 final Pattern numberPattern = Pattern.compile("\\+\\d{11}?");
-                Log.d("USSD resp ok: ", request + response.toString());
                 Matcher matcher = numberPattern.matcher(response.toString());
                 if (matcher.find()) {
                     String res = matcher.group(0);
@@ -140,15 +142,19 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
             @Override
             public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
                 super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
-                Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
                 Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
             }
         };
 
-        telephonyManager.sendUssdRequest("*103#", numberCallback,  new Handler()); // HARDCODE переменная для получения номера
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
+                    new String[]{Manifest.permission.CALL_PHONE}, 14);
+        }
+        assert telephonyManager != null;
+        telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_NUMBER, numberCallback, new Handler());
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
-        balance.setText("0.00 руб");
+        balance.setText(String.format(BALANCE_FORMAT, 0.0f));
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,12 +163,12 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                     public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
-                        Log.d("USSD resp ok: ", request + response.toString());
                         Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
-                            Float f = Float.parseFloat(matcher.group(0));
-                            balance.setText(String.format("%.2f₽", f));
+                            String rawnumber = matcher.group(0);
+                            Float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
+                            balance.setText(String.format(BALANCE_FORMAT, f ));
                         }
                     }
 
@@ -178,7 +184,7 @@ public class MainScreenFragment extends Fragment implements View.OnClickListener
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[]{Manifest.permission.CALL_PHONE}, 13);
                 }
-                telephonyManager.sendUssdRequest("*100#", balanceCallback,  new Handler()); // HARDCODE переменная для получения баланса
+                telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
             }
         });
 
