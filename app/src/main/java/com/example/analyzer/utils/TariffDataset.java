@@ -17,20 +17,24 @@ public class TariffDataset {
         this.icon = icon;
     }
 
-    @NonNull String getName() {
+    @NonNull
+    public String getName() {
         return this.name;
     }
 
-    @NonNull String getGigabytes() {
+    @NonNull
+    public String getGigabytes() {
         return this.gigabytes;
     }
 
-    @NonNull String getSms() {
+    @NonNull
+    public String getSms() {
         return this.sms;
     }
 
     @NonNull
     public String getPrice() { return this.price; }
 
-    @NonNull Integer getIcon() { return this.icon; }
+    @NonNull
+    public Integer getIcon() { return this.icon; }
 }

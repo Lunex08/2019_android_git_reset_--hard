@@ -11,6 +11,7 @@
     <string name="to_detail">TO_DETAL</string>
     <string name="to_calls">TO_CALLS</string>
     <string name="to_sms">TO_SMS</string>
+    <string name="to_settings">TO_SETTINGS</string>
     <string name="details">Детализация</string>
     <string name="tariffs_fragment_label">Наиболее выгодные тарифы</string>
     <string name="to_tariffs">TO_TARIFFS</string>
@@ -33,4 +34,5 @@
     <string name="save">Сохранить</string>
     <string name="number_not_rec">"Номер не указан"</string>
     <string name="operator_not_rec">Оператор не указан</string>
+    <string name="tariff_not_rec">Тариф не указан</string>
 </resources>

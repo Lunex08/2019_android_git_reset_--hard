@@ -2,7 +2,6 @@ package com.example.analyzer.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,49 +11,31 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.analyzer.R;
-import com.example.analyzer.utils.JSONPlaceHolderApi;
 import com.example.analyzer.utils.NetworkService;
 import com.example.analyzer.utils.Post;
 import com.example.analyzer.utils.TariffAdapter;
 import com.example.analyzer.utils.TariffDataset;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 
 public final class TariffsFragment extends Fragment {
+    public static List<TariffDataset> data;
     private MainScreenFragment.EventListener eventListener;
 
     @Override
@@ -81,11 +62,17 @@ public final class TariffsFragment extends Fragment {
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
 
+        final Menu menu = toolbar.getMenu();
+        menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
+            eventListener.onItemClick(R.string.to_settings);
+            return true;
+        });
+
         ProgressBar bar = view.findViewById(R.id.wait_id);
 
         bar.setVisibility(View.VISIBLE);
 
-        List<TariffDataset> data = new ArrayList<>();
+        data = new ArrayList<>();
 
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

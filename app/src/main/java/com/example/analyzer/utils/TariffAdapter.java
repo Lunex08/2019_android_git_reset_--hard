@@ -34,20 +34,20 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> 
     @Override
     public void onBindViewHolder(@NonNull TariffViewholder holder, int position) {
         holder.name.setText(items.get(position).getName());
-        holder.gigabyte.setText(items.get(position).getGigabytes());
-        holder.sms.setText(items.get(position).getSms());
-        holder.price.setText(items.get(position).getPrice());
+        holder.gigabyte.setText(items.get(position).getGigabytes() + " ГБ");
+        holder.sms.setText(items.get(position).getSms() + " смс");
+        holder.price.setText(items.get(position).getPrice() + " р/мес");
 
         switch (items.get(position).getIcon()) {
-            case 1:
+            case 2:
                 holder.icon.setImageResource(R.drawable.yota);
                 holder.icon.setContentDescription(YOTA);
                 break;
-            case 2:
+            case 1:
                 holder.icon.setImageResource(R.drawable.mtc);
                 holder.icon.setContentDescription(MTC);
                 break;
-            case 3:
+            case 0:
                 holder.icon.setImageResource(R.drawable.beeline);
                 holder.icon.setContentDescription(BEELINE);
                 break;
