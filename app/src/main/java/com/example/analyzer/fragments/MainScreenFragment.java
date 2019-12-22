@@ -32,6 +32,7 @@ import androidx.fragment.app.Fragment;
 import com.example.analyzer.R;
 import com.example.analyzer.modules.DataModule.CallHistoryRecord;
 import com.example.analyzer.modules.DataModule.CallsModule;
+import com.example.analyzer.utils.PermissionsUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -135,6 +136,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         }
         number.setText(phoneNumberStr);
 
+        String operatorName = sp.getString("operatorName", getResources().getString(R.string.operator_not_rec));
+        if ("".equals(operatorName)) {
+            operatorName = getResources().getString(R.string.operator_not_rec);
+        }
+        TextView operatorTV = (TextView) v.findViewById(R.id.operator);
+        operatorTV.setText(operatorName);
+
         TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
@@ -147,6 +155,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
+                        Log.d("USSD: ", "test");
                         Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
@@ -164,11 +173,10 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     }
                 };
 
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.CALL_PHONE}, 13);
+                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission.CALL_PHONE);
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
                 }
-                telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
             }
         });
 
