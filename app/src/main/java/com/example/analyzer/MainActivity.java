@@ -1,6 +1,7 @@
 package com.example.analyzer;
 
 import android.Manifest;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.analyzer.fragments.DetailsFragment;
 import com.example.analyzer.fragments.MainScreenFragment;
+import com.example.analyzer.fragments.TariffDifference;
 import com.example.analyzer.fragments.TariffsFragment;
 import com.example.analyzer.modules.DataModule.CallHistoryRecord;
 import com.example.analyzer.modules.DataModule.CallsModule;
@@ -19,6 +21,11 @@ import java.util.List;
 
 public final class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
     public final static String TAG = "MainActivityTag";
+    public final static String name = "name";
+    public final static String gigabyte = "gigabyte";
+    public final static String sms = "sms";
+    public final static String price = "price";
+    public final static String icon = "icon";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,5 +78,22 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
                         .commit();
                 break;
         }
+    }
+
+    public void onTariffClick(String name, String gigabyte, String sms, String price, String icon) {
+        final Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.name, name);
+        bundle.putString(MainActivity.gigabyte, gigabyte);
+        bundle.putString(MainActivity.sms, sms);
+        bundle.putString(MainActivity.price, price);
+        bundle.putString(MainActivity.icon, icon);
+
+        final TariffDifference tariffDifference = new TariffDifference();
+        tariffDifference.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_activity_container, tariffDifference)
+                .addToBackStack(null)
+                .commit();
     }
 }
