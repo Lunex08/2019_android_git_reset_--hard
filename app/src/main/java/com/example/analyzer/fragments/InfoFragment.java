@@ -37,9 +37,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InfoFragment extends Fragment {
-    public static InfoFragment getInstance() {
-        return new InfoFragment();
-    }
     private MainScreenFragment.EventListener eventListener;
     private EditText phoneEdit;
     private Spinner operatorSpinner;
@@ -50,17 +47,9 @@ public class InfoFragment extends Fragment {
     private String operatorName = "";
     private String tariffName = "";
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        eventListener = (MainScreenFragment.EventListener)context;
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        eventListener = null;
-//    }
+    public static InfoFragment getInstance() {
+        return new InfoFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,7 +100,7 @@ public class InfoFragment extends Fragment {
                                 if (posts != null) {
                                     for (Post post : posts) {
                                         if (post.getOperator().toLowerCase().equals(operatorName.toLowerCase())) {
-                                            tariffsArray.add(String.format("%s %.2f₽", post.getName(), post.getPrice()));
+                                            tariffsArray.add(String.format("%s", post.getName()));
                                         }
                                     }
                                 }
@@ -174,15 +163,4 @@ public class InfoFragment extends Fragment {
         return v;
     }
 
-//    @Override
-//    public void onClick(View v) {
-////        switch (v.getId()) {
-////            case R.id.calls_id:
-////                eventListener.onItemClick(R.string.to_calls);
-////                break;
-////            case R.id.sms_id:
-////                eventListener.onItemClick(R.string.to_sms);
-////                break;
-////        }
-//    }
 }

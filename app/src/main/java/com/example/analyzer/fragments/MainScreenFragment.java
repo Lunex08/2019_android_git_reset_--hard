@@ -56,7 +56,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
     private static final String BALANCE_FORMAT = "%.2f₽";
     private static final String USER_SPECIFIC_USSD_GET_BALANCE = "*100#";
     private static final String USER_SPECIFIC_USSD_GET_NUMBER = "*103#";
-    private static final String MY_SETTINGS = "my_settings";
+    public static final String MY_SETTINGS = "my_settings";
     private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
     private List<Integer> callsNumber;
     private EventListener eventListener;

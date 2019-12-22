@@ -35,6 +35,7 @@ import retrofit2.Response;
 
 
 public final class TariffsFragment extends Fragment {
+    public static List<TariffDataset> data;
     private MainScreenFragment.EventListener eventListener;
 
     @Override
@@ -71,7 +72,7 @@ public final class TariffsFragment extends Fragment {
 
         bar.setVisibility(View.VISIBLE);
 
-        List<TariffDataset> data = new ArrayList<>();
+        data = new ArrayList<>();
 
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
