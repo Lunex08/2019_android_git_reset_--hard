@@ -52,38 +52,6 @@
         android:textSize="30sp"
         tools:text="888.88 ₽" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintRight_toRightOf="parent"
-        card_view:cardBackgroundColor="@color/colorCardView"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tariff_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_tariff_label" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                tools:text="Безлимитный" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/traffic_label"
@@ -91,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginHorizontal="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/card_view"
+        app:layout_constraintTop_toBottomOf="@+id/number"
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/title_traffic_label" />
 

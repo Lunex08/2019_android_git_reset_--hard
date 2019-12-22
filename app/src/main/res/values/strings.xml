@@ -6,9 +6,19 @@
     <string name="title_traffic_label">Остаток трафика</string>
     <string name="title_tariffs">Тарифы</string>
     <string name="title_events">События</string>
-
+    <string name="details_calls_label">ЗВОНКИ</string>
+    <string name="details_sms_label">СМС</string>
+    <string name="to_detail">TO_DETAL</string>
+    <string name="to_calls">TO_CALLS</string>
+    <string name="to_sms">TO_SMS</string>
+    <string name="details">Детализация</string>
+    <string name="tariffs_fragment_label">Наиболее выгодные тарифы</string>
+    <string name="to_tariffs">TO_TARIFFS</string>
+    <string name="api_url">https://static.brbrroman.ru/tariffs/example.json</string>
+    <string name="tariffs">Тарифы</string>
     <string name="no_permission_granted_message">No permission granted on </string>
     <string name="receive_error_message">Can not receive data from content provider with URI </string>
     <string name="empty_sms_history_message">No sms in history</string>
     <string name="empty_calls_history_message">No calls in history</string>
+    <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
 </resources>
