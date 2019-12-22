@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.solver.widgets.Analyzer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;
@@ -14,10 +15,10 @@ import java.util.List;
 
 public class RecyclerAdapterReusable extends RecyclerView.Adapter<RecyclerViewHolderReusable> {
     public static final String unknown_number = "Неизвестный";
-    private final List<RecyclerDatasetReusable> data;
+    private final List<RecyclerDatasetReusable> items;
 
-    public RecyclerAdapterReusable(@NonNull List<RecyclerDatasetReusable> data) {
-        this.data = data;
+    public RecyclerAdapterReusable(@NonNull List<RecyclerDatasetReusable> items) {
+        this.items = items;
     }
 
     @NonNull
@@ -29,18 +30,18 @@ public class RecyclerAdapterReusable extends RecyclerView.Adapter<RecyclerViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolderReusable holder, int position) {
-        if (data.get(position).getName() == null) {
+        if (items.get(position).getName() == null) {
             holder.name.setText(unknown_number);
         } else {
-            holder.name.setText(String.valueOf(data.get(position).getName()));
+            holder.name.setText(String.valueOf(items.get(position).getName()));
         }
 
-        holder.phone.setText(String.valueOf(data.get(position).getPhone()));
-        holder.date.setText(String.valueOf(data.get(position).getDate()));
+        holder.phone.setText(String.valueOf(items.get(position).getPhone()));
+        holder.date.setText(String.valueOf(items.get(position).getDate()));
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return items.size();
     }
 }
