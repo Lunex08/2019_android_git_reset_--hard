@@ -3,12 +3,11 @@ package com.example.analyzer.viewmodel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.TrafficStats;
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -17,12 +16,7 @@ import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.repository.BalanceRepository;
 import com.example.analyzer.service.repository.CallsRepository;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,9 +26,10 @@ import java.util.List;
 public class MainScreenViewModel extends AndroidViewModel {
     private final LiveData<List<CallHistoryRecord>> mCallsListObservable;
     private final LiveData<String> mBalance;
-
-    private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
     private static final String GIGS_FORMAT = "%.2f Гб";
+    private static final String BALANCE_CURRENCY = "%s₽";
+    private static final Float BYTES_TO_GIGS = 1024f * 1024f * 1024f;
+    public static final String MY_SETTINGS = "my_settings";
 
     public MainScreenViewModel(@NonNull Application application) {
         super(application);
@@ -45,12 +40,12 @@ public class MainScreenViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<BarEntry>> getCalls() {
-        Log.d("ViewModel", String.valueOf(mCallsListObservable.getValue().size()));
         return Transformations.map(mCallsListObservable, this::transformData);
     }
 
+    @SuppressLint("DefaultLocale")
     public LiveData<String> getBalance() {
-        return mBalance;
+       return Transformations.map(mBalance, value -> String.format(BALANCE_CURRENCY, value));
     }
 
     public void refreshBalance() {
@@ -97,66 +92,41 @@ public class MainScreenViewModel extends AndroidViewModel {
         return graphData;
     }
 
-    public void displayChart(BarChart barChart, Context ctx, List<BarEntry> data) {
-        barChart.getLegend().setEnabled(false);
-        barChart.getDescription().setEnabled(false);
-        barChart.getXAxis().setDrawGridLines(false);
-        barChart.getAxisLeft().setAxisMinimum(0f);
-
-        barChart.getAxisLeft().setDrawAxisLine(false);
-        barChart.getAxisRight().setEnabled(false);
-
-        final BarDataSet barDataSet = new BarDataSet(data, "");
-        barDataSet.setColors(ContextCompat.getColor(ctx, R.color.colorBars));
-        barDataSet.setDrawValues(false);
-
-        final BarData barData = new BarData(barDataSet);
-        barData.setHighlightEnabled(false);
-        barData.setBarWidth(0.5f);
-        barChart.setData(barData);
-
-        final XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        final Date c = Calendar.getInstance().getTime();
-        final String day = (String) DateFormat.format("dd", c);
-        final String month = (String) DateFormat.format("MM", c);
-
-        final List<String> datesList = new ArrayList<>();
-
-        final int lastWeekDay = ctx.getResources().getInteger(R.integer.LAST_WEEK_DAY);
-        final int firstWeekDay = ctx.getResources().getInteger(R.integer.FIRST_WEEK_DAY);
-
-        for (int i = lastWeekDay; i >= firstWeekDay; --i) {
-            final String newDay = (Integer.parseInt(day) - i) + "." + month;
-            datesList.add(newDay);
-        }
-
-        final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
-        xAxis.setValueFormatter(formatter);
-    }
-
     @SuppressLint("DefaultLocale")
     public String getRemainTraffic() {
         return String.format(GIGS_FORMAT, TrafficStats.getMobileRxBytes() / BYTES_TO_GIGS);
     }
 
     public String getPhoneAddress() {
-        //        SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-        //        String phoneNumberStr = sp.getString("phoneNumber", getResources().getString(R.string
-        //        .number_not_rec));
-        //        if ("".equals(phoneNumberStr)) {
-        //            phoneNumberStr = getResources().getString(R.string.number_not_rec);
-        //        }
-        return "";
+        SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
+                Context.MODE_PRIVATE);
+        String phoneNumberStr = sp.getString("phoneNumber",
+                getApplication().getApplicationContext().getResources().getString(R.string.number_not_rec));
+        if ("".equals(phoneNumberStr)) {
+            phoneNumberStr = getApplication().getApplicationContext().getResources().getString(R.string.number_not_rec);
+        }
+        return phoneNumberStr;
     }
 
     public String getOperatorName() {
-        //        String operatorName = sp.getString("operatorName", getResources().getString(R.string
-        //        .operator_not_rec));
-        //        if ("".equals(operatorName)) {
-        //            operatorName = getResources().getString(R.string.operator_not_rec);
-        //        }
-        return "";
+        SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
+                Context.MODE_PRIVATE);
+        String operatorName = sp.getString("operatorName",
+                getApplication().getApplicationContext().getResources().getString(R.string.operator_not_rec));
+        if ("".equals(operatorName)) {
+            operatorName = getApplication().getApplicationContext().getResources().getString(R.string.operator_not_rec);
+        }
+        return operatorName;
+    }
+
+    public String getTarifName() {
+        SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
+                Context.MODE_PRIVATE);
+        String tariffName = sp.getString("tariffName",
+                getApplication().getApplicationContext().getResources().getString(R.string.tariff_not_rec));
+        if ("".equals(tariffName)) {
+            tariffName = getApplication().getApplicationContext().getResources().getString(R.string.tariff_not_rec);
+        }
+        return tariffName;
     }
 }

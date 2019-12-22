@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.analyzer.R;
 import com.example.analyzer.viewmodel.MainScreenViewModel;
 
 
@@ -30,8 +28,8 @@ public final class DetailsFragmentReusable extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(getActivity()).get(MainScreenViewModel.class);
-        View view = inflater.inflate(R.layout.fragment_details_fragment_reusable, container, false);
+//        viewModel = new ViewModelProvider(getActivity()).get(MainScreenViewModel.class);
+//        View view = inflater.inflate(R.layout.fragment_details_fragment_reusable, container, false);
 
 //        final List<RecyclerDatasetReusable> reusableData = new ArrayList<>();
 //        String operatorName = sp.getString("operatorName", getResources().getString(R.string.operator_not_rec));
@@ -82,7 +80,8 @@ public final class DetailsFragmentReusable extends Fragment {
 //        final RecyclerAdapterReusable recyclerAdapter = new RecyclerAdapterReusable(reusableData);
 //        recyclerView.setAdapter(recyclerAdapter);
 
-        return view;
+//        return view;
+        return null;
     }
 
 }

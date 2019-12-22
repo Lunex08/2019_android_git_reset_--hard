@@ -34,13 +34,11 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
         switch (dest) {
             case R.string.to_detail:
                 detailsFragment = new DetailsFragment();
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
                 break;
 
             case R.string.to_tariffs:
                 final TariffsFragment tariffsFragment = new TariffsFragment();
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, tariffsFragment).addToBackStack(null).commit();
                 break;
         }

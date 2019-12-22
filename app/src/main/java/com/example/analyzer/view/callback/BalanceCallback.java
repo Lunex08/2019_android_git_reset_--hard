@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BalanceCallback extends TelephonyManager.UssdResponseCallback {
-    private static final String BALANCE_FORMAT = "%.2f₽";
+    private static final String BALANCE_FORMAT = "%.2f";
     PassParam passParam;
 
     public BalanceCallback(PassParam passParam) {

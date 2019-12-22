@@ -3,6 +3,7 @@ package com.example.analyzer.view.ui;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,15 +15,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.analyzer.R;
 import com.example.analyzer.viewmodel.MainScreenViewModel;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public final class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
@@ -72,7 +82,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.main_screen_fragment, container, false);
 
-        viewModel = new ViewModelProvider(getActivity()).get(MainScreenViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainScreenViewModel.class);
 
         final Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -98,9 +108,9 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         operatorTV.setText(operatorName);
 
         TextView balance = v.findViewById(R.id.balance);
-        balance.setText("0"); //viewModel.getBalance()
+        balance.setText("0");
         viewModel.getBalance().observe(getViewLifecycleOwner(), balanceValue -> {
-            if (balance != null) {
+            if (balanceValue != null) {
                 balance.setText(balanceValue);
             }
         });
@@ -110,15 +120,15 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         final Button tariffsButton = v.findViewById(R.id.title_tariffs_button);
         tariffsButton.setOnClickListener(this);
 
-        final Button eventsButton = v.findViewById(R.id.title_events_button);
-        eventsButton.setOnClickListener(this);
+        String tarifName = viewModel.getTarifName();
+        TextView tariff = v.findViewById(R.id.tariff_value);
+        tariff.setText(tarifName);
 
         final BarChart barChart = v.findViewById(R.id.main_graph);
         barChart.setOnClickListener(this);
-
         viewModel.getCalls().observe(getViewLifecycleOwner(), calls -> {
             if (calls != null) {
-                viewModel.displayChart(barChart, getContext(), calls);
+                displayChart(barChart, calls);
             }
         });
 
@@ -135,6 +145,45 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                 eventListener.onItemClick(R.string.to_tariffs);
                 break;
         }
+    }
 
+    public void displayChart(BarChart barChart, List<BarEntry> data) {
+        Context ctx = Objects.requireNonNull(getContext());
+        barChart.getLegend().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getAxisLeft().setAxisMinimum(0f);
+
+        barChart.getAxisLeft().setDrawAxisLine(false);
+        barChart.getAxisRight().setEnabled(false);
+
+        final BarDataSet barDataSet = new BarDataSet(data, "");
+        barDataSet.setColors(ContextCompat.getColor(getContext(), R.color.colorBars));
+        barDataSet.setDrawValues(false);
+
+        final BarData barData = new BarData(barDataSet);
+        barData.setHighlightEnabled(false);
+        barData.setBarWidth(0.5f);
+        barChart.setData(barData);
+
+        final XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        final Date c = Calendar.getInstance().getTime();
+        final String day = (String) DateFormat.format("dd", c);
+        final String month = (String) DateFormat.format("MM", c);
+
+        final List<String> datesList = new ArrayList<>();
+
+        final int lastWeekDay = ctx.getResources().getInteger(R.integer.LAST_WEEK_DAY);
+        final int firstWeekDay = ctx.getResources().getInteger(R.integer.FIRST_WEEK_DAY);
+
+        for (int i = lastWeekDay; i >= firstWeekDay; --i) {
+            final String newDay = (Integer.parseInt(day) - i) + "." + month;
+            datesList.add(newDay);
+        }
+
+        final IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(datesList);
+        xAxis.setValueFormatter(formatter);
     }
 }
