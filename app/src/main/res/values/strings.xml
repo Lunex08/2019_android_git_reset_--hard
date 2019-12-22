@@ -21,4 +21,7 @@
     <string name="empty_sms_history_message">No sms in history</string>
     <string name="empty_calls_history_message">No calls in history</string>
     <string name="time_format">dd/MM/yyyy ss/mm/hh</string>
+    <string name="phone">Номер телефона</string>
+    <string name="save">Сохранить</string>
+    <string name="number_not_rec">"Номер не указан"</string>
 </resources>
