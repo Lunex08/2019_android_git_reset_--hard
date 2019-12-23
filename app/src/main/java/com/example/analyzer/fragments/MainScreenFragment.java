@@ -153,7 +153,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
-        balance.setText(String.format(BALANCE_FORMAT, 0.0f));
+        balance.setText(String.format(BALANCE_FORMAT, sp.getFloat("balance", 0.0f)));
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +167,12 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
                             String rawnumber = matcher.group(0);
-                            Float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
+                            float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
                             balance.setText(String.format(BALANCE_FORMAT, f ));
+                            SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor e = sp.edit();
+                            e.putFloat("balance", f);
+                            e.apply(); // не забудьте подтвердить изменения
                         }
                     }
 
