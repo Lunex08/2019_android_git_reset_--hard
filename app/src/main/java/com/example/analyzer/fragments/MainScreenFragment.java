@@ -1,12 +1,11 @@
 package com.example.analyzer.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,14 +16,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,7 +30,6 @@ import androidx.fragment.app.Fragment;
 import com.example.analyzer.R;
 import com.example.analyzer.modules.DataModule.CallHistoryRecord;
 import com.example.analyzer.modules.DataModule.CallsModule;
-import com.example.analyzer.utils.PermissionsUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -40,7 +37,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,6 +59,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
     public interface EventListener {
         void onItemClick(int dest);
+
         void onTariffClick(String name, String gigabyte, String sms, String price, String icon);
     }
 
@@ -150,7 +147,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         TextView tariff = (TextView) v.findViewById(R.id.tariff_value);
         tariff.setText(tariffName);
 
-        TelephonyManager telephonyManager = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager =
+                (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TextView balance = (TextView) v.findViewById(R.id.balance);
         balance.setText(String.format(BALANCE_FORMAT, 0.0f));
@@ -159,7 +157,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
             public void onClick(View v) {
                 TelephonyManager.UssdResponseCallback balanceCallback = new TelephonyManager.UssdResponseCallback() {
                     @Override
-                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
+                    public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request,
+                                                      CharSequence response) {
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
                         Log.d("USSD: ", "test");
@@ -168,21 +167,23 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                         if (matcher.find()) {
                             String rawnumber = matcher.group(0);
                             Float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
-                            balance.setText(String.format(BALANCE_FORMAT, f ));
+                            balance.setText(String.format(BALANCE_FORMAT, f));
                         }
                     }
 
                     @Override
-                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
+                    public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request,
+                                                            int failureCode) {
                         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
                         Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
                         Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
                     }
                 };
 
-//                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission.CALL_PHONE);
+                //                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission
+                //                .CALL_PHONE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                    telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback,  new Handler());
+                    telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback, new Handler());
                 }
             }
         });
@@ -273,7 +274,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     int countOfCalls = 0;
 
                     for (CallHistoryRecord record : callHistoryRecords) {
-                        final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+                        final String dayRecord = ((String) DateFormat.format("dd", record.getDate())).replaceFirst(
+                                "[0*]", "");
                         final String monthRecord = (String) DateFormat.format("MM", record.getDate());
                         final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
 
