@@ -1,12 +1,11 @@
 package com.example.analyzer.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,14 +16,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,7 +30,6 @@ import androidx.fragment.app.Fragment;
 import com.example.analyzer.R;
 import com.example.analyzer.modules.DataModule.CallHistoryRecord;
 import com.example.analyzer.modules.DataModule.CallsModule;
-import com.example.analyzer.utils.PermissionsUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -40,7 +37,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -277,7 +273,8 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     int countOfCalls = 0;
 
                     for (CallHistoryRecord record : callHistoryRecords) {
-                        final String dayRecord = (String) DateFormat.format("dd", record.getDate());
+                        final String dayRecord = ((String) DateFormat.format("dd", record.getDate())).replaceFirst(
+                                "[0*]", "");
                         final String monthRecord = (String) DateFormat.format("MM", record.getDate());
                         final String yearRecord = (String) DateFormat.format("yyyy", record.getDate());
 
