@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -116,16 +115,13 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
             return true;
         });
 
-
-        //final CardView cardView = v.findViewById(R.id.card_view);
-        //cardView.setOnClickListener(this);
-
-        TextView traffic = (TextView) v.findViewById(R.id.traffic); // Считаем трафик
+        // Count traffic used since phone powered on
+        TextView traffic = v.findViewById(R.id.traffic);
         float gigs = TrafficStats.getMobileRxBytes() / BYTES_TO_GIGS;
         traffic.setText(String.format(GIGS_FORMAT, gigs));
 
-        // Узнаем номер мобилки (!не всегда работает!)
-        TextView number = (TextView) v.findViewById(R.id.number);
+        // Get phone number
+        TextView number = v.findViewById(R.id.number);
         SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
         String phoneNumberStr = sp.getString("phoneNumber", getResources().getString(R.string.number_not_rec));
         if ("".equals(phoneNumberStr)) {
@@ -137,20 +133,20 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         if ("".equals(operatorName)) {
             operatorName = getResources().getString(R.string.operator_not_rec);
         }
-        TextView operatorTV = (TextView) v.findViewById(R.id.operator);
+        TextView operatorTV = v.findViewById(R.id.operator);
         operatorTV.setText(operatorName);
 
         String tariffName = sp.getString("tariffName", getResources().getString(R.string.tariff_not_rec));
         if ("".equals(tariffName)) {
             tariffName = getResources().getString(R.string.tariff_not_rec);
         }
-        TextView tariff = (TextView) v.findViewById(R.id.tariff_value);
+        TextView tariff = v.findViewById(R.id.tariff_value);
         tariff.setText(tariffName);
 
         TelephonyManager telephonyManager =
                 (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
-        TextView balance = (TextView) v.findViewById(R.id.balance);
+        TextView balance = v.findViewById(R.id.balance);
         balance.setText(String.format(BALANCE_FORMAT, sp.getFloat("balance", 0.0f)));
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,14 +157,15 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                                                       CharSequence response) {
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
-                        Log.d("USSD: ", "test");
+
                         Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
-                            String rawnumber = matcher.group(0);
-                            float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
-                            balance.setText(String.format(BALANCE_FORMAT, f ));
-                            SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                            String rawNumber = matcher.group(0);
+                            float f = Float.parseFloat(rawNumber != null ? rawNumber : "0");
+                            balance.setText(String.format(BALANCE_FORMAT, f));
+                            SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS,
+                                    Context.MODE_PRIVATE);
                             SharedPreferences.Editor e = sp.edit();
                             e.putFloat("balance", f);
                             e.apply();
@@ -179,13 +176,10 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                     public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request,
                                                             int failureCode) {
                         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
-                        Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
                         Toast.makeText(getActivity(), String.valueOf(failureCode), Toast.LENGTH_SHORT).show();
                     }
                 };
 
-                //                PermissionsUtils.checkAndRequestPermissions(getActivity(), Manifest.permission
-                //                .CALL_PHONE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                     telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback, new Handler());
                 }

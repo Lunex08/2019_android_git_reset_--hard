@@ -13,15 +13,18 @@ public class RecyclerDatasetReusable {
         this.date = date;
     }
 
-    @NonNull String getName() {
+    @NonNull
+    String getName() {
         return this.name;
     }
 
-    @NonNull String getPhone() {
+    @NonNull
+    String getPhone() {
         return this.phone;
     }
 
-    @NonNull String getDate() {
+    @NonNull
+    String getDate() {
         return this.date;
     }
 }

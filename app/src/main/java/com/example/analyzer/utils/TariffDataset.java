@@ -9,7 +9,8 @@ public class TariffDataset {
     private final String price;
     private final Integer icon;
 
-    public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price, @NonNull Integer icon) {
+    public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price,
+                         @NonNull Integer icon) {
         this.name = name;
         this.gigabytes = gigabytes;
         this.sms = sms;
@@ -33,8 +34,12 @@ public class TariffDataset {
     }
 
     @NonNull
-    public String getPrice() { return this.price; }
+    public String getPrice() {
+        return this.price;
+    }
 
     @NonNull
-    public Integer getIcon() { return this.icon; }
+    public Integer getIcon() {
+        return this.icon;
+    }
 }

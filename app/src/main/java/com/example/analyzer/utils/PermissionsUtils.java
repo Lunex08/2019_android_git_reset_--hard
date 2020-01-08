@@ -1,6 +1,5 @@
 package com.example.analyzer.utils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
@@ -16,13 +15,11 @@ public class PermissionsUtils {
 
     public static boolean checkAndRequestPermissions(@NonNull Activity activity, String[] permissions) {
         for (String permission : permissions) {
-            int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
-                    permission);
+            int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), permission);
 
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-                    Toast.makeText(activity, REQUIRED_PERMISSION_MESSAGE + permission,
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, REQUIRED_PERMISSION_MESSAGE + permission, Toast.LENGTH_SHORT).show();
                 }
                 ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode++);
                 return false;

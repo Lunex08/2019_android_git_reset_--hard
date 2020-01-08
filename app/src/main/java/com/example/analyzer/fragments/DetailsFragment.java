@@ -3,21 +3,17 @@ package com.example.analyzer.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
-
-import static com.example.analyzer.fragments.MainScreenFragment.TAG;
 
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
     private MainScreenFragment.EventListener eventListener;
@@ -25,7 +21,7 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        eventListener = (MainScreenFragment.EventListener)context;
+        eventListener = (MainScreenFragment.EventListener) context;
     }
 
     @Override
@@ -35,8 +31,7 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_details, container, false);
 
         final Toolbar toolbar = v.findViewById(R.id.toolbar);
@@ -57,12 +52,10 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         final Button smsBtn = v.findViewById(R.id.sms_id);
         smsBtn.setOnClickListener(this);
 
-        final DetailsFragmentReusable detailsFragmentReusable = DetailsFragmentReusable.newInstance(getString(R.string.to_calls));
+        final DetailsFragmentReusable detailsFragmentReusable =
+                DetailsFragmentReusable.newInstance(getString(R.string.to_calls));
 
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_details_content, detailsFragmentReusable)
-                .addToBackStack(null)
-                .commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
 
         return v;
     }
@@ -81,9 +74,6 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
                 break;
         }
 
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_details_content, detailsFragmentReusable)
-                .addToBackStack(null)
-                .commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
     }
 }
