@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -92,7 +91,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-            Log.d(TAG, "Toolbar menu clicked");
+            eventListener.onItemClick(R.string.to_settings);
             return true;
         });
 
@@ -107,22 +106,22 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         String operatorName = viewModel.getOperatorName();
         operatorTV.setText(operatorName);
 
+        String tarifName = viewModel.getTarifName();
+        TextView tariff = v.findViewById(R.id.tariff_value);
+        tariff.setText(tarifName);
+
         TextView balance = v.findViewById(R.id.balance);
-        balance.setText("0");
+        balance.setText("Click to update");
         viewModel.getBalance().observe(getViewLifecycleOwner(), balanceValue -> {
             if (balanceValue != null) {
                 balance.setText(balanceValue);
             }
         });
-        balance.setOnClickListener(v1 -> viewModel.refreshBalance());
+        balance.setOnClickListener(value -> viewModel.refreshBalance());
         viewModel.refreshBalance();
 
         final Button tariffsButton = v.findViewById(R.id.title_tariffs_button);
         tariffsButton.setOnClickListener(this);
-
-        String tarifName = viewModel.getTarifName();
-        TextView tariff = v.findViewById(R.id.tariff_value);
-        tariff.setText(tarifName);
 
         final BarChart barChart = v.findViewById(R.id.main_graph);
         barChart.setOnClickListener(this);

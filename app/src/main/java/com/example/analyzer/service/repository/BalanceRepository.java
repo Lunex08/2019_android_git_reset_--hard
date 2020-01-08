@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -36,7 +35,6 @@ public class BalanceRepository implements PassParam {
 
     @Override
     public void setParam(String balance) {
-        Log.d("BALANCE", balance);
         data.setValue(balance);
     }
 

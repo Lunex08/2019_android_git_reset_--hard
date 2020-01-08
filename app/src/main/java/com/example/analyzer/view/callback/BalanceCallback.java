@@ -1,7 +1,6 @@
 package com.example.analyzer.view.callback;
 
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.example.analyzer.service.repository.PassParam;
 
@@ -19,20 +18,25 @@ public class BalanceCallback extends TelephonyManager.UssdResponseCallback {
 
     @Override
     public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
-        super.onReceiveUssdResponse(telephonyManager, request, response);
-        final Pattern balancePattern = Pattern.compile("\\d+");
+        final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
         Matcher matcher = balancePattern.matcher(response.toString());
         if (matcher.find()) {
-            Log.d("USSD: ", "test");
-            String rawnumber = matcher.group(0);
-            Float f = Float.parseFloat(rawnumber != null ? rawnumber : "0");
-            passParam.setParam(String.format(BALANCE_FORMAT, f));
+            String rawNumber = matcher.group(0);
+            rawNumber = rawNumber != null ? rawNumber : "0";
+            if (response.toString().contains("Минус")) {
+                rawNumber = "-" + rawNumber;
+            }
+            rawNumber = rawNumber.replace(",", ".");
+
+            float balanceValue = Float.parseFloat(rawNumber);
+            String balanceValueString = String.format(BALANCE_FORMAT, balanceValue).replace(",", ".");
+            passParam.setParam(balanceValueString);
         }
     }
 
     @Override
     public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
-        Log.d("USSD resp fail: ", request + String.valueOf(failureCode));
+        passParam.setParam("FAIL");
     }
 }

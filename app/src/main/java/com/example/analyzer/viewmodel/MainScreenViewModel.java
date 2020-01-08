@@ -45,7 +45,15 @@ public class MainScreenViewModel extends AndroidViewModel {
 
     @SuppressLint("DefaultLocale")
     public LiveData<String> getBalance() {
-       return Transformations.map(mBalance, value -> String.format(BALANCE_CURRENCY, value));
+       return Transformations.map(mBalance, value -> {
+           SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
+                   Context.MODE_PRIVATE);
+           SharedPreferences.Editor e = sp.edit();
+           // handle if error instead of balance value
+           e.putFloat("balance", Float.valueOf(value));
+           e.apply();
+           return String.format(BALANCE_CURRENCY, value);
+       });
     }
 
     public void refreshBalance() {
@@ -100,23 +108,15 @@ public class MainScreenViewModel extends AndroidViewModel {
     public String getPhoneAddress() {
         SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
                 Context.MODE_PRIVATE);
-        String phoneNumberStr = sp.getString("phoneNumber",
+        return sp.getString("phoneNumber",
                 getApplication().getApplicationContext().getResources().getString(R.string.number_not_rec));
-        if ("".equals(phoneNumberStr)) {
-            phoneNumberStr = getApplication().getApplicationContext().getResources().getString(R.string.number_not_rec);
-        }
-        return phoneNumberStr;
     }
 
     public String getOperatorName() {
         SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
                 Context.MODE_PRIVATE);
-        String operatorName = sp.getString("operatorName",
+        return sp.getString("operatorName",
                 getApplication().getApplicationContext().getResources().getString(R.string.operator_not_rec));
-        if ("".equals(operatorName)) {
-            operatorName = getApplication().getApplicationContext().getResources().getString(R.string.operator_not_rec);
-        }
-        return operatorName;
     }
 
     public String getTarifName() {
