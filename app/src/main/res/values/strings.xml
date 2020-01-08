@@ -3,7 +3,7 @@
     <string name="settings_menu_title">Settings</string>
     <string name="title_balance_label">Баланс</string>
     <string name="title_tariff_label">Тариф</string>
-    <string name="title_traffic_label">Остаток трафика</string>
+    <string name="title_traffic_label">Использовано трафика</string>
     <string name="title_tariffs">Тарифы</string>
     <string name="title_events">События</string>
     <string name="details_calls_label">ЗВОНКИ</string>
@@ -25,9 +25,9 @@
     <string name="tariff_profit">Итоговая выгода от смены тарифа:</string>
     <string name="tariff_new">Новый</string>
     <string name="tariff_current">Текущий</string>
-    <string name="MTC">МТС</string>
+    <string name="MTC">MTS</string>
     <string name="Yota">Yota</string>
-    <string name="Beeline">Билайн</string>
+    <string name="Beeline">Beeline</string>
     <string name="no_profit">Нет выгоды!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="phone">Номер телефона</string>

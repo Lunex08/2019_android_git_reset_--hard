@@ -58,6 +58,15 @@ public class InfoFragment extends Fragment {
         phoneEdit = v.findViewById(R.id.phone_number);
         operatorSpinner = v.findViewById(R.id.operator_select);
         tariffSpiner = v.findViewById(R.id.tariff_select);
+        SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        boolean firstLogin = sp.getBoolean("firstLogin", true);
+        if (!firstLogin) {
+            String phoneNumber = sp.getString("phoneNumber", ""); // Прочесть номер
+            phoneEdit.setText(phoneNumber);
+            operatorName = sp.getString("operatorName", ""); // Прочесть оператора
+            tariffName = sp.getString("tariffName", ""); // Прочесть тариф
+        }
+
         final Button callsBtn = v.findViewById(R.id.info_save);
         callsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +78,7 @@ public class InfoFragment extends Fragment {
                 e.putString("operatorName", operatorName);
                 e.putString("tariffName", tariffName);
                 e.putBoolean("firstLogin", false);
-                e.commit(); // не забудьте подтвердить изменения
+                e.apply(); // не забудьте подтвердить изменения
                 final MainScreenFragment mainScreenFragment = MainScreenFragment.getInstance();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_activity_container, mainScreenFragment)
@@ -150,16 +159,6 @@ public class InfoFragment extends Fragment {
                         t.printStackTrace();
                     }
                 });
-
-        SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-        boolean firstLogin = sp.getBoolean("firstLogin", true);
-        if (!firstLogin) {
-            String phoneNumber = sp.getString("phoneNumber", ""); // Прочесть номер
-            phoneEdit.setText(phoneNumber);
-            operatorName = sp.getString("operatorName", ""); // Прочесть оператора
-            tariffName = sp.getString("tariffName", ""); // Прочесть тариф
-        }
-
         return v;
     }
 
