@@ -3,14 +3,7 @@ package com.example.analyzer.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -18,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import com.example.analyzer.MainActivity;
 import com.example.analyzer.R;
 import com.example.analyzer.utils.TariffAdapter;
 import com.example.analyzer.utils.TariffDataset;
-
-import static com.example.analyzer.fragments.MainScreenFragment.TAG;
 
 
 public class TariffDifferenceFragment extends Fragment {
@@ -33,7 +28,7 @@ public class TariffDifferenceFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        eventListener = (MainScreenFragment.EventListener)context;
+        eventListener = (MainScreenFragment.EventListener) context;
     }
 
     @Override
@@ -43,8 +38,7 @@ public class TariffDifferenceFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tariff_difference, container, false);
 
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -100,7 +94,6 @@ public class TariffDifferenceFragment extends Fragment {
         }
 
         final Bundle bundle = getArguments();
-
         if (bundle != null) {
             final String name = bundle.getString(MainActivity.NAME);
             final String gigabyte = bundle.getString(MainActivity.GIGABYTE);
@@ -111,6 +104,7 @@ public class TariffDifferenceFragment extends Fragment {
             final TextView oper_right = view.findViewById(R.id.diff_oper_right);
             final ImageView icon_right = view.findViewById(R.id.diff_oper_icon_right);
 
+            assert icon != null;
             switch (icon) {
                 case TariffAdapter.MTC:
                     icon_right.setImageResource(R.drawable.mtc);
@@ -142,12 +136,13 @@ public class TariffDifferenceFragment extends Fragment {
 
             final int chars_pos = 8;
 
-            final Double integer_left_price = Double.valueOf(price_left.getText().toString().substring(0, price_left.getText().toString().length() - chars_pos));
-            final Double integer_right_price = Double.valueOf(price_right.getText().toString().substring(0, price_right.getText().toString().length() - chars_pos));
+            final Double integer_left_price = Double.valueOf(price_left.getText().toString().substring(0,
+                    price_left.getText().toString().length() - chars_pos));
+            final Double integer_right_price = Double.valueOf(price_right.getText().toString().substring(0,
+                    price_right.getText().toString().length() - chars_pos));
 
 
             final double difference = integer_left_price - integer_right_price;
-
             if (difference > 0) {
                 profit.setText(difference + " р/мес");
             } else {

@@ -10,11 +10,13 @@ public class Operator {
     @SerializedName("operator_id")
     private Integer id;
 
-    @NonNull public String getOperator() {
+    @NonNull
+    public String getOperator() {
         return operator;
     }
 
-    @NonNull public Integer getId() {
+    @NonNull
+    public Integer getId() {
         return id;
     }
 }

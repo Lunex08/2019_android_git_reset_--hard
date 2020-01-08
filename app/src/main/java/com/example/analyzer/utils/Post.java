@@ -18,7 +18,8 @@ public class Post {
     @SerializedName("operator")
     private String operator;
 
-    @NonNull public String getName() {
+    @NonNull
+    public String getName() {
         return name;
     }
 
@@ -26,7 +27,8 @@ public class Post {
         this.name = name;
     }
 
-    @NonNull public String getTraffic() {
+    @NonNull
+    public String getTraffic() {
         return traffic;
     }
 
@@ -34,7 +36,8 @@ public class Post {
         this.traffic = traffic;
     }
 
-    @NonNull public String getSms() {
+    @NonNull
+    public String getSms() {
         return sms;
     }
 
@@ -42,11 +45,13 @@ public class Post {
         this.sms = sms;
     }
 
-    @NonNull public Double getPrice() {
+    @NonNull
+    public Double getPrice() {
         return price;
     }
 
-    @NonNull public String getOperator() {
+    @NonNull
+    public String getOperator() {
         return operator;
     }
 
@@ -54,7 +59,8 @@ public class Post {
         this.price = price;
     }
 
-    @NonNull public Integer getId() {
+    @NonNull
+    public Integer getId() {
         return id;
     }
 

@@ -5,11 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.solver.widgets.Analyzer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;
-
 
 import java.util.List;
 
@@ -24,7 +22,8 @@ public class RecyclerAdapterReusable extends RecyclerView.Adapter<RecyclerViewHo
     @NonNull
     @Override
     public RecyclerViewHolderReusable onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_details_content_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_details_content_item, parent,
+                false);
         return new RecyclerViewHolderReusable(v);
     }
 
@@ -33,11 +32,11 @@ public class RecyclerAdapterReusable extends RecyclerView.Adapter<RecyclerViewHo
         if (items.get(position).getName() == null) {
             holder.name.setText(unknown_number);
         } else {
-            holder.name.setText(String.valueOf(items.get(position).getName()));
+            holder.name.setText(items.get(position).getName());
         }
 
-        holder.phone.setText(String.valueOf(items.get(position).getPhone()));
-        holder.date.setText(String.valueOf(items.get(position).getDate()));
+        holder.phone.setText(items.get(position).getPhone());
+        holder.date.setText(items.get(position).getDate());
     }
 
     @Override

@@ -3,6 +3,11 @@ package com.example.analyzer.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,12 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.analyzer.R;
 import com.example.analyzer.utils.NetworkService;
@@ -41,7 +40,7 @@ public final class TariffsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        eventListener = (MainScreenFragment.EventListener)context;
+        eventListener = (MainScreenFragment.EventListener) context;
     }
 
     @Override
@@ -69,52 +68,49 @@ public final class TariffsFragment extends Fragment {
         });
 
         ProgressBar bar = view.findViewById(R.id.wait_id);
-
         bar.setVisibility(View.VISIBLE);
 
         data = new ArrayList<>();
+        final TariffAdapter recyclerAdapter = new TariffAdapter(data, eventListener);
 
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        final TariffAdapter recyclerAdapter = new TariffAdapter(data, eventListener);
         recyclerView.setAdapter(recyclerAdapter);
 
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getAllPosts()
-                .enqueue(new Callback<List<Post>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
-                        List<Post> posts = response.body();
+        NetworkService.getInstance().getJSONApi().getAllPosts().enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                List<Post> posts = response.body();
 
-                        if (posts != null) {
-                            for (Post post : posts) {
-                                bar.setVisibility(View.INVISIBLE);
-                                Double price = BigDecimal.valueOf(post.getPrice())
-                                        .setScale(0, RoundingMode.HALF_UP)
-                                        .doubleValue();
+                if (posts != null) {
+                    for (Post post : posts) {
+                        bar.setVisibility(View.INVISIBLE);
+                        Double price =
+                                BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
 
-                                data.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(), String.valueOf(price), post.getId()));
-                            }
-
-                            Collections.sort(data, (o1, o2) -> {
-                                double first = Double.valueOf(o1.getPrice());
-                                double second = Double.valueOf(o2.getPrice());
-                                if (first > second) return 1;
-                                if (first < second) return -1;
-                                return 0;
-                            });
-
-                            recyclerAdapter.notifyDataSetChanged();
-                        }
+                        data.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),
+                                String.valueOf(price), post.getId()));
                     }
 
-                    @Override
-                    public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+                    Collections.sort(data, (o1, o2) -> {
+                        double first = Double.valueOf(o1.getPrice());
+                        double second = Double.valueOf(o2.getPrice());
+                        if (first > second)
+                            return 1;
+                        if (first < second)
+                            return -1;
+                        return 0;
+                    });
+
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
         return view;
     }

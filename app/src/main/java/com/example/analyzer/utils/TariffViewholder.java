@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.analyzer.R;
 import com.example.analyzer.fragments.MainScreenFragment;
-import com.example.analyzer.fragments.TariffsFragment;
 
 class TariffViewholder extends RecyclerView.ViewHolder {
     final TextView name;
@@ -33,7 +32,6 @@ class TariffViewholder extends RecyclerView.ViewHolder {
             final TextView sms_view = v.findViewById(R.id.tariffs_sms);
             final TextView price_view = v.findViewById(R.id.tariffs_price);
             final ImageView icon_view = v.findViewById(R.id.tariffs_operator_icon);
-
             final String name = name_view.getText().toString();
             final String gigabyte = gigabyte_view.getText().toString();
             final String sms = sms_view.getText().toString();
