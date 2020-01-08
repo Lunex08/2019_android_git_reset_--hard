@@ -147,7 +147,9 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                 (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
 
         TextView balance = v.findViewById(R.id.balance);
-        balance.setText(String.format(BALANCE_FORMAT, sp.getFloat("balance", 0.0f)));
+        float balanceValue = sp.getFloat("balance", 0.0f);
+        String balanceValueString = balanceValue != 0 ? String.format(BALANCE_FORMAT, balanceValue): "touch to update";
+        balance.setText(balanceValueString);
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

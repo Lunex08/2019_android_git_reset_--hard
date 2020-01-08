@@ -16,7 +16,7 @@ public class PermissionsUtils {
     private static int requestCode = 0;
     private static final String REQUIRED_PERMISSION_MESSAGE = "This app required permission to run: ";
 
-    public static boolean checkAndRequestPermissions(@NonNull Activity activity, String[] permissions) {
+    public static void checkAndRequestPermissions(@NonNull Activity activity, String[] permissions) {
         List<String> remainPermissions = new ArrayList<>();
         for (String permission : permissions) {
             int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), permission);
@@ -28,7 +28,8 @@ public class PermissionsUtils {
             }
         }
 
-        ActivityCompat.requestPermissions(activity, remainPermissions.toArray(new String[0]), requestCode++);
-        return true;
+        if(remainPermissions.size() > 0) {
+            ActivityCompat.requestPermissions(activity, remainPermissions.toArray(new String[0]), requestCode++);
+        }
     }
 }
