@@ -158,11 +158,15 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
                         super.onReceiveUssdResponse(telephonyManager, request, response);
                         final Pattern balancePattern = Pattern.compile("\\d+(.\\d+)?");
 
-                        Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         Matcher matcher = balancePattern.matcher(response.toString());
                         if (matcher.find()) {
-                            String rawNumber = Objects.requireNonNull(matcher.group(0)).replace(",", ".");
-                            float f = Float.parseFloat(rawNumber != null ? rawNumber : "0");
+                            String rawNumber = matcher.group(0);
+                            rawNumber = rawNumber != null ? rawNumber.replace(",", ".") : "0";
+                            if (response.toString().contains("Минус")) {
+                                rawNumber = "-" + rawNumber;
+                            }
+
+                            float f = Float.parseFloat(rawNumber);
                             balance.setText(String.format(BALANCE_FORMAT, f));
                             SharedPreferences sp = getActivity().getSharedPreferences(MY_SETTINGS,
                                     Context.MODE_PRIVATE);
