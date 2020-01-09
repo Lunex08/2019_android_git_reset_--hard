@@ -1,11 +1,11 @@
-package com.example.analyzer.service.utils;
+package com.example.analyzer.service.model;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Post {
-    @SerializedName("tariff_name")
+    @SerializedName("tariff")
     private String name;
     @SerializedName("traffic")
     private String traffic;
@@ -15,8 +15,11 @@ public class Post {
     private Double price;
     @SerializedName("operator_id")
     private Integer id;
+    @SerializedName("operator")
+    private String operator;
 
-    @NonNull public String getName() {
+    @NonNull
+    public String getName() {
         return name;
     }
 
@@ -24,7 +27,8 @@ public class Post {
         this.name = name;
     }
 
-    @NonNull public String getTraffic() {
+    @NonNull
+    public String getTraffic() {
         return traffic;
     }
 
@@ -32,7 +36,8 @@ public class Post {
         this.traffic = traffic;
     }
 
-    @NonNull public String getSms() {
+    @NonNull
+    public String getSms() {
         return sms;
     }
 
@@ -40,15 +45,22 @@ public class Post {
         this.sms = sms;
     }
 
-    @NonNull public Double getPrice() {
+    @NonNull
+    public Double getPrice() {
         return price;
+    }
+
+    @NonNull
+    public String getOperator() {
+        return operator;
     }
 
     public void setPrice(Double price) {
         this.price = price;
     }
 
-    @NonNull public Integer getId() {
+    @NonNull
+    public Integer getId() {
         return id;
     }
 

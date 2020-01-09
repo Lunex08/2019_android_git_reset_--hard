@@ -44,6 +44,7 @@ public class BalanceRepository implements PassParam {
         TelephonyManager.UssdResponseCallback balanceCallback = new BalanceCallback(this);
 
         if (checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            assert telephonyManager != null;
             telephonyManager.sendUssdRequest(USER_SPECIFIC_USSD_GET_BALANCE, balanceCallback, new Handler());
         }
     }

@@ -6,10 +6,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.analyzer.R;
+import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.service.utils.PermissionsUtils;
 
 
-public final class MainActivity extends AppCompatActivity implements MainScreenFragment.EventListener {
+public final class MainActivity extends AppCompatActivity implements EventListener {
     public final static String TAG = "MainActivityTag";
     PermissionsUtils permissionsUtils;
 
@@ -29,13 +30,13 @@ public final class MainActivity extends AppCompatActivity implements MainScreenF
 
     @Override
     public void onItemClick(int dest) {
-        final DetailsFragment detailsFragment;
+//        final DetailsFragment detailsFragment;
 
         switch (dest) {
-            case R.string.to_detail:
-                detailsFragment = new DetailsFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
-                break;
+//            case R.string.to_detail:
+//                detailsFragment = new DetailsFragment();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
+//                break;
 
             case R.string.to_tariffs:
                 final TariffsFragment tariffsFragment = new TariffsFragment();

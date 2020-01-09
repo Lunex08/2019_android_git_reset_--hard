@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.analyzer.R;
+import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.viewmodel.MainScreenViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -40,10 +41,6 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
     private List<Integer> callsNumber;
     private EventListener eventListener;
-
-    public interface EventListener {
-        void onItemClick(int dest);
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
