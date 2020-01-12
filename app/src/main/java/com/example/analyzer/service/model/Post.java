@@ -12,7 +12,7 @@ public class Post {
     @SerializedName("sms")
     private String sms;
     @SerializedName("price")
-    private Double price;
+    private double price;
     @SerializedName("operator_id")
     private Integer id;
     @SerializedName("operator")
@@ -46,7 +46,7 @@ public class Post {
     }
 
     @NonNull
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -55,13 +55,8 @@ public class Post {
         return operator;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-
-    @NonNull
-    public Integer getId() {
-        return id;
     }
 
     public void setId(Integer id) {

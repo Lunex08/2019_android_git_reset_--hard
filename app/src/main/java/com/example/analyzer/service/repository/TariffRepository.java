@@ -25,8 +25,8 @@ public class TariffRepository {
     private static final TariffRepository mInstance = new TariffRepository();
     private final String BASE_URL = "https://static.brbrroman.ru";
     private Retrofit mRetrofit;
-    private MutableLiveData<List<TariffDataset>> tariffsObservable;
-    private MutableLiveData<List<Operator>> operatorsObservable;
+    private MutableLiveData<List<TariffDataset>> tariffsObservable = new MutableLiveData<>();
+    private MutableLiveData<List<Operator>> operatorsObservable = new MutableLiveData<>();
     private JsonService mJsonAPI;
 
     private TariffRepository() {
@@ -34,9 +34,9 @@ public class TariffRepository {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        tariffsObservable = new MutableLiveData<>(new ArrayList<>());
-        operatorsObservable = new MutableLiveData<>(new ArrayList<>());
         mJsonAPI = mRetrofit.create(JsonService.class);
+        tariffsObservable.setValue(new ArrayList<>());
+        operatorsObservable.setValue(new ArrayList<>());
     }
 
     public static TariffRepository getInstance() {
@@ -56,11 +56,11 @@ public class TariffRepository {
                 if (posts != null) {
                     List<TariffDataset> tariffs = new ArrayList<>(); // проверить как работает тут
                     for (Post post : posts) {
-                        Double price =
+                        double price =
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
                         assert tariffs != null;
                         tariffs.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),
-                                String.valueOf(price), post.getOperator(), post.getId()));
+                                String.valueOf(price), post.getOperator()));
                     }
                     Collections.sort(tariffs, (o1, o2) -> {
                         double first = Double.valueOf(o1.getPrice());

@@ -37,6 +37,7 @@ import java.util.Objects;
 public final class MainScreenFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "MainScreenFragmentTag";
     private static final String CALLS_MAP_KEY = "calls_number";
+    public static final String MY_SETTINGS = "my_settings";
     private MainScreenViewModel viewModel;
 
     private List<Integer> callsNumber;
