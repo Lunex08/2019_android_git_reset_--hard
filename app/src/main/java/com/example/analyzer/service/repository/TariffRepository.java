@@ -25,8 +25,8 @@ public class TariffRepository {
     private static final TariffRepository mInstance = new TariffRepository();
     private final String BASE_URL = "https://static.brbrroman.ru";
     private Retrofit mRetrofit;
-    private MutableLiveData<List<TariffDataset>> tariffsObservable;
-    private MutableLiveData<List<Operator>> operatorsObservable;
+    private MutableLiveData<List<TariffDataset>> tariffsObservable = new MutableLiveData<>();
+    private MutableLiveData<List<Operator>> operatorsObservable = new MutableLiveData<>();
     private JsonService mJsonAPI;
 
     private TariffRepository() {
@@ -34,9 +34,9 @@ public class TariffRepository {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        tariffsObservable = new MutableLiveData<>(new ArrayList<>());
-        operatorsObservable = new MutableLiveData<>(new ArrayList<>());
         mJsonAPI = mRetrofit.create(JsonService.class);
+        tariffsObservable.setValue(new ArrayList<>());
+        operatorsObservable.setValue(new ArrayList<>());
     }
 
     public static TariffRepository getInstance() {

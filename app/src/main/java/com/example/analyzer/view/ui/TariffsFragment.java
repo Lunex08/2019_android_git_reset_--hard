@@ -43,6 +43,10 @@ public final class TariffsFragment extends Fragment {
         eventListener = null;
     }
 
+    public List<TariffDataset> getTariffs() {
+        return tariffs;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public final class TariffsFragment extends Fragment {
         bar.setVisibility(View.VISIBLE);
 
         tariffs = new ArrayList<>();
-        final TariffAdapter recyclerAdapter = new TariffAdapter(tariffs);
+        final TariffAdapter recyclerAdapter = new TariffAdapter(eventListener, tariffs);
         final RecyclerView recyclerView = view.findViewById(R.id.tariffs_content_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerAdapter);

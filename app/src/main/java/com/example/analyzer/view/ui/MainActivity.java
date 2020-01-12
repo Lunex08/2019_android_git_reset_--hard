@@ -11,6 +11,7 @@ import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.service.model.SmsHistoryRecord;
+import com.example.analyzer.service.model.TariffDataset;
 import com.example.analyzer.service.utils.PermissionsUtils;
 
 import java.util.List;
@@ -49,22 +50,21 @@ public final class MainActivity extends AppCompatActivity implements EventListen
         }
     }
 
-    public void onTariffClick(String name, String gigabyte, String sms, String price, String icon) {
-        //        final Bundle bundle = new Bundle();
-        //        bundle.putString(MainActivity.NAME, name);
-        //        bundle.putString(MainActivity.GIGABYTE, gigabyte);
-        //        bundle.putString(MainActivity.SMS, sms);
-        //        bundle.putString(MainActivity.PRICE, price);
-        //        bundle.putString(MainActivity.ICON, icon);
-        //
-        //        final TariffDifferenceFragment tariffDifference = new TariffDifferenceFragment();
-        //        tariffDifference.setArguments(bundle);
-        //
-        //        getSupportFragmentManager()
-        //                .beginTransaction()
-        //                .replace(R.id.main_activity_container, tariffDifference)
-        //                .addToBackStack(null)
-        //                .commit();
+    @Override
+    public void showTariffDifferenceFragment(String name, String gigabyte, String sms, String price, String icon,
+                                             List<TariffDataset> tariffs) {
+        final Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.NAME, name);
+        bundle.putString(MainActivity.GIGABYTE, gigabyte);
+        bundle.putString(MainActivity.SMS, sms);
+        bundle.putString(MainActivity.PRICE, price);
+        bundle.putString(MainActivity.ICON, icon);
+
+        final TariffDifferenceFragment tariffDifference = new TariffDifferenceFragment();
+        tariffDifference.setArguments(bundle);
+        tariffDifference.setTariffs(tariffs);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, tariffDifference).addToBackStack(null).commit();
     }
 
     @Override
