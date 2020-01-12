@@ -88,7 +88,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-//            eventListener.onItemClick(R.string.to_settings);
+            eventListener.showInfoFragment();
             return true;
         });
 

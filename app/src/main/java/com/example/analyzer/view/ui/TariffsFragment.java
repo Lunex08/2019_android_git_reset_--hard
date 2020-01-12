@@ -56,7 +56,7 @@ public final class TariffsFragment extends Fragment {
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-//            eventListener.onItemClick(R.string.to_settings);
+            eventListener.showInfoFragment();
             return true;
         });
 

@@ -15,12 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
+import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.service.model.SmsHistoryRecord;
 
 import java.util.List;
 
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
-//    private MainScreenFragment.EventListener eventListener;
+    private EventListener eventListener;
     private List<CallHistoryRecord> calls;
     private List<SmsHistoryRecord> sms;
 
@@ -32,13 +33,13 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        eventListener = (MainScreenFragment.EventListener) context;
+        eventListener = (EventListener) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        eventListener = null;
+        eventListener = null;
     }
 
     @Override
@@ -53,7 +54,7 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-//            eventListener.onItemClick(R.string.to_settings);
+            eventListener.showInfoFragment();
             return true;
         });
 

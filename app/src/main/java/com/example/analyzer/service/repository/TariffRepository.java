@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.analyzer.service.model.JsonService;
+import com.example.analyzer.service.model.Operator;
 import com.example.analyzer.service.model.Post;
 import com.example.analyzer.service.model.TariffDataset;
 
@@ -24,7 +25,8 @@ public class TariffRepository {
     private static final TariffRepository mInstance = new TariffRepository();
     private final String BASE_URL = "https://static.brbrroman.ru";
     private Retrofit mRetrofit;
-    private MutableLiveData<List<TariffDataset>> data;
+    private MutableLiveData<List<TariffDataset>> tariffsObservable;
+    private MutableLiveData<List<Operator>> operatorsObservable;
     private JsonService mJsonAPI;
 
     private TariffRepository() {
@@ -32,7 +34,8 @@ public class TariffRepository {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        data = new MutableLiveData<>(new ArrayList<>());
+        tariffsObservable = new MutableLiveData<>(new ArrayList<>());
+        operatorsObservable = new MutableLiveData<>(new ArrayList<>());
         mJsonAPI = mRetrofit.create(JsonService.class);
     }
 
@@ -41,7 +44,7 @@ public class TariffRepository {
     }
 
     public LiveData<List<TariffDataset>> getTariffs() {
-        return data;
+        return tariffsObservable;
     }
 
     public void refreshTariffs() {
@@ -51,13 +54,13 @@ public class TariffRepository {
                 List<Post> posts = response.body();
 
                 if (posts != null) {
-                    List<TariffDataset> tariffs = data.getValue();
+                    List<TariffDataset> tariffs = new ArrayList<>(); // проверить как работает тут
                     for (Post post : posts) {
                         Double price =
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
                         assert tariffs != null;
                         tariffs.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),
-                                String.valueOf(price), post.getId()));
+                                String.valueOf(price), post.getOperator(), post.getId()));
                     }
                     Collections.sort(tariffs, (o1, o2) -> {
                         double first = Double.valueOf(o1.getPrice());
@@ -68,12 +71,33 @@ public class TariffRepository {
                             return -1;
                         return 0;
                     });
-                    data.setValue(tariffs);
+                    tariffsObservable.setValue(tariffs);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public LiveData<List<Operator>> getOperators() {
+        return operatorsObservable;
+    }
+
+    public void refreshOperators() {
+        mJsonAPI.getAllOperators().enqueue(new Callback<List<Operator>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Operator>> call, @NonNull Response<List<Operator>> response) {
+                List<Operator> operators = response.body();
+                if (operators != null) {
+                    operatorsObservable.setValue(operators);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Operator>> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });

@@ -52,7 +52,7 @@ public class BalanceRepository implements PassParam {
         }
     }
 
-    private int checkSelfPermission(String callPhone) {
-        return PermissionsUtils.getInstance().checkAndRequestPermissions(Manifest.permission.CALL_PHONE);
+    private int checkSelfPermission(String permission) {
+        return PermissionsUtils.checkAndRequestPermissions(new String[] {permission});
     }
 }
