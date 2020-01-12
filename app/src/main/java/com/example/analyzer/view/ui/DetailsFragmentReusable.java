@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.model.RecyclerDatasetReusable;
+import com.example.analyzer.service.model.SmsHistoryRecord;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,13 +25,15 @@ import java.util.Locale;
 public final class DetailsFragmentReusable extends Fragment {
     private static final String TYPE_OF_FRAGMENT = "TYPE";
     private List<CallHistoryRecord> data;
+    private List<SmsHistoryRecord> sms;
 
-    public DetailsFragmentReusable(String type, List<CallHistoryRecord> data) {
+    public DetailsFragmentReusable(String type, List<CallHistoryRecord> data, List<SmsHistoryRecord> sms) {
         final Bundle args = new Bundle();
         args.putString(TYPE_OF_FRAGMENT, type);
         setArguments(args);
 
         this.data = data;
+        this.sms = sms;
     }
 
     @Override
@@ -54,21 +57,17 @@ public final class DetailsFragmentReusable extends Fragment {
                                     simpleDate.format(record.getDate())));
                         }
                     }
+                } else if (type.equals(getString(R.string.to_sms))) {
+                    final SimpleDateFormat simpleDate =
+                            new SimpleDateFormat(getResources().getString(R.string.time_format), Locale.ENGLISH);
+                    final List<SmsHistoryRecord> smsHistoryRecords = sms;
+                    if (smsHistoryRecords != null) {
+                        for (SmsHistoryRecord record : smsHistoryRecords) {
+                            reusableData.add(new RecyclerDatasetReusable(RecyclerAdapterReusable.unknown_number,
+                                    record.getAddress(), simpleDate.format(record.getDate())));
+                        }
+                    }
                 }
-                //                else if (type.equals(getString(R.string.to_sms))) {
-                //                    final SimpleDateFormat simpleDate =
-                //                            new SimpleDateFormat(getResources().getString(R.string.time_format),
-                //                            Locale.ENGLISH);
-                //                    final SmsModule smsModule = new SmsModule(getActivity());
-                //                    final List<SmsHistoryRecord> smsHistoryRecords = smsModule.getSMS();
-                //                    if (smsHistoryRecords != null) {
-                //                        for (SmsHistoryRecord record : smsHistoryRecords) {
-                //                            reusableData.add(new RecyclerDatasetReusable(RecyclerAdapterReusable
-                //                            .unknown_number,
-                //                                    record.getAddress(), simpleDate.format(record.getDate())));
-                //                        }
-                //                    }
-                //                }
             }
         }
 

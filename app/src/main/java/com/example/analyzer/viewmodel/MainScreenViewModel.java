@@ -14,8 +14,10 @@ import androidx.lifecycle.Transformations;
 
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
+import com.example.analyzer.service.model.SmsHistoryRecord;
 import com.example.analyzer.service.repository.BalanceRepository;
 import com.example.analyzer.service.repository.CallsRepository;
+import com.example.analyzer.service.repository.SmsRepository;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.List;
 
 public class MainScreenViewModel extends AndroidViewModel {
     private final LiveData<List<CallHistoryRecord>> mCallsListObservable;
+    private final LiveData<List<SmsHistoryRecord>> mSmsListObservable;
     private final LiveData<String> mBalance;
     private static final String GIGS_FORMAT = "%.2f Гб";
     private static final String BALANCE_CURRENCY = "%s₽";
@@ -35,6 +38,9 @@ public class MainScreenViewModel extends AndroidViewModel {
         super(application);
         mCallsListObservable = CallsRepository.getInstance().getCalls();
         loadCalls();
+
+        mSmsListObservable = SmsRepository.getInstance().getSms();
+        loadSms();
 
         mBalance = BalanceRepository.getInstance().getBalance();
     }
@@ -47,17 +53,21 @@ public class MainScreenViewModel extends AndroidViewModel {
         return mCallsListObservable.getValue();
     }
 
+    public List<SmsHistoryRecord> getSms() {
+        return mSmsListObservable.getValue();
+    }
+
     @SuppressLint("DefaultLocale")
     public LiveData<String> getBalance() {
-       return Transformations.map(mBalance, value -> {
-           SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
-                   Context.MODE_PRIVATE);
-           SharedPreferences.Editor e = sp.edit();
-           // handle if error instead of balance value
-           e.putFloat("balance", Float.valueOf(value));
-           e.apply();
-           return String.format(BALANCE_CURRENCY, value);
-       });
+        return Transformations.map(mBalance, value -> {
+            SharedPreferences sp = getApplication().getApplicationContext().getSharedPreferences(MY_SETTINGS,
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor e = sp.edit();
+            // handle if error instead of balance value
+            e.putFloat("balance", Float.valueOf(value));
+            e.apply();
+            return String.format(BALANCE_CURRENCY, value);
+        });
     }
 
     public void refreshBalance() {
@@ -66,6 +76,10 @@ public class MainScreenViewModel extends AndroidViewModel {
 
     public void loadCalls() {
         CallsRepository.getInstance().loadCalls(getApplication().getApplicationContext());
+    }
+
+    public void loadSms() {
+        SmsRepository.getInstance().loadSms(getApplication().getApplicationContext());
     }
 
     private List<BarEntry> transformData(List<CallHistoryRecord> callHistoryRecords) {

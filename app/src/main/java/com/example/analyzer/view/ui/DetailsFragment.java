@@ -15,15 +15,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
+import com.example.analyzer.service.model.SmsHistoryRecord;
 
 import java.util.List;
 
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
 //    private MainScreenFragment.EventListener eventListener;
     private List<CallHistoryRecord> calls;
+    private List<SmsHistoryRecord> sms;
 
-    public DetailsFragment(List<CallHistoryRecord> calls) {
+    public DetailsFragment(List<CallHistoryRecord> calls, List<SmsHistoryRecord> sms) {
         this.calls = calls;
+        this.sms = sms;
     }
 
     @Override
@@ -61,7 +64,7 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         smsBtn.setOnClickListener(this);
 
         final DetailsFragmentReusable detailsFragmentReusable =
-         new DetailsFragmentReusable(getString(R.string.to_calls), calls);
+         new DetailsFragmentReusable(getString(R.string.to_calls), calls, null);
 
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
 
@@ -75,11 +78,11 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             default:
             case R.id.calls_id:
-                detailsFragmentReusable = new DetailsFragmentReusable(getString(R.string.to_calls), calls);
+                detailsFragmentReusable = new DetailsFragmentReusable(getString(R.string.to_calls), calls, null);
                 break;
-//            case R.id.sms_id:
-//                detailsFragmentReusable = DetailsFragmentReusable.newInstance(getString(R.string.to_sms));
-//                break;
+            case R.id.sms_id:
+                detailsFragmentReusable = new DetailsFragmentReusable(getString(R.string.to_sms), null, sms);
+                break;
         }
 
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();

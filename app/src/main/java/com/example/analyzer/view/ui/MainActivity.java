@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.analyzer.R;
 import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.model.EventListener;
+import com.example.analyzer.service.model.SmsHistoryRecord;
 import com.example.analyzer.service.utils.PermissionsUtils;
 
 import java.util.List;
@@ -18,12 +19,21 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     PermissionsUtils permissionsUtils;
 
     @Override
+    public void showSettingsFragment() {
+//        final InfoFragment infoFragment = new InfoFragment();
+//
+//        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, infoFragment).addToBackStack(null).commit();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         PermissionsUtils.getInstance().setActivity(this);
         PermissionsUtils.getInstance().checkAndRequestPermissions(Manifest.permission.READ_CALL_LOG);
+        PermissionsUtils.getInstance().checkAndRequestPermissions(Manifest.permission.READ_SMS);
 
         if (savedInstanceState == null) {
             final MainScreenFragment mainScreenFragment = new MainScreenFragment();
@@ -38,9 +48,8 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     }
 
     @Override
-    public void showDetailsFragment(List<CallHistoryRecord> calls) {
-        final DetailsFragment detailsFragment = new DetailsFragment(calls);
+    public void showDetailsFragment(List<CallHistoryRecord> calls, List<SmsHistoryRecord> sms) {
+        final DetailsFragment detailsFragment = new DetailsFragment(calls, sms);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
-
     }
 }

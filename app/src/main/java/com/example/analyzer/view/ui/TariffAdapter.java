@@ -12,7 +12,7 @@ import com.example.analyzer.service.model.TariffDataset;
 
 import java.util.List;
 
-public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> {
+public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> {
     public static final String YOTA = "yota";
     public static final String MTC = "mtc";
     public static final String BEELINE = "beeline";
@@ -25,13 +25,13 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewholder> 
 
     @NonNull
     @Override
-    public TariffViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TariffViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_tariffs_item, parent, false);
-        return new TariffViewholder(v);
+        return new TariffViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TariffViewholder holder, int position) {
+    public void onBindViewHolder(@NonNull TariffViewHolder holder, int position) {
         holder.name.setText(items.get(position).getName());
         holder.gigabyte.setText(items.get(position).getGigabytes() + " ГБ");
         holder.sms.setText(items.get(position).getSms() + " смс");

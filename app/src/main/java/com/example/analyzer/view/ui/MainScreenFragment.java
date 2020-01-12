@@ -135,7 +135,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_graph:
-                eventListener.showDetailsFragment(viewModel.getCalls());
+                eventListener.showDetailsFragment(viewModel.getCalls(), viewModel.getSms());
                 break;
             case R.id.title_tariffs_button:
                 eventListener.showTariffsFragment();
