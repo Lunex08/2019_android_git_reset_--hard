@@ -6,8 +6,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.analyzer.R;
+import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.service.utils.PermissionsUtils;
+
+import java.util.List;
 
 
 public final class MainActivity extends AppCompatActivity implements EventListener {
@@ -29,19 +32,15 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     }
 
     @Override
-    public void onItemClick(int dest) {
-//        final DetailsFragment detailsFragment;
+    public void showTariffsFragment() {
+        final TariffsFragment tariffsFragment = new TariffsFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, tariffsFragment).addToBackStack(null).commit();
+    }
 
-        switch (dest) {
-//            case R.string.to_detail:
-//                detailsFragment = new DetailsFragment();
-//                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
-//                break;
+    @Override
+    public void showDetailsFragment(List<CallHistoryRecord> calls) {
+        final DetailsFragment detailsFragment = new DetailsFragment(calls);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, detailsFragment).addToBackStack(null).commit();
 
-            case R.string.to_tariffs:
-                final TariffsFragment tariffsFragment = new TariffsFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container, tariffsFragment).addToBackStack(null).commit();
-                break;
-        }
     }
 }

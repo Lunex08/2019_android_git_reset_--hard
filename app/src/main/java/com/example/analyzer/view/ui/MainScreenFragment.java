@@ -88,7 +88,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
-            eventListener.onItemClick(R.string.to_settings);
+//            eventListener.onItemClick(R.string.to_settings);
             return true;
         });
 
@@ -122,7 +122,7 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
 
         final BarChart barChart = v.findViewById(R.id.main_graph);
         barChart.setOnClickListener(this);
-        viewModel.getCalls().observe(getViewLifecycleOwner(), calls -> {
+        viewModel.getBarEtnriyCalls().observe(getViewLifecycleOwner(), calls -> {
             if (calls != null) {
                 displayChart(barChart, calls);
             }
@@ -135,10 +135,10 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_graph:
-                eventListener.onItemClick(R.string.to_detail);
+                eventListener.showDetailsFragment(viewModel.getCalls());
                 break;
             case R.id.title_tariffs_button:
-                eventListener.onItemClick(R.string.to_tariffs);
+                eventListener.showTariffsFragment();
                 break;
         }
     }

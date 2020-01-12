@@ -1,5 +1,8 @@
 package com.example.analyzer.service.model;
 
+import java.util.List;
+
 public interface EventListener {
-    void onItemClick(int dest);
+    void showDetailsFragment(List<CallHistoryRecord> calls);
+    void showTariffsFragment();
 }

@@ -35,7 +35,10 @@ public class BalanceRepository implements PassParam {
 
     @Override
     public void setParam(String balance) {
-        data.setValue(balance);
+        try {
+            data.setValue(balance);
+        } catch (NumberFormatException ignored) {
+        }
     }
 
     public void refreshBalance(Context context) {

@@ -39,8 +39,12 @@ public class MainScreenViewModel extends AndroidViewModel {
         mBalance = BalanceRepository.getInstance().getBalance();
     }
 
-    public LiveData<List<BarEntry>> getCalls() {
+    public LiveData<List<BarEntry>> getBarEtnriyCalls() {
         return Transformations.map(mCallsListObservable, this::transformData);
+    }
+
+    public List<CallHistoryRecord> getCalls() {
+        return mCallsListObservable.getValue();
     }
 
     @SuppressLint("DefaultLocale")
