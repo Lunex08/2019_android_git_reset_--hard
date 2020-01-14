@@ -8,10 +8,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "tariffs")
 public class Post {
-    @PrimaryKey(autoGenerate = true)
-    private Integer pk_id;
     @SerializedName("tariff")
     private String name;
     @SerializedName("traffic")
@@ -27,7 +24,9 @@ public class Post {
     @SerializedName("color")
     private String color;
 
-    public int getColor() {
+    public String getColor() {return color; }
+
+    public int getColorInt() {
         return Color.parseColor(color);
     }
 
@@ -36,6 +35,7 @@ public class Post {
         return name;
     }
 
+    @NonNull
     public void setName(String name) {
         this.name = name;
     }
@@ -79,5 +79,15 @@ public class Post {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Post(String name, String traffic, String sms, double price, Integer id, String operator, String color) {
+        this.name = name;
+        this.traffic = traffic;
+        this.sms = sms;
+        this.price = price;
+        this.id = id;
+        this.operator = operator;
+        this.color = color;
     }
 }

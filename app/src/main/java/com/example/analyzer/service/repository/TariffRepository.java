@@ -60,7 +60,7 @@ public class TariffRepository {
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
                         assert tariffs != null;
                         tariffs.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),
-                                String.valueOf(price), post.getOperator(), post.getId(), post.getColor()));
+                                String.valueOf(price), post.getOperator(), post.getId(), post.getColorInt()));
                     }
                     Collections.sort(tariffs, (o1, o2) -> {
                         double first = Double.valueOf(o1.getPrice());

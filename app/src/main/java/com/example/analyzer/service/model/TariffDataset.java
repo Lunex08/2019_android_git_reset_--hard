@@ -3,9 +3,12 @@ package com.example.analyzer.service.model;
 import androidx.annotation.NonNull;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "tariffs")
 public class TariffDataset {
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
     private final String name;
     private final String gigabytes;
     private final String sms;

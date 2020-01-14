@@ -19,7 +19,9 @@ public class Operator {
     @SerializedName("color")
     private String color;
 
-    public int getColor() {
+    public String getColor() {return color; }
+
+    public int getColorInt() {
         return Color.parseColor(color);
     }
 
@@ -31,5 +33,11 @@ public class Operator {
     @NonNull
     public Integer getId() {
         return id;
+    }
+
+    public Operator(String operator, Integer id, String color) {
+        this.operator = operator;
+        this.id = id;
+        this.color = color;
     }
 }
