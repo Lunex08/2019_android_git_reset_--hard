@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class InfoFragmentViewModel extends AndroidViewModel {
-    private final LiveData<List<TariffDataset>> mTariffs;
-    private final LiveData<List<Operator>> mOperators;
+    private LiveData<List<TariffDataset>> mTariffs;
+    private LiveData<List<Operator>> mOperators;
 
     public InfoFragmentViewModel(@NonNull Application application) {
         super(application);
@@ -35,6 +35,8 @@ public class InfoFragmentViewModel extends AndroidViewModel {
                     tariffNames.add(tariff.getName());
                 }
             }
+        } else {
+            mTariffs = TariffRepository.getInstance().getTariffs();
         }
         return tariffNames;
     }
@@ -44,6 +46,9 @@ public class InfoFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<String>> getOperators() {
+        if (mOperators == null) {
+            mOperators = TariffRepository.getInstance().getOperators();
+        }
         return Transformations.map(mOperators, this::transformOperatorsToNamesList);
     }
 
