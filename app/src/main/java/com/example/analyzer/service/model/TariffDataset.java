@@ -42,6 +42,9 @@ public class TariffDataset {
 
     @NonNull
     public String getGigabytes() {
+        if ("Безлим.".equals(this.gigabytes)) {
+            return this.gigabytes;
+        }
         return (Double.valueOf(this.gigabytes) < 0 ? "Безлим." : this.gigabytes);
     }
 

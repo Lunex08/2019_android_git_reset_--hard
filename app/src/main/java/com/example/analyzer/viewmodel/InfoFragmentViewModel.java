@@ -11,7 +11,6 @@ import androidx.lifecycle.Transformations;
 import androidx.room.Room;
 
 import com.example.analyzer.service.model.Operator;
-import com.example.analyzer.service.model.Post;
 import com.example.analyzer.service.model.TariffDataset;
 import com.example.analyzer.service.repository.AppDatabase;
 import com.example.analyzer.service.repository.TariffRepository;
