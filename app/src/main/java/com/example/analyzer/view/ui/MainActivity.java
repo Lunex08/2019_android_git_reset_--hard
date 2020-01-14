@@ -24,6 +24,7 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     public final static String SMS = "sms";
     public final static String PRICE = "price";
     public final static String ICON = "icon";
+    public final static Integer COLOR = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

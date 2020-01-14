@@ -46,14 +46,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:layout_marginVertical="24pt"
+            android:textSize="14pt"
             tools:text="МТС"/>
 
-        <ImageView
+        <View
             android:id="@+id/diff_oper_icon_left"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginVertical="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="12pt"
             android:layout_gravity="center|top"
             tools:background="@color/colorPrimary"
             android:contentDescription="@string/app_name"/>
@@ -117,16 +117,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:layout_marginVertical="24pt"
+            android:textSize="14pt"
             tools:text="Билайн"/>
 
-        <ImageView
+        <View
             android:id="@+id/diff_oper_icon_right"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginVertical="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="12pt"
             android:layout_gravity="center|top"
-            tools:background="@color/colorPrimary"
+            tools:background="@color/colorAccent"
             android:contentDescription="@string/app_name"/>
 
         <LinearLayout

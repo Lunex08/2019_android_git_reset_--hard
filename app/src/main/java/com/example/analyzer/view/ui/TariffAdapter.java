@@ -14,9 +14,6 @@ import com.example.analyzer.service.model.TariffDataset;
 import java.util.List;
 
 public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> {
-    public static final String YOTA = "yota";
-    public static final String MTS = "mts";
-    public static final String BEELINE = "beeline";
     private List<TariffDataset> tariffs;
     private final EventListener eventListener;
 

@@ -84,19 +84,10 @@ public class TariffDifferenceFragment extends Fragment {
         final TextView price_left = view.findViewById(R.id.diff_price_left);
         price_left.setText(currentTariff.getPrice() + " р/мес");
 
-        final ImageView icon_left = view.findViewById(R.id.diff_oper_icon_left);
+        final View icon_left = view.findViewById(R.id.diff_oper_icon_left);
 
-        switch (currentTariff.getIcon()) {
-            case 2:
-                icon_left.setImageResource(R.drawable.yota);
-                break;
-            case 1:
-                icon_left.setImageResource(R.drawable.mtc);
-                break;
-            case 0:
-                icon_left.setImageResource(R.drawable.beeline);
-                break;
-        }
+//        currentTariff.getColor();
+        // TODO: установить цвет VIEW
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
@@ -107,23 +98,13 @@ public class TariffDifferenceFragment extends Fragment {
             final String icon = bundle.getString(MainActivity.ICON);
 
             final TextView oper_right = view.findViewById(R.id.diff_oper_right);
-            final ImageView icon_right = view.findViewById(R.id.diff_oper_icon_right);
+            final View icon_right = view.findViewById(R.id.diff_oper_icon_right);
+
 
             assert icon != null;
-            switch (icon) {
-                case TariffAdapter.MTS:
-                    icon_right.setImageResource(R.drawable.mtc);
-                    oper_right.setText(getResources().getString(R.string.MTS));
-                    break;
-                case TariffAdapter.YOTA:
-                    icon_right.setImageResource(R.drawable.yota);
-                    oper_right.setText(getResources().getString(R.string.Yota));
-                    break;
-                case TariffAdapter.BEELINE:
-                    icon_right.setImageResource(R.drawable.beeline);
-                    oper_right.setText(getResources().getString(R.string.Beeline));
-                    break;
-            }
+            oper_right.setText(icon);
+            icon_left.setBackgroundColor(currentTariff.getColor());
+            // TODO: установить цвет VIEW
 
             final TextView tariff_right = view.findViewById(R.id.diff_tariff_right);
             tariff_right.setText(name);
