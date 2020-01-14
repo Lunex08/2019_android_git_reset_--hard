@@ -15,7 +15,7 @@ import java.util.List;
 
 public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> {
     public static final String YOTA = "yota";
-    public static final String MTC = "mtc";
+    public static final String MTS = "mts";
     public static final String BEELINE = "beeline";
     private final List<TariffDataset> tariffs;
     private final EventListener eventListener;
@@ -46,7 +46,7 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> 
                 break;
             case 1:
                 holder.icon.setImageResource(R.drawable.mtc);
-                holder.icon.setContentDescription(MTC);
+                holder.icon.setContentDescription(MTS);
                 break;
             case 0:
                 holder.icon.setImageResource(R.drawable.beeline);

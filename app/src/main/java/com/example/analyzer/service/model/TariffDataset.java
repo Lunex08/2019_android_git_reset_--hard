@@ -2,6 +2,9 @@ package com.example.analyzer.service.model;
 
 import androidx.annotation.NonNull;
 
+import androidx.room.Entity;
+
+@Entity
 public class TariffDataset {
     private final String name;
     private final String gigabytes;

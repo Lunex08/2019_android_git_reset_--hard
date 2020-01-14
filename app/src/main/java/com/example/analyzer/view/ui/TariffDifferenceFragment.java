@@ -111,9 +111,9 @@ public class TariffDifferenceFragment extends Fragment {
 
             assert icon != null;
             switch (icon) {
-                case TariffAdapter.MTC:
+                case TariffAdapter.MTS:
                     icon_right.setImageResource(R.drawable.mtc);
-                    oper_right.setText(getResources().getString(R.string.MTC));
+                    oper_right.setText(getResources().getString(R.string.MTS));
                     break;
                 case TariffAdapter.YOTA:
                     icon_right.setImageResource(R.drawable.yota);

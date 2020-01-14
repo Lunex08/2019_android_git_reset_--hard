@@ -1,10 +1,15 @@
 package com.example.analyzer.service.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "tariffs")
 public class Post {
+    @PrimaryKey(autoGenerate = true)
+    private Integer pk_id;
     @SerializedName("tariff")
     private String name;
     @SerializedName("traffic")
