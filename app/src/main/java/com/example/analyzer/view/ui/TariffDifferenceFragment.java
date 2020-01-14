@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -85,6 +84,7 @@ public class TariffDifferenceFragment extends Fragment {
         price_left.setText(currentTariff.getPrice() + " р/мес");
 
         final View icon_left = view.findViewById(R.id.diff_oper_icon_left);
+        icon_left.setBackgroundColor(currentTariff.getColor());
 
 //        currentTariff.getColor();
         // TODO: установить цвет VIEW
@@ -96,14 +96,15 @@ public class TariffDifferenceFragment extends Fragment {
             final String sms = bundle.getString(MainActivity.SMS);
             final String price = bundle.getString(MainActivity.PRICE);
             final String icon = bundle.getString(MainActivity.ICON);
+            final int color = bundle.getInt(MainActivity.COLOR);
+
+            final View icon_right = view.findViewById(R.id.diff_oper_icon_right);
+            icon_right.setBackgroundColor(color);
 
             final TextView oper_right = view.findViewById(R.id.diff_oper_right);
-            final View icon_right = view.findViewById(R.id.diff_oper_icon_right);
-
-
             assert icon != null;
             oper_right.setText(icon);
-            icon_left.setBackgroundColor(currentTariff.getColor());
+
             // TODO: установить цвет VIEW
 
             final TextView tariff_right = view.findViewById(R.id.diff_tariff_right);

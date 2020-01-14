@@ -12,5 +12,5 @@ public interface EventListener {
     void showInfoFragment();
 
     void showTariffDifferenceFragment(String name, String gigabyte, String sms, String price, String icon,
-                                      List<TariffDataset> tariffs);
+                                      int color, List<TariffDataset> tariffs);
 }
