@@ -12,11 +12,13 @@ public class TariffDataset {
     private final String price;
     private final String operator;
     private final Integer icon;
+    private final Integer color;
 
     public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price,
                          @NonNull String operator,
-                         @NonNull Integer icon) {
+                         @NonNull Integer icon, @NonNull Integer color) {
         this.name = name;
+        this.color = color;
         this.gigabytes = gigabytes;
         this.sms = sms;
         this.price = price;
@@ -27,6 +29,12 @@ public class TariffDataset {
     @NonNull
     public String getName() {
         return this.name;
+    }
+
+
+    @NonNull
+    public Integer getColor() {
+        return this.color;
     }
 
     @NonNull

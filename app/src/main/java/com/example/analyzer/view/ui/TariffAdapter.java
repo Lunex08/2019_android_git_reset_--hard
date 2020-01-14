@@ -17,7 +17,7 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> 
     public static final String YOTA = "yota";
     public static final String MTS = "mts";
     public static final String BEELINE = "beeline";
-    private final List<TariffDataset> tariffs;
+    private List<TariffDataset> tariffs;
     private final EventListener eventListener;
 
     public TariffAdapter(EventListener eventListener, @NonNull List<TariffDataset> data) {
@@ -39,20 +39,9 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> 
         holder.sms.setText(tariffs.get(position).getSms() + " смс");
         holder.price.setText(tariffs.get(position).getPrice() + " р/мес");
 
-        switch (tariffs.get(position).getIcon()) {
-            case 2:
-                holder.icon.setImageResource(R.drawable.yota);
-                holder.icon.setContentDescription(YOTA);
-                break;
-            case 1:
-                holder.icon.setImageResource(R.drawable.mtc);
-                holder.icon.setContentDescription(MTS);
-                break;
-            case 0:
-                holder.icon.setImageResource(R.drawable.beeline);
-                holder.icon.setContentDescription(BEELINE);
-                break;
-        }
+        holder.icon.setContentDescription(this.tariffs.get(position).getOperator());
+        holder.icon.setBackgroundColor(this.tariffs.get(position).getColor());
+        holder.operator.setText(this.tariffs.get(position).getOperator());
     }
 
     @Override
