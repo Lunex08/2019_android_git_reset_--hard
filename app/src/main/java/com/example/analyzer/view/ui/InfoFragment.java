@@ -84,6 +84,7 @@ public class InfoFragment extends Fragment {
                 tariffsArray);
         tariffsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tariffSpiner.setAdapter(tariffsAdapter);
+        tariffSpiner.setEnabled(false);
         tariffSpiner.setSelection(0);
         tariffSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,7 +107,13 @@ public class InfoFragment extends Fragment {
         operatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
-                operatorName = (myID != 0) ? operatorSpinner.getSelectedItem().toString() : "";
+                tariffSpiner.setEnabled(false);
+                if (myID != 0) {
+                    operatorName = operatorSpinner.getSelectedItem().toString();
+                    tariffSpiner.setEnabled(true);
+                } else {
+                    operatorName = "";
+                }
                 tariffsArray.clear();
                 tariffsArray.addAll(viewModel.getTariffs(operatorName));
                 tariffsAdapter.notifyDataSetChanged();
