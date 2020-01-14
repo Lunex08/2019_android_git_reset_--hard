@@ -80,12 +80,10 @@ public class InfoFragment extends Fragment {
             eventListener.showMainFragment();
         });
 
-        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,
                 tariffsArray);
-        tariffsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tariffSpiner.setAdapter(tariffsAdapter);
         tariffSpiner.setEnabled(false);
-        tariffSpiner.setSelection(0);
         tariffSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
@@ -97,13 +95,9 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        tariffsArray.add("Тариф");
-        operatorsArray.add("Оператор");
-        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item
+        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item
                 , operatorsArray);
-        operatorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         operatorSpinner.setAdapter(operatorsAdapter);
-        operatorSpinner.setSelection(0);
         operatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {

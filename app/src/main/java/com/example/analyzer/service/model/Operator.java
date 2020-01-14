@@ -1,5 +1,7 @@
 package com.example.analyzer.service.model;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
 import androidx.room.Entity;
@@ -14,6 +16,12 @@ public class Operator {
     @PrimaryKey(autoGenerate = false)
     @SerializedName("operator_id")
     private Integer id;
+    @SerializedName("color")
+    private String color;
+
+    public int getColor() {
+        return Color.parseColor(color);
+    }
 
     @NonNull
     public String getOperator() {

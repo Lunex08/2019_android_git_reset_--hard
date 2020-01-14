@@ -1,5 +1,7 @@
 package com.example.analyzer.service.model;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -22,6 +24,12 @@ public class Post {
     private Integer id;
     @SerializedName("operator")
     private String operator;
+    @SerializedName("color")
+    private String color;
+
+    public int getColor() {
+        return Color.parseColor(color);
+    }
 
     @NonNull
     public String getName() {
