@@ -67,21 +67,23 @@ public class InfoFragment extends Fragment {
 
         final Button callsBtn = v.findViewById(R.id.info_save);
         callsBtn.setOnClickListener(v1 -> {
-            String phoneNumber = phoneEdit.getText().toString();
-            SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-            SharedPreferences.Editor e = sp1.edit();
+            if (!phoneEdit.getText().toString().equals("") && operatorSpinner.getSelectedItemId() > 0 && tariffSpiner.getSelectedItemId() > 0) {
+                String phoneNumber = phoneEdit.getText().toString();
+                SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor e = sp1.edit();
 
-            e.putString("phoneNumber", phoneNumber);
-            e.putString("operatorName", operatorName);
-            e.putString("tariffName", tariffName);
-            e.putBoolean("firstLogin", false);
-            e.apply();
+                e.putString("phoneNumber", phoneNumber);
+                e.putString("operatorName", operatorName);
+                e.putString("tariffName", tariffName);
+                e.putBoolean("firstLogin", false);
+                e.apply();
 
-            eventListener.showMainFragment();
+                eventListener.showMainFragment();
+            }
         });
 
-        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,
-                tariffsArray);
+        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, tariffsArray);
         tariffSpiner.setAdapter(tariffsAdapter);
         tariffSpiner.setEnabled(false);
         tariffSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -95,8 +97,8 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item
-                , operatorsArray);
+        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, operatorsArray);
         operatorSpinner.setAdapter(operatorsAdapter);
         operatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
