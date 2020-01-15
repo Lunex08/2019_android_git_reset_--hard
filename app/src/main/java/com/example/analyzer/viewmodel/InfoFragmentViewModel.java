@@ -1,9 +1,7 @@
 package com.example.analyzer.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,8 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class InfoFragmentViewModel extends AndroidViewModel {
-    private LiveData<List<TariffDataset>> mTariffs;
-    private LiveData<List<Operator>> mOperators;
+    private MutableLiveData<List<TariffDataset>> mTariffs;
+    private MutableLiveData<List<Operator>> mOperators;
     private static AppDatabase appDatabase;
     private static final String MY_SETTINGS = "my_settings";
 
@@ -36,22 +34,29 @@ public class InfoFragmentViewModel extends AndroidViewModel {
                     AppDatabase.class, "database").allowMainThreadQueries().build();
         }
         if (mOperators.getValue().size() == 0) {
-            MutableLiveData<List<Operator>> operatorsObservable = new MutableLiveData<>();
-            operatorsObservable.setValue(appDatabase.operatorsDao().getAll());
-            mOperators = operatorsObservable;
+            List<Operator> operators = appDatabase.operatorsDao().getAll();
+            if (operators != null && operators.size() > 0) {
+                mOperators.setValue(operators);
+            } else {
+                refreshOperators();
+            }
         } else {
             appDatabase.operatorsDao().clear();
             appDatabase.operatorsDao().insert(mOperators.getValue());
         }
         if (mTariffs.getValue().size() == 0) {
-            MutableLiveData<List<TariffDataset>> operatorsObservable = new MutableLiveData<>();
-            operatorsObservable.setValue(appDatabase.tariffsDao().getAll());
-            mTariffs = operatorsObservable;
+            List<TariffDataset> tariffs = appDatabase.tariffsDao().getAll();
+            if (tariffs != null && tariffs.size() > 0) {
+                mTariffs.setValue(tariffs);
+            } else {
+                refreshOperators();
+            }
         } else {
             appDatabase.tariffsDao().clear();
             appDatabase.tariffsDao().insert(mTariffs.getValue());
         }
         refreshTariffs();
+        refreshOperators();
     }
 
     public List<String> getTariffs(String operatorName, SharedPreferences sp1) {

@@ -124,8 +124,6 @@ public class InfoFragment extends Fragment {
             operatorsArray.addAll(updatedOperators);
             operatorsAdapter.notifyDataSetChanged();
         });
-        viewModel.refreshOperators();
-        viewModel.refreshTariffs();
 
         return v;
     }

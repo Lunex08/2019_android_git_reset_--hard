@@ -1,7 +1,6 @@
 package com.example.analyzer.service.repository;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.analyzer.service.model.JsonService;
@@ -43,7 +42,7 @@ public class TariffRepository {
         return mInstance;
     }
 
-    public LiveData<List<TariffDataset>> getTariffs() {
+    public MutableLiveData<List<TariffDataset>> getTariffs() {
         return tariffsObservable;
     }
 
@@ -82,7 +81,7 @@ public class TariffRepository {
         });
     }
 
-    public LiveData<List<Operator>> getOperators() {
+    public MutableLiveData<List<Operator>> getOperators() {
         return operatorsObservable;
     }
 
