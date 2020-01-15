@@ -3,8 +3,6 @@ package com.example.analyzer.service.model;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -38,6 +36,11 @@ public class Post {
     @NonNull
     public void setName(String name) {
         this.name = name;
+    }
+
+    @NonNull
+    public Integer getId() {
+        return id;
     }
 
     @NonNull

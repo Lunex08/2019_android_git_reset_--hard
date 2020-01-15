@@ -1,7 +1,5 @@
 package com.example.analyzer.service.model;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -15,6 +13,9 @@ public class TariffDataset {
     private final String sms;
     private final String price;
     private final String operator;
+    private final Integer icon;
+    private final Integer color;
+
     public TariffDataset(@NonNull String name,
                          @NonNull String gigabytes,
                          @NonNull String sms,
@@ -28,6 +29,7 @@ public class TariffDataset {
         this.sms = sms;
         this.price = price;
         this.operator = operator;
+        this.icon = icon;
     }
 
     @NonNull
@@ -64,22 +66,8 @@ public class TariffDataset {
         return this.operator;
     }
 
-    static public int getImageResource(String operator) {
-        int imageResource = -1;
-        switch (operator.toLowerCase()) {
-            case TariffAdapter.YOTA:
-                imageResource = R.drawable.yota;
-                break;
-            case TariffAdapter.MTC:
-                imageResource = R.drawable.mtc;
-                break;
-            case TariffAdapter.BEELINE:
-                imageResource = R.drawable.beeline;
-                break;
-        }
-        if(imageResource == -1) {
-            Log.d("bad", "bad");
-        }
-        return imageResource;
+    @NonNull
+    public Integer getIcon() {
+        return this.icon;
     }
 }
