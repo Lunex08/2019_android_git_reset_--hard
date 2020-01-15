@@ -35,7 +35,6 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> 
         holder.gigabyte.setText(tariffs.get(position).getGigabytes() + " ГБ");
         holder.sms.setText(tariffs.get(position).getSms() + " смс");
         holder.price.setText(tariffs.get(position).getPrice() + " р/мес");
-
         holder.icon.setContentDescription(this.tariffs.get(position).getOperator());
         holder.icon.setBackgroundColor(this.tariffs.get(position).getColor());
         holder.operator.setText(this.tariffs.get(position).getOperator());

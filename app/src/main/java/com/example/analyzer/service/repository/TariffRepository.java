@@ -55,7 +55,7 @@ public class TariffRepository {
                 if (posts != null) {
                     List<TariffDataset> tariffs = new ArrayList<>(); // проверить как работает тут
                     for (Post post : posts) {
-                        Double price =
+                        double price =
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
                         assert tariffs != null;
                         tariffs.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),

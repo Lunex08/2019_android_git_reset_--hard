@@ -52,6 +52,7 @@ public class TariffDifferenceFragment extends Fragment {
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+
         SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
         int clr = Color.parseColor(sp1.getString("color", "#008577"));
         toolbar.setBackgroundColor(clr);
@@ -61,6 +62,7 @@ public class TariffDifferenceFragment extends Fragment {
             eventListener.showInfoFragment();
             return true;
         });
+
 
         SharedPreferences sp = getActivity().getSharedPreferences(MainScreenFragment.MY_SETTINGS, Context.MODE_PRIVATE);
         String tariffName = sp.getString("tariffName", getResources().getString(R.string.tariff_not_rec));
@@ -91,9 +93,6 @@ public class TariffDifferenceFragment extends Fragment {
         final View icon_left = view.findViewById(R.id.diff_oper_icon_left);
         icon_left.setBackgroundColor(currentTariff.getColor());
 
-//        currentTariff.getColor();
-        // TODO: установить цвет VIEW
-
         final Bundle bundle = getArguments();
         if (bundle != null) {
             final String name = bundle.getString(MainActivity.NAME);
@@ -109,8 +108,6 @@ public class TariffDifferenceFragment extends Fragment {
             final TextView oper_right = view.findViewById(R.id.diff_oper_right);
             assert icon != null;
             oper_right.setText(icon);
-
-            // TODO: установить цвет VIEW
 
             final TextView tariff_right = view.findViewById(R.id.diff_tariff_right);
             tariff_right.setText(name);
