@@ -109,7 +109,8 @@ public class InfoFragment extends Fragment {
                     operatorName = "";
                 }
                 tariffsArray.clear();
-                tariffsArray.addAll(viewModel.getTariffs(operatorName));
+                SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                tariffsArray.addAll(viewModel.getTariffs(operatorName, sp1));
                 tariffsAdapter.notifyDataSetChanged();
             }
 

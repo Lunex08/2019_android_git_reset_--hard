@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class TariffDifferenceFragment extends Fragment {
     private EventListener eventListener;
     private List<TariffDataset> tariffs;
     private TariffDataset currentTariff;
+    public static final String MY_SETTINGS = "my_settings";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,6 +52,9 @@ public class TariffDifferenceFragment extends Fragment {
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+        SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        int clr = Color.parseColor(sp1.getString("color", "#008577"));
+        toolbar.setBackgroundColor(clr);
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {

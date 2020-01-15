@@ -1,6 +1,8 @@
 package com.example.analyzer.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ public class InfoFragmentViewModel extends AndroidViewModel {
     private LiveData<List<TariffDataset>> mTariffs;
     private LiveData<List<Operator>> mOperators;
     private static AppDatabase appDatabase;
+    private static final String MY_SETTINGS = "my_settings";
 
     public InfoFragmentViewModel(@NonNull Application application) {
         super(application);
@@ -51,7 +54,7 @@ public class InfoFragmentViewModel extends AndroidViewModel {
         refreshTariffs();
     }
 
-    public List<String> getTariffs(String operatorName) {
+    public List<String> getTariffs(String operatorName, SharedPreferences sp1) {
         final List<String> tariffNames = new ArrayList<>();
         tariffNames.add("Тариф");
         if (mTariffs != null) {
@@ -62,6 +65,13 @@ public class InfoFragmentViewModel extends AndroidViewModel {
             }
         } else {
             mTariffs = TariffRepository.getInstance().getTariffs();
+        }
+        for (Operator tmp: mOperators.getValue()) {
+            if (operatorName.equals(tmp.getOperator())) {
+                SharedPreferences.Editor e = sp1.edit();
+                e.putString("color", tmp.getColor());
+                e.apply();
+            }
         }
         return tariffNames;
     }

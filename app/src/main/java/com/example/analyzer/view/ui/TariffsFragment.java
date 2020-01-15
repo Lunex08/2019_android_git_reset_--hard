@@ -1,6 +1,7 @@
 package com.example.analyzer.view.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import java.util.List;
 public final class TariffsFragment extends Fragment {
     public List<TariffDataset> tariffs;
     private EventListener eventListener;
+    public static final String MY_SETTINGS = "my_settings";
     private TariffsViewModel viewModel;
 
     @Override
@@ -57,6 +59,9 @@ public final class TariffsFragment extends Fragment {
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+        SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        toolbar.setBackgroundColor(Color.parseColor(sp1.getString("color", "#008577")));
+
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
