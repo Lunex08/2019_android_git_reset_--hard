@@ -25,7 +25,7 @@
     <string name="tariff_profit">Итоговая выгода от смены тарифа:</string>
     <string name="tariff_new">Новый</string>
     <string name="tariff_current">Текущий</string>
-    <string name="MTC">MTS</string>
+    <string name="MTS">MTS</string>
     <string name="Yota">Yota</string>
     <string name="Beeline">Beeline</string>
     <string name="no_profit">Нет выгоды!</string>

@@ -1,7 +1,6 @@
 package com.example.analyzer.service.repository;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.analyzer.service.model.JsonService;
@@ -43,7 +42,7 @@ public class TariffRepository {
         return mInstance;
     }
 
-    public LiveData<List<TariffDataset>> getTariffs() {
+    public MutableLiveData<List<TariffDataset>> getTariffs() {
         return tariffsObservable;
     }
 
@@ -60,7 +59,7 @@ public class TariffRepository {
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();
                         assert tariffs != null;
                         tariffs.add(new TariffDataset(post.getName(), post.getTraffic(), post.getSms(),
-                                String.valueOf(price), post.getOperator()));
+                                String.valueOf(price), post.getOperator(), post.getId(), post.getColorInt()));
                     }
                     Collections.sort(tariffs, (o1, o2) -> {
                         double first = Double.valueOf(o1.getPrice());
@@ -82,7 +81,7 @@ public class TariffRepository {
         });
     }
 
-    public LiveData<List<Operator>> getOperators() {
+    public MutableLiveData<List<Operator>> getOperators() {
         return operatorsObservable;
     }
 

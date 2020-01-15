@@ -67,24 +67,25 @@ public class InfoFragment extends Fragment {
 
         final Button callsBtn = v.findViewById(R.id.info_save);
         callsBtn.setOnClickListener(v1 -> {
-            String phoneNumber = phoneEdit.getText().toString();
-            SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-            SharedPreferences.Editor e = sp1.edit();
+            if (!phoneEdit.getText().toString().equals("") && operatorSpinner.getSelectedItemId() > 0 && tariffSpiner.getSelectedItemId() > 0) {
+                String phoneNumber = phoneEdit.getText().toString();
+                SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor e = sp1.edit();
 
-            e.putString("phoneNumber", phoneNumber);
-            e.putString("operatorName", operatorName);
-            e.putString("tariffName", tariffName);
-            e.putBoolean("firstLogin", false);
-            e.apply();
+                e.putString("phoneNumber", phoneNumber);
+                e.putString("operatorName", operatorName);
+                e.putString("tariffName", tariffName);
+                e.putBoolean("firstLogin", false);
+                e.apply();
 
-            eventListener.showMainFragment();
+                eventListener.showMainFragment();
+            }
         });
 
-        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
-                tariffsArray);
-        tariffsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> tariffsAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, tariffsArray);
         tariffSpiner.setAdapter(tariffsAdapter);
-        tariffSpiner.setSelection(0);
+        tariffSpiner.setEnabled(false);
         tariffSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
@@ -96,19 +97,22 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        tariffsArray.add("Тариф");
-        operatorsArray.add("Оператор");
-        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item
-                , operatorsArray);
-        operatorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> operatorsAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, operatorsArray);
         operatorSpinner.setAdapter(operatorsAdapter);
-        operatorSpinner.setSelection(0);
         operatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
-                operatorName = (myID != 0) ? operatorSpinner.getSelectedItem().toString() : "";
+                tariffSpiner.setEnabled(false);
+                if (myID != 0) {
+                    operatorName = operatorSpinner.getSelectedItem().toString();
+                    tariffSpiner.setEnabled(true);
+                } else {
+                    operatorName = "";
+                }
                 tariffsArray.clear();
-                tariffsArray.addAll(viewModel.getTariffs(operatorName));
+                SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+                tariffsArray.addAll(viewModel.getTariffs(operatorName, sp1));
                 tariffsAdapter.notifyDataSetChanged();
             }
 
@@ -122,8 +126,6 @@ public class InfoFragment extends Fragment {
             operatorsArray.addAll(updatedOperators);
             operatorsAdapter.notifyDataSetChanged();
         });
-        viewModel.refreshOperators();
-        viewModel.refreshTariffs();
 
         return v;
     }

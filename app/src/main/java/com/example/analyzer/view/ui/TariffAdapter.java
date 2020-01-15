@@ -14,10 +14,7 @@ import com.example.analyzer.service.model.TariffDataset;
 import java.util.List;
 
 public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> {
-    public static final String YOTA = "yota";
-    public static final String MTC = "mts";
-    public static final String BEELINE = "beeline";
-    private final List<TariffDataset> tariffs;
+    private List<TariffDataset> tariffs;
     private final EventListener eventListener;
 
     public TariffAdapter(EventListener eventListener, @NonNull List<TariffDataset> data) {
@@ -38,9 +35,9 @@ public final class TariffAdapter extends RecyclerView.Adapter<TariffViewHolder> 
         holder.gigabyte.setText(tariffs.get(position).getGigabytes() + " ГБ");
         holder.sms.setText(tariffs.get(position).getSms() + " смс");
         holder.price.setText(tariffs.get(position).getPrice() + " р/мес");
-        String operator = tariffs.get(position).getOperator();
-        holder.icon.setImageResource(TariffDataset.getImageResource(operator));
-        holder.icon.setContentDescription(operator);
+        holder.icon.setContentDescription(this.tariffs.get(position).getOperator());
+        holder.icon.setBackgroundColor(this.tariffs.get(position).getColor());
+        holder.operator.setText(this.tariffs.get(position).getOperator());
     }
 
     @Override

@@ -23,7 +23,8 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     public final static String GIGABYTE = "gigabyte";
     public final static String SMS = "sms";
     public final static String PRICE = "price";
-    public final static String OPERATOR = "operator";
+    public final static String ICON = "icon";
+    public final static String COLOR = "color";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +52,15 @@ public final class MainActivity extends AppCompatActivity implements EventListen
     }
 
     @Override
-    public void showTariffDifferenceFragment(String name, String gigabyte, String sms, String price, String operator,
-                                             List<TariffDataset> tariffs) {
+    public void showTariffDifferenceFragment(String name, String gigabyte, String sms, String price, String icon,
+                                             int color, List<TariffDataset> tariffs) {
         final Bundle bundle = new Bundle();
         bundle.putString(MainActivity.NAME, name);
         bundle.putString(MainActivity.GIGABYTE, gigabyte);
         bundle.putString(MainActivity.SMS, sms);
         bundle.putString(MainActivity.PRICE, price);
-        bundle.putString(MainActivity.OPERATOR, operator);
+        bundle.putString(MainActivity.ICON, icon);
+        bundle.putInt(MainActivity.COLOR, color);
 
         final TariffDifferenceFragment tariffDifference = new TariffDifferenceFragment();
         tariffDifference.setArguments(bundle);

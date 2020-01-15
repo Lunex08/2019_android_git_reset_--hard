@@ -1,6 +1,10 @@
 package com.example.analyzer.service.model;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,12 +21,21 @@ public class Post {
     private Integer id;
     @SerializedName("operator")
     private String operator;
+    @SerializedName("color")
+    private String color;
+
+    public String getColor() {return color; }
+
+    public int getColorInt() {
+        return Color.parseColor(color);
+    }
 
     @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public void setName(String name) {
         this.name = name;
     }
@@ -61,5 +74,15 @@ public class Post {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Post(String name, String traffic, String sms, double price, Integer id, String operator, String color) {
+        this.name = name;
+        this.traffic = traffic;
+        this.sms = sms;
+        this.price = price;
+        this.id = id;
+        this.operator = operator;
+        this.color = color;
     }
 }

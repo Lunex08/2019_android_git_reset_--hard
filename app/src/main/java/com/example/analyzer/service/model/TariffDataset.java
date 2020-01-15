@@ -3,20 +3,27 @@ package com.example.analyzer.service.model;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import com.example.analyzer.R;
-import com.example.analyzer.view.ui.TariffAdapter;
-
+@Entity(tableName = "tariffs")
 public class TariffDataset {
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
     private final String name;
     private final String gigabytes;
     private final String sms;
     private final String price;
     private final String operator;
-
-    public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price,
-                         @NonNull String operator) {
+    public TariffDataset(@NonNull String name,
+                         @NonNull String gigabytes,
+                         @NonNull String sms,
+                         @NonNull String price,
+                         @NonNull String operator,
+                         @NonNull Integer icon,
+                         @NonNull Integer color) {
         this.name = name;
+        this.color = color;
         this.gigabytes = gigabytes;
         this.sms = sms;
         this.price = price;
@@ -28,10 +35,18 @@ public class TariffDataset {
         return this.name;
     }
 
+
+    @NonNull
+    public Integer getColor() {
+        return this.color;
+    }
+
     @NonNull
     public String getGigabytes() {
-        String value = this.gigabytes.replaceAll("[^0-9]", "");
-        return (Double.valueOf(value) < 0 ? "Безлим." : value);
+        if ("Безлим.".equals(this.gigabytes)) {
+            return this.gigabytes;
+        }
+        return (Double.valueOf(this.gigabytes) < 0 ? "Безлим." : this.gigabytes);
     }
 
     @NonNull

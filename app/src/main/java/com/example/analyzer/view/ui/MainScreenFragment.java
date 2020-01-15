@@ -1,6 +1,7 @@
 package com.example.analyzer.view.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -86,6 +88,10 @@ public final class MainScreenFragment extends Fragment implements View.OnClickLi
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+        SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);int clr = Color.parseColor(sp1.getString("color", "#008577"));
+        toolbar.setBackgroundColor(clr);
+        Window window = getActivity().getWindow();
+        window.setStatusBarColor(clr);
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {

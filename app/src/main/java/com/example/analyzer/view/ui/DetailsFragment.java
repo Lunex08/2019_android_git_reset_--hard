@@ -1,6 +1,7 @@
 package com.example.analyzer.view.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import java.util.List;
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
     private EventListener eventListener;
     private List<CallHistoryRecord> calls;
+    public static final String MY_SETTINGS = "my_settings";
     private List<SmsHistoryRecord> sms;
 
     public DetailsFragment(List<CallHistoryRecord> calls, List<SmsHistoryRecord> sms) {
@@ -51,6 +53,8 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.settings_menu);
+        SharedPreferences sp1 = getActivity().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
+        toolbar.setBackgroundColor(Color.parseColor(sp1.getString("color", "#008577")));
 
         final Menu menu = toolbar.getMenu();
         menu.findItem(R.id.settings_menu).setOnMenuItemClickListener((menuItem) -> {
