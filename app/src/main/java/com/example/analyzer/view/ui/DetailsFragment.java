@@ -18,6 +18,8 @@ import com.example.analyzer.service.model.CallHistoryRecord;
 import com.example.analyzer.service.model.EventListener;
 import com.example.analyzer.service.model.SmsHistoryRecord;
 
+
+import static androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
 import java.util.List;
 
 public final class DetailsFragment extends Fragment implements View.OnClickListener {
@@ -67,8 +69,7 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
         final DetailsFragmentReusable detailsFragmentReusable =
          new DetailsFragmentReusable(getString(R.string.to_calls), calls, null);
 
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
-
+        getChildFragmentManager().beginTransaction().setTransition(TRANSIT_FRAGMENT_OPEN).replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
         return v;
     }
 
@@ -86,6 +87,6 @@ public final class DetailsFragment extends Fragment implements View.OnClickListe
                 break;
         }
 
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
+        getChildFragmentManager().beginTransaction().setTransition(TRANSIT_FRAGMENT_OPEN).replace(R.id.fragment_details_content, detailsFragmentReusable).addToBackStack(null).commit();
     }
 }
