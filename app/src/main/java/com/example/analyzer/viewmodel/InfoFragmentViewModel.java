@@ -59,7 +59,7 @@ public class InfoFragmentViewModel extends AndroidViewModel {
         refreshOperators();
     }
 
-    public List<String> getTariffs(String operatorName, SharedPreferences sp1) {
+    public List<String> getTariffs(@NonNull String operatorName, @NonNull SharedPreferences sp1) {
         final List<String> tariffNames = new ArrayList<>();
         tariffNames.add("Тариф");
         if (mTariffs != null) {

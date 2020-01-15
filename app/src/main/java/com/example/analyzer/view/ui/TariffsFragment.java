@@ -69,7 +69,7 @@ public final class TariffsFragment extends Fragment {
             return true;
         });
 
-        ProgressBar bar = view.findViewById(R.id.wait_id);
+        final ProgressBar bar = view.findViewById(R.id.wait_id);
         bar.setVisibility(View.VISIBLE);
 
         tariffs = new ArrayList<>();

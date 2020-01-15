@@ -1,7 +1,6 @@
 package com.example.analyzer.service.model;
 
 import androidx.annotation.NonNull;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -17,9 +16,13 @@ public class TariffDataset {
     private final Integer icon;
     private final Integer color;
 
-    public TariffDataset(@NonNull String name, @NonNull String gigabytes, @NonNull String sms, @NonNull String price,
+    public TariffDataset(@NonNull String name,
+                         @NonNull String gigabytes,
+                         @NonNull String sms,
+                         @NonNull String price,
                          @NonNull String operator,
-                         @NonNull Integer icon, @NonNull Integer color) {
+                         @NonNull Integer icon,
+                         @NonNull Integer color) {
         this.name = name;
         this.color = color;
         this.gigabytes = gigabytes;

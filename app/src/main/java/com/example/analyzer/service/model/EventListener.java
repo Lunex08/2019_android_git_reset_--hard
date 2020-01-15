@@ -1,5 +1,7 @@
 package com.example.analyzer.service.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public interface EventListener {
@@ -11,6 +13,11 @@ public interface EventListener {
 
     void showInfoFragment();
 
-    void showTariffDifferenceFragment(String name, String gigabyte, String sms, String price, String icon,
-                                      int color, List<TariffDataset> tariffs);
+    void showTariffDifferenceFragment(@NonNull String name,
+                                      @NonNull String gigabyte,
+                                      @NonNull String sms,
+                                      @NonNull String price,
+                                      @NonNull String icon,
+                                      @NonNull int color,
+                                      @NonNull List<TariffDataset> tariffs);
 }
