@@ -53,7 +53,7 @@ public class TariffRepository {
                 List<Post> posts = response.body();
 
                 if (posts != null) {
-                    List<TariffDataset> tariffs = new ArrayList<>(); // проверить как работает тут
+                    List<TariffDataset> tariffs = new ArrayList<>();
                     for (Post post : posts) {
                         double price =
                                 BigDecimal.valueOf(post.getPrice()).setScale(0, RoundingMode.HALF_UP).doubleValue();

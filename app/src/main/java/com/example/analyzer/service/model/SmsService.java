@@ -46,9 +46,6 @@ public class SmsService {
         int permissionCheck = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_SMS);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            //            Log.e(TAG,
-            //                    activity.getResources().getString(R.string.no_permission_granted_message) +
-            //                    Manifest.permission.READ_SMS);
             return null;
         }
 

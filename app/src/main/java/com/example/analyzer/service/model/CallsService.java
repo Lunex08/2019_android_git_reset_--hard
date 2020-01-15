@@ -29,20 +29,14 @@ public final class CallsService {
         int permissionCheck = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_CALL_LOG);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-//            Log.e(TAG,
-//                    activity.getResources().getString(R.string.no_permission_granted_message) + Manifest.permission.READ_CALL_LOG);
             return null;
         }
 
         Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, Projection, null, null,
                 Order);
         if (cursor == null) {
-//            Log.e(TAG,
-//                    activity.getResources().getString(R.string.receive_error_message) + CallLog.Calls.CONTENT_URI);
             return null;
         } else if (cursor.getCount() < 1) {
-//            Toast.makeText(activity, activity.getResources().getString(R.string.empty_calls_history_message),
-//                    Toast.LENGTH_SHORT).show();
         } else {
             final int numberIndex = cursor.getColumnIndex(CallLog.Calls.NUMBER);
             final int dateIndex = cursor.getColumnIndex(CallLog.Calls.DATE);
